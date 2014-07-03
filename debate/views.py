@@ -10,3 +10,6 @@ def load_loginpage(request):
 
 def load_tourncreate(request):
 	return render(request, 'create_tournament.html')
+
+def testingandshit(request):
+	return 42
