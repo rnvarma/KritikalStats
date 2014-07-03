@@ -1,0 +1,107 @@
+/**
+ * An example of bootstrap
+ * 
+ */
+$(document).ready(function() {
+	// Variable to store your files
+	var files;
+
+	//All the navigation ID's here
+	var idList = ['container-home', 'container-CNDI', 'container-explanation', 
+	'container-about', 'container-overwrite', 'container-hi', 'container-hello'];
+
+	function init() {
+		// browse file
+		$('#btnBrowse').click(function() {
+			$('#inputFile').click();
+		});
+
+		// file input change event
+		$('#inputFile').change(function(event) {
+			$('#filePath').val($(this).val().replace("C:\\fakepath\\", ""));
+			files = event.target.files;
+		});
+
+		// upload
+		$('#btnUpload').click(function() {
+			submitForm('upload');
+		});
+
+		// form submit
+		$('#form').on('submit', onSubmit);
+
+
+		//Navigation Bar Controls
+
+		//modifies the click class- displays the right webpage
+		$('.click').click(function(){
+			for(i=0;i<idList.length;i++){
+				var link = $('#' + idList[i])
+				link.hide()
+			}
+			var href = $(this).attr('href')
+			$('#container-' + href.substr(1)).show()
+			
+			
+			//makes the sidebar active
+			for(i=0;i<idList.length;i++){
+				var link = $('#active-' + idList[i].substring(10))
+				link.removeClass('active')
+			}
+			$('#active-' + href.substr(1)).addClass('active');
+
+		}) 
+
+
+	}
+
+	function validateForm() {
+		if ($('#filePath').val() == "") {
+			// display error message...
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Submit the form
+	 * @param  {String} action upload | action
+	 */
+	function submitForm(action) {
+		if (!validateForm()) return;
+
+		$('#form').submit();
+	}
+
+	function onSubmit(event) {
+		event.stopPropagation(); // Stop stuff happening
+        event.preventDefault(); // Totally stop stuff happening
+
+        // Create a formdata object and add the files
+		var data = new FormData();
+		data.append("upload_file", files[0]);
+
+		$.ajax({
+			url: '/upload',
+			type: 'POST',
+			data: data,
+			cache: false,
+			dataType: 'json',
+			processData: false, // Don't process the files
+			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+			sucgcess: function(data, textStatus, jqXHR) {
+				if (data.success === true) {
+					console.log('success');
+				} else {
+					console.log('error: ' + data.error);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log('error: ' + textStatus);
+			}
+		});
+	}
+
+	init();
+	
+});
