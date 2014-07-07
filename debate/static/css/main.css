@@ -20,26 +20,30 @@
 	display: ;
 }
 
-#container-CNDI {
-	display: none;
-}
-
-#container-explanation {
-	display: none;
-}
-
 #container-about {
 	display: none;
 }
 
-#container-overwrite {
+#container-admin {
 	display: none;
 }
 
-#container-hi {
+#container-CNDI {
 	display: none;
 }
 
-#container-hello {
+#container-NDI {
+	display: none;
+}
+
+#container-DDI {
+	display: none;
+}
+
+#container-MICH {
+	display: none;
+}
+
+#container-SNFI {
 	display: none;
 }

@@ -10,7 +10,8 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>CrossX Ups</title>
+    <title>DB8-Spec</title>
+    <link rel="shortcut icon" href="http://blogs.houstonpress.com/artattack/high-five.jpg">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
@@ -36,12 +37,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand click" id= "home-main" href="#home">RetailNext Data Tool</a>
+          <a class="navbar-brand click" id= "home-main" href="#home">Debate Specification</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a class="click" id= "home-top" href="#home">Home</a></li>
-            <li><a class="click" id="explanation-top" href="#explanation">Explanation</a></li>
             <li><a class="click" id="about" href="#about">About</a></li>
           </ul>
           <form class="navbar-form navbar-right">
@@ -56,16 +55,21 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active" id="active-home"><a class= "click" id= "home-side" href="#home">Home</a></li>
-            <!--<li class="" id="active-explanation"><a class="click" id= "explanation-side" href="#explanation">Explanation</a></li> -->
           </ul>
+
+
+<!-- SIDE MENU BAR -->
+
           <ul class="nav nav-sidebar">
             <li class="" id="active-CNDI"><a class="click" id= "CNDI" href="#CNDI">CNDI Camp Tourney</a></li> 
-            <li class="" id="active-overwrite"><a class="click" id= "overwrite" href="#overwrite">DDI Camp Tourney</a></li>
-            <li class="" id="active-overwrite"><a class="click" id= "overwrite" href="#overwrite">Michigan Camp Tourney</a></li>
+            <li class="" id="active-DDI"><a class="click" id= "DDI" href="#DDI">DDI Camp Tourney</a></li>
+            <li class="" id="active-MICH"><a class="click" id= "MICH" href="#MICH">MNDI Camp Tourney</a></li>
+            <li class="" id="active-SNFI"><a class="click" id= "SNFI" href="#SNFI">SNFI Camp Tourney</a></li>
+            <li class="" id="active-NDI"><a class="click" id= "NDI" href="#NDI">NDI Camp Tourney</a></li>
           </ul>
+          
           <ul class="nav nav-sidebar">
-            <li class="" id="active-hi"><a class="click" id= "hi" href="#hi">hi</a></li>
-            <li class="" id="active-hello"><a class="click" id="hello" href="#hello">hello</a></li>
+            <li class="" id="active-admin"><a class="click" id= "admin" href="#admin">admin</a></li> 
           </ul>
         </div>
         
@@ -78,77 +82,58 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           
 
-          <!--This is where all the containers are made -->
+<!--THIS IS WHERE THE CONTAINERS ARE MADE -->
 
           <div class="container-home" id="container-home">
-            <h1 class="page-header">Overview</h1>
+            <h1 class="page-header">Home</h1>
 
             <div class="row placeholders">
               <div class="col-xs-6 col-sm-3 placeholder">
-                <img class="circle" height= "200" width="200" src="http://retailnext.net/wp-content/themes/retailnext/images/steps-collection.png">
-                <h4>Collect</h4>
+                <img class="circle" height= "200" width="200" src="http://indiebookweek.com/wp-content/uploads/2014/06/Overflowing-Bookcases.jpg">
+                <h4>Research</h4>
               </div>
               <div class="col-xs-6 col-sm-3 placeholder">
-                <img class="circle" height= "200" width="200" src="http://retailnext.net/wp-content/themes/retailnext/images/steps-analysis.png">
-                <h4>Analyze</h4>
+                <img class="circle" height= "200" width="200" src="http://www.bubblews.com/assets/images/news/431004787_1375353541.jpg">
+                <h4>Debate</h4>
               </div>
               <div class="col-xs-6 col-sm-3 placeholder">
-                <img class="circle" height= "200" width="200" src="http://retailnext.net/wp-content/themes/retailnext/images/steps-visualization.png">
-                <h4>Visualize</h4>
-              </div>
-              <div class="col-xs-6 col-sm-3 placeholder">
-                <img class="circle" height= "200" width="200" src="http://retailnext.net/wp-content/themes/retailnext/images/steps-insights.png">
-                <h4>Discover</h4>
+                <img class="circle" height= "200" width="200" src="http://blogs.houstonpress.com/artattack/high-five.jpg">
+                <h4>Win</h4>
               </div>
             </div>
           </div>
 
-
-          <div class="container-CNDI" id="container-CNDI">
-            <h1 class="page-header">CNDI</h1>
-            
-            <div class="file-input">
-              <div class="row">
-                <div class= "col-lg-6"> 
-                  <form id="form" role="form" action="#" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                      <label>Input File: </label>
-                        <div class="input-group">
-                          <input id="filePath" type="text" class="form-control" />
-                          <span class="input-group-btn">
-                            <button id="btnBrowse" class="btn btn-default" type="button">Browse...</button>
-                          </span>
-                        </div>
-
-                        <div class="button-group">
-                          <button id="btnUpload" class="btn btn-default" type="button">Upload!</button>
-                        </div>
-                        <input id="inputFile" type="file" name="file" />
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>  
+          <div class= "container-admin" id="container-admin">
+            <h1 class="page-header">admin</h1>
+            <h4> secret shit </h4>
           </div>
-
-          <div class= "container-explanation" id="container-explanation">
-            <h1 class="page-header">Explanation</h1>
-          </div>
-
+          
           <div class= "container-about" id="container-about">
             <h1 class="page-header">About</h1>
+            <h4> We are awesome </h4>
+            <img src="http://puu.sh/9VClo/060ed98449.png" alt="gary" >
+            <img src="http://puu.sh/9VCmQ/a278222bbf.png" alt="rohan">
+          </div>
+          
+
+          <div class="container-CNDI" id="container-CNDI">
+            <h1 class="page-header">Cal National Debate Institute</h1>
           </div>
 
-          <div class= "container-overwrite" id="container-overwrite">
-            <h1 class="page-header">Overwrite</h1>
+          <div class= "container-DDI" id="container-DDI">
+            <h1 class="page-header">Dartmouth Debate Institute</h1>
           </div>
 
-          <div class= "container-hi" id="container-hi">
-            <h1 class="page-header">Hi</h1> 
+          <div class= "container-MICH" id="container-MICH">
+            <h1 class="page-header">Michigan National Debate Institute</h1> 
           </div>
 
-          <div class= "container-hello" id="container-hello">
-            <h1 class="page-header">Hello</h1>
+          <div class= "container-SNFI" id="container-SNFI">
+            <h1 class="page-header">Stanford National Forensic Institute</h1> 
+          </div>
+
+          <div class= "container-NDI" id="container-NDI">
+            <h1 class="page-header">Northwestern Debate Institute</h1>
           </div>
 
 

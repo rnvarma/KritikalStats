@@ -7,8 +7,9 @@ $(document).ready(function() {
 	var files;
 
 	//All the navigation ID's here
-	var idList = ['container-home', 'container-CNDI', 'container-explanation', 
-	'container-about', 'container-overwrite', 'container-hi', 'container-hello'];
+	var idList = ['container-home', 'container-about', 'container-NDI', 
+	'container-CNDI', 'container-DDI', 'container-MICH', 'container-SNFI', 
+	'container-admin'];
 
 	function init() {
 		// browse file
