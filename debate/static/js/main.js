@@ -53,6 +53,21 @@ $(document).ready(function() {
 
 		}) 
 
+		//sub side-bar features
+		//to be made
+		/*
+		$('.click').click(function(){
+			var href = $(this).attr('href');
+			var li = document.createElement('li');
+			li.className = '';
+			var node = document.createTextNode('hello');
+			li.appendChild(node);
+
+			var element = document.getElementById("table-" + href.substr(1));
+			element.appendChild(li);
+		})
+		*/
+
 
 	}
 

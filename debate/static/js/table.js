@@ -48,15 +48,16 @@ $(document).ready(function() {
 					var node = document.createTextNode(list[j]);
 					div.className = "col";
 					if (j == 0){
-						//div.className += " standard";
+						div.className += " standard";
 						div.className += " teamName";
 					}
 					if (j == 1){
-						//div.className += " standard";
+						div.className += " standard";
 						div.className += " record";
 					}
 					if (j > 1){
 						div.className += " round6";
+						div.className += " standard";
 					}
 
 					div.appendChild(node);
