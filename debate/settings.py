@@ -44,6 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'api'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,6 +62,10 @@ ROOT_URLCONF = 'debate.urls'
 
 WSGI_APPLICATION = 'debate.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'PAGINATE_BY': 10
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
