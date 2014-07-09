@@ -141,3 +141,18 @@ $(document).ready(function() {
 	init();
 	
 });
+
+
+$.ajax({
+    type: 'GET',
+    url: "http://127.0.0.1:8000/1/tournament/Berkely/entries"
+    contentType: 'application/json',
+    success: function (data) {
+      var meta_data = parse_xml_for_data(data);
+      populate_missing_data(id, meta_data, missing_data);
+    },
+    error: function(a, b, c){
+      console.log(c + ". Failed to retrieve data for" + id);
+    },
+    async: true
+  });
