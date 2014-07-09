@@ -4,50 +4,16 @@
    Author's custom styles
    ========================================================================== */
 
-.sub-sidebar {
-	margin-left: 10px;
-}
-
 .input-group {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	width: 300px;
 }
 
-#inputFile {
-	visibility: hidden;
+.container {
+	display: none;
 }
-
-/*testing purposes*/
 
 #container-home {
 	display: ;
-}
-
-#container-about {
-	display: none;
-}
-
-#container-admin {
-	display: none;
-}
-
-#container-CNDI {
-	display: none;
-}
-
-#container-NDI {
-	display: none;
-}
-
-#container-DDI {
-	display: none;
-}
-
-#container-MICH {
-	display: none;
-}
-
-#container-SNFI {
-	display: none;
 }

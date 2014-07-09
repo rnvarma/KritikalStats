@@ -9,8 +9,12 @@
 .col {
 	display: block;
 	float:left;
-	margin: .5% 0 .1% 1.6%;
+	/*text-align:center; */
 }
+.col:before { 
+	content: "\00a0 "; 
+}
+
 .col:first-child { margin-left: 0; }
 
 
@@ -32,15 +36,18 @@
 .teamName {
 	/* 2/12 */
 	width: 13.5%;
+	margin: .2% 0 0% .3%;
 }
 
 .record {
 	/* 1/12 */
   	width: 4%;
+  	margin: .2% 0 0% .3%;
 }
 
 .round6 {
   	width: 11.88%;
+  	margin: .2% 0 0% .1%;
 }
 
 .round7 {
@@ -52,9 +59,14 @@
 	background: rgba(144, 238, 144, 0.85);
 }
 
-.standard {
+.standardeven {
 		background: #ccc;
 		background: rgba(204, 204, 204, 0.85);
+}
+
+.standardodd {
+		background: #ccc;
+		background: rgba(245, 245, 245, 0.85);
 }
 
 .lose {

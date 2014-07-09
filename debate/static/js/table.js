@@ -7,6 +7,9 @@ $(document).ready(function() {
 	var query = [['Leland YEE', '4-2', 'Bellarmine CK', 'GBN SW', 
 	'Hooch EE', 'GBS SW', 'Stratford LL', 'Kinkaid VV'], 
 	['Bellarmine CK', '3-3', 'Leland YEA', 'OPRF QQ', 'GBN AA', 
+	'Kinkaid VV', 'Greenhill PP', 'CPS VI'], ['GBN AA', '4-2', 'Bellarmine CK', 'GBN SW', 
+	'Hooch EE', 'GBS SW', 'Stratford LL', 'Kinkaid VV'], 
+	['Greenhill PS', '3-3', 'Leland YEA', 'OPRF QQ', 'GBN AA', 
 	'Kinkaid VV', 'Greenhill PP', 'CPS VI']];
 
 	function makeTable() {
@@ -33,9 +36,9 @@ $(document).ready(function() {
 		}) 
 		*/
 
-		$('.click').click(function(){
-			var href = $(this).attr('href');
-			$('#table-' + href.substr(1)).empty();
+		$('.tournament').click(function(){
+			var href = this.id;
+			$('#table-' + href).empty();
 
 
 			for (i = 0; i < query.length; i++){
@@ -48,21 +51,25 @@ $(document).ready(function() {
 					var node = document.createTextNode(list[j]);
 					div.className = "col";
 					if (j == 0){
-						div.className += " standard";
 						div.className += " teamName";
 					}
 					if (j == 1){
-						div.className += " standard";
 						div.className += " record";
 					}
 					if (j > 1){
 						div.className += " round6";
-						div.className += " standard";
+					}
+
+					if (i%2 == 0) {
+						div.className += " standardeven";
+					}
+					else {
+						div.className += " standardodd";
 					}
 
 					div.appendChild(node);
 					sectionGroup.appendChild(div);
-					var element = document.getElementById("table-" + href.substr(1));
+					var element = document.getElementById("table-" + href);
 					element.appendChild(sectionGroup);
 				}
 			}

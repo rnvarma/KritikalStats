@@ -6,50 +6,44 @@ $(document).ready(function() {
 	// Variable to store your files
 	var files;
 
-	//All the navigation ID's here
-	var idList = ['container-home', 'container-about', 'container-NDI', 
-	'container-CNDI', 'container-DDI', 'container-MICH', 'container-SNFI', 
-	'container-admin'];
+	var tournamentList = ['CNDI', 'DDI', 'MICH', 'SNFI', 'NDI'];
 
 	function init() {
-		// browse file
-		$('#btnBrowse').click(function() {
-			$('#inputFile').click();
-		});
 
-		// file input change event
-		$('#inputFile').change(function(event) {
-			$('#filePath').val($(this).val().replace("C:\\fakepath\\", ""));
-			files = event.target.files;
-		});
-
-		// upload
-		$('#btnUpload').click(function() {
-			submitForm('upload');
-		});
-
-		// form submit
-		$('#form').on('submit', onSubmit);
-
-
+		
 		//Navigation Bar Controls
 
 		//modifies the click class- displays the right webpage
 		$('.click').click(function(){
-			for(i=0;i<idList.length;i++){
-				var link = $('#' + idList[i])
-				link.hide()
+			//var link = $('.container' + idList[i]);
+			//link.hide();
+			var href = this.id;
+
+			//hide
+			for(i=0; i<tournamentList.length; i++){
+				$('#container-' + tournamentList[i]).hide();
 			}
-			var href = $(this).attr('href')
-			$('#container-' + href.substr(1)).show()
-			
+			$('#container-' + 'home').hide();
+			$('#container-' + 'about').hide();
+			$('#container-' + 'admin').hide();
+
+			//show
+			$('#container-' + href).show();
+
+	
 			
 			//makes the sidebar active
-			for(i=0;i<idList.length;i++){
-				var link = $('#active-' + idList[i].substring(10))
+			//takes away active class
+			for(i=0; i<tournamentList.length; i++){
+				var link = $('#active-' + tournamentList[i])
 				link.removeClass('active')
 			}
-			$('#active-' + href.substr(1)).addClass('active');
+			$('#active-' + 'home').removeClass('active')
+			$('#active-' + 'about').removeClass('active')
+			$('#active-' + 'admin').removeClass('active')
+
+			//adds active class
+			$('#active-' + href).addClass('active');
 
 		}) 
 
@@ -69,6 +63,31 @@ $(document).ready(function() {
 		*/
 
 
+	}
+
+
+	function createPage(){
+		for (i = 0; i < tournamentList.length; i++){
+			var tournament = tournamentList[i];
+			var liGroup = document.createElement("li");
+			liGroup.id= "active-" + tournament;
+			var aGroup = document.createElement("a");
+			aGroup.className = "click";
+			aGroup.className += " tournament";
+			aGroup.setAttribute("id", tournament);
+			aGroup.href = "#" + tournament;
+			var node = document.createTextNode(tournament);
+			aGroup.appendChild(node);
+			liGroup.appendChild(aGroup);
+			var element = document.getElementById("sidebar-populate");
+			element.appendChild(liGroup);
+
+
+			//make the container pages for everything like this
+			//fix the idList at the top
+			//fix main.css to be more concise
+
+		}
 	}
 
 	function validateForm() {
@@ -105,7 +124,7 @@ $(document).ready(function() {
 			dataType: 'json',
 			processData: false, // Don't process the files
 			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-			sucgcess: function(data, textStatus, jqXHR) {
+			success: function(data, textStatus, jqXHR) {
 				if (data.success === true) {
 					console.log('success');
 				} else {
@@ -118,6 +137,7 @@ $(document).ready(function() {
 		});
 	}
 
+	createPage();
 	init();
 	
 });
