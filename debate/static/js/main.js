@@ -18,6 +18,17 @@ $(document).ready(function() {
 			//var link = $('.container' + idList[i]);
 			//link.hide();
 			var href = this.id;
+			//dashindex is used to handle the home page which
+			//can be accessed by two different buttons
+			dashIndex = -1;
+			for(i=0; i<href.length; i++){
+				if (href[i].valueOf() == '-'.valueOf()){
+					var dashIndex = i;
+				}
+			}
+			if (dashIndex != -1){
+				href = href.substring(dashIndex + 1);
+			}
 
 			//hide
 			for(i=0; i<tournamentList.length; i++){
@@ -142,7 +153,7 @@ $(document).ready(function() {
 	
 });
 
-
+/*
 $.ajax({
     type: 'GET',
     url: "http://127.0.0.1:8000/1/tournament/Berkely/entries"
@@ -156,3 +167,5 @@ $.ajax({
     },
     async: true
   });
+
+ */
