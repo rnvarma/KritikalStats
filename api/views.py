@@ -8,9 +8,9 @@ from api.models import Team, Tournament, Round
 
 class TournamentList(APIView):
   
-  def get(self, request, pk, format = None):
-  	tournaments = Tournament.objects.get(tournament_name=pk)
-  	serializer = TournamentSerializer(tournaments)
+  def get(self, request, format = None):
+  	tournaments = Tournament.objects.all()
+  	serializer = TournamentSerializer(tournaments, many=True)
   	return Response(serializer.data)
 
 class TournamentEntries(APIView):
