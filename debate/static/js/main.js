@@ -6,7 +6,7 @@ $(document).ready(function() {
 	// Variable to store your files
 	var files;
 
-	var tournamentList = ['CNDI', 'DDI', 'MICH', 'SNFI', 'NDI'];
+	var tournamentList = [];
 
 	function init() {
 
@@ -18,6 +18,17 @@ $(document).ready(function() {
 			//var link = $('.container' + idList[i]);
 			//link.hide();
 			var href = this.id;
+			//dashindex is used to handle the home page which
+			//can be accessed by two different buttons
+			dashIndex = -1;
+			for(i=0; i<href.length; i++){
+				if (href[i].valueOf() == '-'.valueOf()){
+					var dashIndex = i;
+				}
+			}
+			if (dashIndex != -1){
+				href = href.substring(dashIndex + 1);
+			}
 
 			//hide
 			for(i=0; i<tournamentList.length; i++){
@@ -81,13 +92,33 @@ $(document).ready(function() {
 			liGroup.appendChild(aGroup);
 			var element = document.getElementById("sidebar-populate");
 			element.appendChild(liGroup);
+		}
 
 
-			//make the container pages for everything like this
-			//fix the idList at the top
-			//fix main.css to be more concise
+		//make the containers
+		//change cndi to tournamentlist
+		for (i = 0; i < tournamentList.length; i++){	
+			var tournament = tournamentList[i];
+			var divMain = document.createElement("div");
+			divMain.id= "container-" + tournament;
+			divMain.className = 'container';
+			var h1 = document.createElement("h1");
+			h1.className = 'page-header';
+			var node = document.createTextNode(tournament);
+			h1.appendChild(node);
+			var divTable = document.createElement("div");
+			divTable.id = 'table-' + tournament;
+			divMain.appendChild(h1);
+			divMain.appendChild(divTable);
+
+			var element = document.getElementById("container-master");
+			element.appendChild(divMain);
 
 		}
+		
+			
+
+		
 	}
 
 	function validateForm() {
@@ -137,22 +168,30 @@ $(document).ready(function() {
 		});
 	}
 
+
+	function tournamentQuery(){
+		$.ajax({
+			type: 'GET',
+			url: "http://127.0.0.1:8000/1/tournament/",
+			contentType: 'application/json',
+			success: function (data) {
+				for (i=0;i<data.length;i++){
+					tournamentList.push(data[i].tournament_name);
+				}
+				//createPage();
+				//init();
+			},
+			error: function(a , b, c){
+				console.log('There is an error in tournamentQuery');
+			},
+			async: false
+		});
+
+	}
+
+	tournamentQuery();
 	createPage();
 	init();
 	
+	
 });
-
-
-$.ajax({
-    type: 'GET',
-    url: "http://127.0.0.1:8000/1/tournament/Berkely/entries"
-    contentType: 'application/json',
-    success: function (data) {
-      var meta_data = parse_xml_for_data(data);
-      populate_missing_data(id, meta_data, missing_data);
-    },
-    error: function(a, b, c){
-      console.log(c + ". Failed to retrieve data for" + id);
-    },
-    async: true
-  });
