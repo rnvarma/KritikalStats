@@ -5,7 +5,9 @@ from api import views
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
 urlpatterns = patterns('',
+	#ex: 1/tournament/
     url(r'^1/tournament/$', views.TournamentList.as_view()),
+    #ex: 1/tournament/Berkely/entries
     url(r'^1/tournament/(?P<pk>[A-Za-z0-9-_]+)/entries', views.TournamentEntries.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )

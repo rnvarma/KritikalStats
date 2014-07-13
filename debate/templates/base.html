@@ -73,9 +73,9 @@
 
 
 
-        <!-- All containers will be placed within this bin.
-             This bin correctly formats the page.  -->
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<!-- All containers will be placed within this bin.
+     This bin correctly formats the page.  -->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id= 'container-master'>
           
 
 <!--THIS IS WHERE THE CONTAINERS ARE MADE -->
@@ -85,15 +85,15 @@
 
             <div class="row placeholders">
               <div class="col-xs-6 col-sm-3 placeholder">
-                <img class="circle" height= "200" width="200" src="http://indiebookweek.com/wp-content/uploads/2014/06/Overflowing-Bookcases.jpg">
+                <img class="circle" height= "200" width="200" src="{% static 'images/research.jpg' %}">
                 <h4>Research</h4>
               </div>
               <div class="col-xs-6 col-sm-3 placeholder">
-                <img class="circle" height= "200" width="200" src="http://www.bubblews.com/assets/images/news/431004787_1375353541.jpg">
+                <img class="circle" height= "200" width="200" src="{% static 'images/debate.jpg' %}">
                 <h4>Debate</h4>
               </div>
               <div class="col-xs-6 col-sm-3 placeholder">
-                <img class="circle" height= "200" width="200" src="http://blogs.houstonpress.com/artattack/high-five.jpg">
+                <img class="circle" height= "200" width="200" src="{% static 'images/win.jpg' %}">
                 <h4>Win</h4>
               </div>
             </div>
@@ -111,37 +111,6 @@
             <img src="http://puu.sh/9VCmQ/a278222bbf.png" alt="rohan">
           </div>
           
-
-          <div class="container" id="container-CNDI">
-            <h1 class="page-header">Cal National Debate Institute</h1>
-            <div id= "table-CNDI">
-            </div>
-          </div>
-
-          <div class= "container" id="container-DDI">
-            <h1 class="page-header">Dartmouth Debate Institute</h1>
-            <div id= "table-DDI">
-            </div>
-          </div>
-
-          <div class= "container" id="container-MICH">
-            <h1 class="page-header">Michigan National Debate Institute</h1> 
-            <div id= "table-MICH">
-            </div>
-          </div>
-
-          <div class= "container" id="container-SNFI">
-            <h1 class="page-header">Stanford National Forensic Institute</h1> 
-            <div id= "table-SNFI">
-            </div>
-          </div>
-
-          <div class= "container" id="container-NDI">
-            <h1 class="page-header">Northwestern Debate Institute</h1>
-            <div id= "table-NDI">
-            </div>
-          </div>
-
 
         </div>
       </div>
