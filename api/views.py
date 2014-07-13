@@ -20,3 +20,18 @@ class TournamentEntries(APIView):
   	teams = tournaments.team_set.all()
   	serializer = TeamSerializer(teams, many=True)
   	return Response(serializer.data)
+
+class TournamentRounds(APIView):
+
+  def get(self, request, pk, format = None):
+  	tournaments = Tournament.objects.get(tournament_name=pk)
+  	rounds = tournaments.round_set.all()
+  	serializer = RoundSerializer(rounds, many=True)
+  	return Response(serializer.data)
+
+class TeamDataFetch(APIView):
+
+  def get(self, request, pk, format = None):
+  	team = Team.objects.get(id=pk)
+  	serializer = TeamSerializer(team)
+  	return Response(serializer.data)
