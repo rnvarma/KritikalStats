@@ -17,3 +17,17 @@
 #container-home {
 	display: ;
 }
+
+#table-Berkeley {
+	background-color: white;
+	border-radius: 10px;
+}
+
+#table-TOC {
+	background-color: white;
+	border-radius: 10px;
+}
+
+.main {
+	background-color: #F5F5F5
+}

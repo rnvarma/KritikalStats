@@ -1,8 +1,10 @@
 /*  SECTIONS  */
 .section {
 	clear: both;
-	padding: 0px;
+	padding: 10px;
+	font-size: 120%;
 	margin: 0px;
+	border-radius: 10px;
 }
 
 /*  COLUMN SETUP  */
@@ -35,8 +37,8 @@
 /*  GRID OF TWELVE  */
 .teamName {
 	/* 2/12 */
-	width: 13.5%;
-	margin: .2% 0 0% .3%;
+/*	width: 13.5%;
+*/	margin: .2% 0 0% .3%;
 }
 
 .record {
@@ -61,12 +63,12 @@
 
 .standardeven {
 		background: #ccc;
-		background: rgba(204, 204, 204, 0.85);
+		background: #D6E7EF;
 }
 
 .standardodd {
 		background: #ccc;
-		background: rgba(245, 245, 245, 0.85);
+		background: white;
 }
 
 .lose {

@@ -54,7 +54,8 @@ $(document).ready(function() {
   function tournament_handle(tournamentList) {
 	  //when a tournament gets clicked
 	  //creates the table
-	  $('.tournament').click(function(){
+	  $('.tournament').click(function(arg){
+      arg.preventDefault();
 	    //opens the right page and makes sidebar active
 	    var href = this.id;
 	    //dashindex is used to handle the home page which
@@ -118,8 +119,8 @@ $(document).ready(function() {
 	        if (j == 0) div.className += " teamName";
 	        if (j == 1) div.className += " record";
 	        if (j > 1) div.className += " round6";
-	        if (i%2 == 0) div.className += " standardeven";
-	        else div.className += " standardodd";
+	        if (i%2 == 0) sectionGroup.className += " standardeven";
+	        else sectionGroup.className += " standardodd";
 
 	        div.appendChild(node);
 	        sectionGroup.appendChild(div);
