@@ -1,18 +1,9 @@
-/**
- * An example of bootstrap
- * 
- */
+
 $(document).ready(function() {
 
-  //All the navigation ID's here
-  var query = [['Leland YEE', '4-2', 'Bellarmine CK', 'GBN SW', 
-  'Hooch EE', 'GBS SW', 'Stratford LL', 'Kinkaid VV'], 
-  ['Bellarmine CK', '3-3', 'Leland YEA', 'OPRF QQ', 'GBN AA', 
-  'Kinkaid VV', 'Greenhill PP', 'CPS VI'], ['GBN AA', '4-2', 'Bellarmine CK', 'GBN SW', 
-  'Hooch EE', 'GBS SW', 'Stratford LL', 'Kinkaid VV'], 
-  ['Greenhill PS', '3-3', 'Leland YEA', 'OPRF QQ', 'GBN AA', 
-  'Kinkaid VV', 'Greenhill PP', 'CPS VI']];
-
+  //**
+  //This is used to create the webpage
+  //**
   function createPage(tournamentList){
     //makes sidebar
     for (i = 0; i < tournamentList.length; i++){
@@ -56,6 +47,10 @@ $(document).ready(function() {
     }
   }
   
+  //**
+  //When a tournament is clicked the right page is shown 
+  //and the sidebar is active
+  //**
   function tournament_handle(tournamentList) {
 	  //when a tournament gets clicked
 	  //creates the table
@@ -100,6 +95,10 @@ $(document).ready(function() {
 	  });
   }
 
+  //**
+  //This creates the table
+  //currently set up for the mainpage
+  //**
   function table_handle(tournament, entryList) {
 	  //when a tournament gets clicked
 	  //creates the table
@@ -131,6 +130,9 @@ $(document).ready(function() {
   }
   
 
+  //**
+  //Ajax request for entries
+  //**
   function entryQuery(tournament){
     //queries for tournaments
     $.ajax({
@@ -153,6 +155,9 @@ $(document).ready(function() {
     
 
 
+  //**
+  //Main function that puts everything together
+  //**
   function tournamentQuery(){
     //queries for tournaments
     $.ajax({
@@ -178,8 +183,9 @@ $(document).ready(function() {
 
   }
 
-  //Navigation Bar Controls
-  //modifies the click class- displays the right webpage
+  //**
+  //Used to handle home, about, admin pages
+  //**
   $('.click').click(function(){
     console.log("clicked");
     //var link = $('.container' + idList[i]);
