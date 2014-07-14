@@ -13,3 +13,6 @@ def load_tourncreate(request):
 
 def testingandshit(request):
 	return 42
+
+def splash(request):
+	return render(request, 'splash.html')
