@@ -18,14 +18,17 @@
 	display: ;
 }
 
-#table-Berkeley {
-	background-color: white;
-	border-radius: 10px;
+#entry_section {
+	width: 20%;
+	height: 400px;
 }
 
-#table-TOC {
+.entry_table {
+	overflow: auto;
 	background-color: white;
 	border-radius: 10px;
+	height: 400px;
+	width: 100%;
 }
 
 .main{
@@ -34,4 +37,20 @@
 
 .html {
 	background-color: #F5F5F5;
+}
+
+.logo {
+	width: 200px;
+	padding: 5px;
+}
+
+.tournament {
+	color: #C41117;
+}
+
+.tourn_section_title {
+	color: #F39000;
+	text-align: center;
+	background-color: #C41117;
+	font-size: 200%;
 }

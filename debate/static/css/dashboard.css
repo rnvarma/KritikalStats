@@ -63,7 +63,7 @@ body {
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
   color: #fff;
-  background-color: #428bca;
+  background-color: #F39000;
 }
 
 
@@ -82,8 +82,8 @@ body {
 }
 .main .page-header {
   margin-top: 0;
+  color: #C41117;
 }
-
 
 /*
  * Placeholder dashboard ideas
@@ -102,4 +102,8 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+
+#side-home {
+  color: #C41117;
 }

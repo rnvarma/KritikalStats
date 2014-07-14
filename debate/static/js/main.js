@@ -32,10 +32,20 @@ $(document).ready(function() {
       h1.className = 'page-header';
       var node = document.createTextNode(tournament);
       h1.appendChild(node);
+      var entry_table = document.createElement("div");
+      entry_table.className = "tourn_section";
+      entry_table.id = "entry_section";
+      var entry_text = document.createElement("div");
+      entry_text.className = "tourn_section_title";
+      var entry_name = document.createTextNode("Entries");
+      entry_text.appendChild(entry_name);
+      entry_table.appendChild(entry_text);
       var divTable = document.createElement("div");
       divTable.id = 'table-' + tournament;
+      divTable.className = "entry_table";
+      entry_table.appendChild(divTable);
       divMain.appendChild(h1);
-      divMain.appendChild(divTable);
+      divMain.appendChild(entry_table);
 
       var element = document.getElementById("container-master");
       element.appendChild(divMain);
