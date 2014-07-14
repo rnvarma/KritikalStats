@@ -1,15 +1,11 @@
-/**
- * An example of bootstrap
- * 
- */
+
 $(document).ready(function() {
 
-  // Variable to store your files
-  var files;
-
-  var tournamentList = [];
-
-  function createPage(){
+  //**
+  //This is used to create the webpage
+  //**
+  function createPage(tournamentList){
+    //makes sidebar
     for (i = 0; i < tournamentList.length; i++){
       var tournament = tournamentList[i];
       var liGroup = document.createElement("li");
@@ -27,7 +23,6 @@ $(document).ready(function() {
     }
 
     //make the containers
-    //change cndi to tournamentlist
     for (i = 0; i < tournamentList.length; i++){  
       var tournament = tournamentList[i];
       var divMain = document.createElement("div");
@@ -44,47 +39,23 @@ $(document).ready(function() {
 
       var element = document.getElementById("container-master");
       element.appendChild(divMain);
-    } 
+
+
+      //makes tables
+      entryQuery(tournament);
+
+    }
   }
-
-  // Variable to store your files
-  var files;
-
-  //All the navigation ID's here
-  var query = [['Leland YEE', '4-2', 'Bellarmine CK', 'GBN SW', 
-  'Hooch EE', 'GBS SW', 'Stratford LL', 'Kinkaid VV'], 
-  ['Bellarmine CK', '3-3', 'Leland YEA', 'OPRF QQ', 'GBN AA', 
-  'Kinkaid VV', 'Greenhill PP', 'CPS VI'], ['GBN AA', '4-2', 'Bellarmine CK', 'GBN SW', 
-  'Hooch EE', 'GBS SW', 'Stratford LL', 'Kinkaid VV'], 
-  ['Greenhill PS', '3-3', 'Leland YEA', 'OPRF QQ', 'GBN AA', 
-  'Kinkaid VV', 'Greenhill PP', 'CPS VI']];
-  function tournament_handle() {
+  
+  //**
+  //When a tournament is clicked the right page is shown 
+  //and the sidebar is active
+  //**
+  function tournament_handle(tournamentList) {
+	  //when a tournament gets clicked
+	  //creates the table
 	  $('.tournament').click(function(){
-	  	console.log("got into tournament click");
-	    var href = this.id;
-	    $('#table-' + href).empty();
-
-	    for (i = 0; i < query.length; i++){
-	      var list = query[i];
-	      var sectionGroup = document.createElement("div");
-	      sectionGroup.className = "section";
-	      sectionGroup.className += " group";
-	      for (j = 0; j < list.length; j++){
-	        var div = document.createElement('div');
-	        var node = document.createTextNode(list[j]);
-	        div.className = "col";
-	        if (j == 0) div.className += " teamName";
-	        if (j == 1) div.className += " record";
-	        if (j > 1) div.className += " round6";
-	        if (i%2 == 0) div.className += " standardeven";
-	        else div.className += " standardodd";
-
-	        div.appendChild(node);
-	        sectionGroup.appendChild(div);
-	        var element = document.getElementById("table-" + href);
-	        element.appendChild(sectionGroup);
-	      }
-	    }
+	    //opens the right page and makes sidebar active
 	    var href = this.id;
 	    //dashindex is used to handle the home page which
 	    //can be accessed by two different buttons
@@ -124,18 +95,85 @@ $(document).ready(function() {
 	  });
   }
 
+  //**
+  //This creates the table
+  //currently set up for the mainpage
+  //**
+  function table_handle(tournament, entryList) {
+	  //when a tournament gets clicked
+	  //creates the table
+	  	//console.log("got into tournament click");
+	    var href = tournament;
+	    $('#table-' + href).empty();
+
+	    for (i = 0; i < entryList.length; i++){
+	      var list = entryList[i];
+	      var sectionGroup = document.createElement("div");
+	      sectionGroup.className = "section";
+	      sectionGroup.className += " group";
+	      for (j = 0; j < list.length; j++){
+	        var div = document.createElement('div');
+	        var node = document.createTextNode(list[j]);
+	        div.className = "col";
+	        if (j == 0) div.className += " teamName";
+	        if (j == 1) div.className += " record";
+	        if (j > 1) div.className += " round6";
+	        if (i%2 == 0) div.className += " standardeven";
+	        else div.className += " standardodd";
+
+	        div.appendChild(node);
+	        sectionGroup.appendChild(div);
+	        var element = document.getElementById("table-" + href);
+	        element.appendChild(sectionGroup);
+	      }
+	    }  
+  }
+  
+
+  //**
+  //Ajax request for entries
+  //**
+  function entryQuery(tournament){
+    //queries for tournaments
+    $.ajax({
+      type: 'GET',
+      url: "http://127.0.0.1:8000/1/tournament/" + tournament  + "/entries/",
+      contentType: 'application/json',
+      success: function (data) {
+        entryList = [];
+        for (i=0;i<data.length;i++){
+          entryList.push([data[i].team_name]);
+        }
+        table_handle(tournament, entryList);
+      },
+      error: function(a , b, c){
+        console.log('There is an error in entryQuery');
+      },
+      async: true
+    });
+  }
+    
+
+
+  //**
+  //Main function that puts everything together
+  //**
   function tournamentQuery(){
+    //queries for tournaments
     $.ajax({
       type: 'GET',
       url: "http://127.0.0.1:8000/1/tournament/",
       contentType: 'application/json',
       success: function (data) {
-        console.log(data);
+        //console.log(data);
+        tournamentList = [];
         for (i=0;i<data.length;i++){
           tournamentList.push(data[i].tournament_name);
         }
-        createPage();
-        tournament_handle();
+        createPage(tournamentList);
+        tournament_handle(tournamentList);
+
+
       },
       error: function(a , b, c){
         console.log('There is an error in tournamentQuery');
@@ -144,9 +182,10 @@ $(document).ready(function() {
     });
 
   }
-  //Navigation Bar Controls
 
-  //modifies the click class- displays the right webpage
+  //**
+  //Used to handle home, about, admin pages
+  //**
   $('.click').click(function(){
     console.log("clicked");
     //var link = $('.container' + idList[i]);
