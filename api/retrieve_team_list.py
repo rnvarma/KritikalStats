@@ -1,7 +1,7 @@
 import urllib2, json
 from bs4 import BeautifulSoup
 
-# URL = "https://www.tabroom.com/index/tourn/fields.mhtml?tourn_id=2275&event_id=22000"
+URL = "https://www.tabroom.com/index/tourn/fields.mhtml?tourn_id=2275&event_id=22000"
 
 
 def remove_space(text):

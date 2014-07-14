@@ -3,6 +3,8 @@
 def process_judges_name(name):
   if name.find(",") >= 0:
   	last, first = name.split(",")
+  elif name.find("  ") >=0:
+    last, first = name.split("  ")
   else:
   	first, last = name.split()
   last = last.strip().lower()
