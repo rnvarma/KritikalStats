@@ -64,8 +64,7 @@ $(document).ready(function() {
   function tournament_handle(tournamentList) {
 	  //when a tournament gets clicked
 	  //creates the table
-	  $('.tournament').click(function(arg){
-      arg.preventDefault();
+	  $('.tournament').click(function(scrollfix){
 	    //opens the right page and makes sidebar active
 	    var href = this.id;
 	    //dashindex is used to handle the home page which
@@ -103,6 +102,10 @@ $(document).ready(function() {
 
 	    //adds active class
 	    $('#active-' + href).addClass('active');
+
+	    //fixes scroll problem
+        scrollfix.preventDefault();
+
 	  });
   }
 
@@ -197,7 +200,7 @@ $(document).ready(function() {
   //**
   //Used to handle home, about, admin pages
   //**
-  $('.click').click(function(){
+  $('.click').click(function(scrollfix){
     console.log("clicked");
     //var link = $('.container' + idList[i]);
     //link.hide();
@@ -237,6 +240,9 @@ $(document).ready(function() {
 
     //adds active class
     $('#active-' + href).addClass('active');
+
+    //fixes scroll problem
+    scrollfix.preventDefault();
   }) 
 
   tournamentQuery();
