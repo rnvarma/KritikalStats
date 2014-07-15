@@ -140,7 +140,7 @@ $(document).ready(function() {
 	        var element = document.getElementById("table-" + href);
 	        element.appendChild(sectionGroup);
 	      }
-	    }  
+	    }
   }
   
 
@@ -155,8 +155,9 @@ $(document).ready(function() {
       contentType: 'application/json',
       success: function (data) {
         entryList = [];
+        console.log(data);
         for (i=0;i<data.length;i++){
-          entryList.push([data[i].team_name]);
+          entryList.push([data[i].team_code]);
         }
         table_handle(tournament, entryList);
       },
