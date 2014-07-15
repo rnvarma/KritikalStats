@@ -12,7 +12,6 @@ $(document).ready(function() {
       liGroup.id= "active-" + tournament;
       var aGroup = document.createElement("a");
       aGroup.className = "tournament";
-      // aGroup.className += " tournament";
       aGroup.setAttribute("id", tournament);
       aGroup.href = "#" + tournament;
       var node = document.createTextNode(tournament);
@@ -20,7 +19,41 @@ $(document).ready(function() {
       liGroup.appendChild(aGroup);
       var element = document.getElementById("sidebar-populate");
       element.appendChild(liGroup);
+
+
+      var sidebar = ['Main Sheet', 'Entries', 'Bracket'];
+      //makes subsidebar
+      for (j = 0; j<sidebar.length; j++){
+        var side = sidebar[j];
+        var liGroup = document.createElement("li");
+    	liGroup.className = 'subsidebar-' + tournament;
+        if (side == 'Main Sheet'){
+          liGroup.id= "active-" + tournament + '-' + 'Main';
+        }
+        else {
+          liGroup.id= "active-" + tournament + '-' + side;
+    	}
+    	liGroup.style.display = "none";
+        var aGroup = document.createElement("a");
+        aGroup.className = "subsidebar";
+        if (side == 'Main Sheet'){
+          aGroup.setAttribute("id", tournament + '-'+ "Main");
+          aGroup.id = tournament + '-'+ "Main";
+        }
+        else {
+          aGroup.setAttribute("id", tournament + '-'+ side);
+    	}
+        aGroup.href = "#" + side;
+        var node = document.createTextNode(side);
+        aGroup.appendChild(node);
+        liGroup.appendChild(aGroup);
+        var element = document.getElementById("sidebar-populate");
+        element.appendChild(liGroup);
+      }
+
     }
+
+
 
     //make the containers
     for (i = 0; i < tournamentList.length; i++){  
@@ -105,6 +138,15 @@ $(document).ready(function() {
 
 	    //fixes scroll problem
         scrollfix.preventDefault();
+
+
+        //shows subsidebar
+        for(m=0; m<tournamentList.length; m++){
+        	tournament = tournamentList[m];
+        	$(".subsidebar-" + tournament).hide();
+    	}
+        $(".subsidebar-" + href).show();
+
 
 	  });
   }
