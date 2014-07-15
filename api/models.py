@@ -24,7 +24,7 @@ class Team(models.Model):
   bids = models.ManyToManyField(Tournament, related_name="bids")
 
   class Meta:
-  	ordering = ('team_name',)
+  	ordering = ('team_code',)
 
 class Judge(models.Model):
   name = models.CharField(max_length=50, blank=True, default='')
@@ -39,3 +39,4 @@ class Round(models.Model):
   winner = models.ForeignKey(Team, related_name="wins", blank=True, null=True)
   loser = models.ForeignKey(Team, related_name="losses", blank=True, null=True)
   judge = models.ManyToManyField(Judge, related_name="rounds")
+  round_num = models.IntegerField()

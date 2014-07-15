@@ -11,7 +11,7 @@ def enter_team_list(url, tournament, website="tabroom"):
   tourny = Tournament.objects.get(tournament_name = tournament)
   for (team, names) in team_list:
     try:
-      team = Team.objects.get(team_name = team)
+      team = Team.objects.get(team_code = team)
       team.tournaments.add(tourny)
     except:
       team = Team(team_code = team, team_name = names)
@@ -49,7 +49,14 @@ def enter_tournament_round(url, tournament, round_num, website="tabroom"):
                                tournament=tourny)
     except:
       print aff + " v. " + neg
-      round_obj = Round(aff_team=aff_team, neg_team=neg_team)
+      round_obj = Round(aff_team=aff_team, neg_team=neg_team, 
+                        round_num=round_num)
       round_obj.save()
       round_obj.tournament.add(tourny)
       round_obj.judge.add(judge_obj)
+
+def enter_completed_tournament(first_round_url, tournament, num_prelims,
+                               website="tabroom"):
+  for i in xrange(num_prelims):
+    url = first_round_url[:-3] + str(int(first_round_url[-3:]) + i)
+    enter_tournament_round(url, tournament, i + 1)

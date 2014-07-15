@@ -22,4 +22,5 @@ class JudgeSerializer(serializers.ModelSerializer):
 class RoundSerializer(serializers.ModelSerializer):
   class Meta:
   	model = Round
-  	fields = ('tournament', 'aff_team', 'neg_team', 'winner', 'loser')
+  	fields = ('tournament', 'aff_team', 'neg_team', 'winner', 'loser',
+              'round_num')
