@@ -18,8 +18,8 @@ class Tournament(models.Model):
   curr_rounds = models.IntegerField()
 
 class Team(models.Model):
-  team_name = models.CharField(max_length=100, blank=True, default='')
-  team_code = models.CharField(max_length=50, blank=True, default='')
+  team_name = models.CharField(max_length=100, blank=True, default='') #Leland AV
+  team_code = models.CharField(max_length=50, blank=True, default='') # Advani & Varma
   tournaments = models.ManyToManyField(Tournament, related_name="entries")
   bids = models.ManyToManyField(Tournament, related_name="bids")
 

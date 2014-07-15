@@ -2,7 +2,7 @@ import urllib2, json
 from bs4 import BeautifulSoup
 from process_names import process_judges_name
 
-URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2275&round_id=77291"
+URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2299&round_id=63728"
 
 def remove_space(text):
     new_text = ""
