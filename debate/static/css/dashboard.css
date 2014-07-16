@@ -62,14 +62,14 @@ body {
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
-  color: #fff;
+  color: #C41117;
   background-color: #ffb732;
 }
 
 .nav-sidebar > .subactive > a,
 .nav-sidebar > .subactive > a:hover,
 .nav-sidebar > .subactive > a:focus {
-  color: #fff;
+  color: #E66761;
   background-color: #FFCC99;
 }
 
