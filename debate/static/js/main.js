@@ -72,7 +72,12 @@ $(document).ready(function() {
         //dashindex is used to handle the home page which
         //can be accessed by two different buttons
         
-        //HideShowHelper(href);
+        //hide all pages
+        HideHelper(href);
+
+        //show the right page
+        $('#container-' + href).show();
+
 
         //fixes scroll problem
         scrollfix.preventDefault();
@@ -111,6 +116,32 @@ $(document).ready(function() {
       element.appendChild(divMain);
 
 
+    //make the subcontainers
+    for (j=0; j<tournamentList.length; j++){
+      var tournament = tournamentList[j];
+      for (m=0; m<sidebar.length; m++){
+        if (sidebar[m] == 'Main Sheet'){
+          href = 'Main';
+        }
+        else{
+          href = sidebar[m];
+        }
+        var divMain = document.createElement("div");
+        divMain.id= "container-" + tournament + '-' + href;
+        divMain.className = 'container';
+        var h1 = document.createElement("h1");
+        h1.className = 'page-header';
+        var node = document.createTextNode(tournament + ' ' + sidebar[m]);
+        h1.appendChild(node);
+        divMain.appendChild(h1);
+
+        var element = document.getElementById("container-master");
+        element.appendChild(divMain);
+
+
+      }
+    }
+
       //makes tables
       entryQuery(tournament);
 
@@ -120,6 +151,25 @@ $(document).ready(function() {
   //**
   //Helper- hide/show pages 
   //**
+  function HideHelper(){
+  	//hide
+    var sidebar = ['Main Sheet', 'Entries', 'Bracket'];
+    for(i=0; i<tournamentList.length; i++){
+      $('#container-' + tournamentList[i]).hide();
+      for (k=0; k<sidebar.length; k++){
+      	if (sidebar[k] == 'Main Sheet'){
+  		  $('#container-' + tournamentList[i]+ '-' + 'Main').hide();
+      	}
+	    else{
+	      $('#container-' + tournamentList[i]+ '-' + sidebar[k]).hide();
+        }
+      }
+    }
+    $('#container-' + 'home').hide();
+    $('#container-' + 'about').hide();
+    $('#container-' + 'admin').hide();
+    $('#container-' + 'addTournament').hide();
+  }
   function HideShowHelper(href) {
     dashIndex = -1;
     for(i=0; i<href.length; i++){
@@ -132,13 +182,23 @@ $(document).ready(function() {
     }
 
     //hide
+    var sidebar = ['Main Sheet', 'Entries', 'Bracket'];
     for(i=0; i<tournamentList.length; i++){
       $('#container-' + tournamentList[i]).hide();
+      for (k=0; k<sidebar.length; k++){
+      	if (sidebar[k] == 'Main Sheet'){
+  		  $('#container-' + tournamentList[i]+ '-' + 'Main').hide();
+      	}
+	    else{
+	      $('#container-' + tournamentList[i]+ '-' + sidebar[k]).hide();
+        }
+      }
     }
     $('#container-' + 'home').hide();
     $('#container-' + 'about').hide();
     $('#container-' + 'admin').hide();
     $('#container-' + 'addTournament').hide();
+
 
     //show
     $('#container-' + href).show();
@@ -160,6 +220,7 @@ $(document).ready(function() {
     //subsidebar active
     $('.subactive').removeClass('subactive')
   }
+ 
   //**
   //When a tournament is clicked the right page is shown 
   //and the sidebar is active
@@ -292,42 +353,7 @@ $(document).ready(function() {
     console.log(href);
     //dashindex is used to handle the home page which
     //can be accessed by two different buttons
-    dashIndex = -1;
-    for(i=0; i<href.length; i++){
-      if (href[i].valueOf() == '-'.valueOf()){
-        var dashIndex = i;
-      }
-    }
-    if (dashIndex != -1){
-      href = href.substring(dashIndex + 1);
-    }
-
-    //hide
-    for(i=0; i<tournamentList.length; i++){
-      $('#container-' + tournamentList[i]).hide();
-    }
-    $('#container-' + 'home').hide();
-    $('#container-' + 'about').hide();
-    $('#container-' + 'admin').hide();
-    $('#container-' + 'addTournament').hide();
-
-    //show
-    console.log(href);
-    $('#container-' + href).show();
- 
-    //makes the sidebar active
-    //takes away active class
-    for(i=0; i<tournamentList.length; i++){
-      var link = $('#active-' + tournamentList[i])
-      link.removeClass('active')
-    }
-    $('#active-' + 'home').removeClass('active')
-    $('#active-' + 'about').removeClass('active')
-    $('#active-' + 'admin').removeClass('active')
-    $('#active-' + 'addTournament').removeClass('active')
-
-    //adds active class
-    $('#active-' + href).addClass('active');
+    HideShowHelper(href)
 
     //hides the subsidebar
     for(m=0; m<tournamentList.length; m++){
