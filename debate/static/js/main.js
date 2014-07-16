@@ -57,9 +57,22 @@ $(document).ready(function() {
       	//GARYLIN
         var href = this.id;
         console.log(href);
+        //$(href)
+
+        //take off the subnav subactive
+        dashIndex = -1;
+        for(i=0; i<href.length; i++){
+          if (href[i].valueOf() == '-'.valueOf()){
+            var dashIndex = i;
+          }
+        }
+        $('.subactive').removeClass('subactive')
+        
+        $('#'+'active-'+href).addClass('subactive')
         //dashindex is used to handle the home page which
         //can be accessed by two different buttons
-        HideShowHelper(href);
+        
+        //HideShowHelper(href);
 
         //fixes scroll problem
         scrollfix.preventDefault();
@@ -143,6 +156,9 @@ $(document).ready(function() {
 
     //adds active class
     $('#active-' + href).addClass('active');
+
+    //subsidebar active
+    $('.subactive').removeClass('subactive')
   }
   //**
   //When a tournament is clicked the right page is shown 

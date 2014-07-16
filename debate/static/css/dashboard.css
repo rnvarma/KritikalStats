@@ -63,8 +63,17 @@ body {
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
   color: #fff;
-  background-color: #F39000;
+  background-color: #ffb732;
 }
+
+.nav-sidebar > .subactive > a,
+.nav-sidebar > .subactive > a:hover,
+.nav-sidebar > .subactive > a:focus {
+  color: #fff;
+  background-color: #FFCC99;
+}
+
+
 
 
 /*
