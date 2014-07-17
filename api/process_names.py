@@ -25,4 +25,19 @@ def test_process_judges_name():
 #test_process_judges_name()
 
 def process_team_code(code):
-  pass
+  parts = code.split()
+  last_names = parts[-1]
+  school = parts[:-1]
+  final_school = ""
+  for word in school:
+    word = word[0].upper() + word[1:].lower()
+    final_school += word + " "
+  first_l = last_names[0].upper()
+  second_l = last_names[1].upper()
+  if first_l > second_l:
+    team_c = second_l + first_l
+  else:
+    team_c = first_l + second_l
+  return final_school + team_c
+
+print process_team_code("st. Vincent de PAUL YM")
