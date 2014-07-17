@@ -3,8 +3,6 @@ from debate import settings
 from django.contrib import admin
 admin.autodiscover()
 
-
-
 urlpatterns = patterns('',
     url(r'^', include('api.urls')),
     url(r'^login/?', 'debate.views.load_loginpage', name="login"),
