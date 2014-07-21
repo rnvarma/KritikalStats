@@ -85,7 +85,9 @@ class TournamentRounds(APIView):
         win, lose = "undecided", "undecided"
       new_round["tournament"] = tournament
       new_round["aff_team"] = aff
+      new_round["aff_id"] = aff_id
       new_round["neg_team"] = neg
+      new_round["neg_id"] = neg_id
       new_round["aff_code"] = aff_code
       new_round["neg_code"] = neg_code
       new_round["winner"] = win
