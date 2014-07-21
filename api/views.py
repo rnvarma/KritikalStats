@@ -10,9 +10,12 @@ class TeamDataFetch(APIView):
 
   @classmethod
   def process_teams(cls, team_data):
+    team = Team.objects.get(team_name = team_data['team_name'],
+                            team_code = team_data['team_code'])
     new_team = {}
     new_team['team_name'] = team_data['team_name']
     new_team['team_code'] = team_data['team_code']
+    new_team['time_id'] = team.id
     tournaments = []
     bids = []
     for tourn_id in team_data['tournaments']:
