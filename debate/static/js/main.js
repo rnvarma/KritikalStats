@@ -152,6 +152,8 @@ $(document).ready(function() {
 
       //makes entries
       //Gary Lin
+      //makes master column
+      mastercolumn(tournament);
       roundQuery(tournament);
       //console.log('prelim ' + prelim);
       //console.log('roundQuery for ' + tournament);
@@ -368,6 +370,57 @@ $(document).ready(function() {
     });
   }
 
+
+  function mastercolumn(tournament){
+  	//queries for entries and makes the side column
+  	$.ajax({
+      type: 'GET',
+      url: "http://127.0.0.1:8000/1/tournament/" + tournament  + "/entries/",
+      contentType: 'application/json',
+      success: function (data) {
+      	populateMasterColumn(tournament, data)
+      },
+      error: function(a , b, c){
+        console.log('There is an error in mastercolumn');
+      },
+      async: true
+    });
+  }
+
+  function populateMasterColumn(tournament, entryData){
+  	var table = document.getElementById("table-" + tournament + "-Main")
+  	for (j = 0; j < entryData.length; j++){
+  	  var sectionGroup = document.createElement('div');
+  	  sectionGroup.className = "section";
+  	  sectionGroup.className += " group";
+  	  if (j%2 == 0){
+  	  	sectionGroup.className += " standardeven";
+  	  }
+  	  else {
+  	  	sectionGroup.className += " standardodd";
+  	  }
+  	  sectionGroup.id = entryData[j]['team_id']
+  	  var teamName = document.createElement('div');
+  	  teamName.className = "col teamName";
+  	  var node = document.createTextNode(entryData[j]['team_code'])
+  	  teamName.appendChild(node);
+  	  sectionGroup.appendChild(teamName);
+  	  table.appendChild(sectionGroup);
+  	  var record = document.createElement('div');
+  	  record.className = "col record";
+  	  //this is static to be fixed later
+  	  //Gary Lin
+  	  var recordNode = document.createTextNode("6-0");
+  	  record.appendChild(recordNode);
+  	  sectionGroup.appendChild(record);
+
+  	}
+
+
+
+  }
+
+
   //**
   //Ajax for rounds
   //**
@@ -405,14 +458,16 @@ $(document).ready(function() {
   function intermediateRoundQuery(tournament, prelim){
   	//queries for each round
     //console.log('intermediateRoundquery ' + tournament + ' '+ prelim);
+    
     //account for starting at 0
     prelim += 1
+    console.log(prelim)
       $.ajax({
         type: 'GET',
         url: "http://127.0.0.1:8000/1/tournament/" + tournament + '/round/' + prelim,
         contentType: 'application/json',
         success: function (data) {
-          //console.log(tournament + ' ' + 'round ' + g + ' ' + data);
+          console.log(tournament + ' ' + 'round ' + prelim);
           //for (i=0;i<data.length;i++){
            // prelim = data[i]['prelims']  
          // }  
