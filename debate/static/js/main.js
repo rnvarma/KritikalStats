@@ -53,24 +53,16 @@ $(document).ready(function() {
       }
 
       $('.subsidebar').click(function(scrollfix){
-      	//make the containers and shit
-      	//GARYLIN
+      	//Takes care of active sidebar
         var href = this.id;
         console.log(href);
         //$(href)
 
         //take off the subnav subactive
-        dashIndex = -1;
-        for(i=0; i<href.length; i++){
-          if (href[i].valueOf() == '-'.valueOf()){
-            var dashIndex = i;
-          }
-        }
         $('.subactive').removeClass('subactive')
         
         $('#'+'active-'+href).addClass('subactive')
-        //dashindex is used to handle the home page which
-        //can be accessed by two different buttons
+
         
         //hide all pages
         HideHelper(href);
@@ -81,6 +73,15 @@ $(document).ready(function() {
 
         //fixes scroll problem
         scrollfix.preventDefault();
+
+
+        //Determine which subsidebar to populate
+        //GARY LIN
+        for (m = 0; m<sidebar.length; m++){
+
+    	}
+
+
       })
 
     }
@@ -102,7 +103,7 @@ $(document).ready(function() {
       entry_table.id = "entry_section";
       var entry_text = document.createElement("div");
       entry_text.className = "tourn_section_title";
-      var entry_name = document.createTextNode("Entries");
+      var entry_name = document.createTextNode("Section_1");
       entry_text.appendChild(entry_name);
       entry_table.appendChild(entry_text);
       var divTable = document.createElement("div");
@@ -114,11 +115,11 @@ $(document).ready(function() {
 
       var element = document.getElementById("container-master");
       element.appendChild(divMain);
-
+    }
 
     //make the subcontainers
-    for (j=0; j<tournamentList.length; j++){
-      var tournament = tournamentList[j];
+    for (l=0; l<tournamentList.length; l++){
+      var tournament = tournamentList[l];
       for (m=0; m<sidebar.length; m++){
         if (sidebar[m] == 'Main Sheet'){
           href = 'Main';
@@ -133,19 +134,72 @@ $(document).ready(function() {
         h1.className = 'page-header';
         var node = document.createTextNode(tournament + ' ' + sidebar[m]);
         h1.appendChild(node);
+        //add table div
+        var divTable = document.createElement("div");
+        divTable.id = 'table-' + tournament + '-' + this.href;
+        divTable.className = "entry_table";
         divMain.appendChild(h1);
+        divMain.appendChild(divTable);
 
         var element = document.getElementById("container-master");
         element.appendChild(divMain);
 
 
       }
-    }
-
+      
       //makes tables
       entryQuery(tournament);
 
+      //makes entries
+      //Gary Lin
+      roundQuery(tournament);
+      //console.log('prelim ' + prelim);
+      //console.log('roundQuery for ' + tournament);
+
     }
+
+//DISREGARD THIS FOR NOW
+/*    var fakeList = [{"winner": "undecided", "neg_team": "Tsao & Wiechman", "aff_code": "Rowland Hall RU", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Dallas Jesuit TW", "aff_team": "Ritter & Uchitel", "round_num": 1}, 
+    {"winner": "undecided", "neg_team": "Xiao & Loftus", "aff_code": "Green Valley AB", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Johns Creek LX", "aff_team": "Horn & Bhatti", "round_num": 1}, 
+    {"winner": "undecided", "neg_team": "enter_names", "aff_code": "Downtown Magnets AD", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Maywood Academy GS", "aff_team": "Antonio & Davis", "round_num": 1}, 
+    {"winner": "undecided", "neg_team": "Aguilar & Chung", "aff_code": "St Francis GU", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Loyola AC", "aff_team": "Gu & Ram", "round_num": 1}, 
+    {"winner": "undecided", "neg_team": "Lee & Hunter", "aff_code": "Niles West CM", "tournament": "Berkeley", "loser": "undecided", "neg_code": "St. Vincent De Paul HL", "aff_team": "Geraghty & McLellan", "round_num": 1}, 
+    {"winner": "undecided", "neg_team": "Le & Samson", "aff_code": "Juan Diego Catholic CL", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Millard South H.s. LS", "aff_team": "Lewis & Zmyslo", "round_num": 1}];
+    var href = "TOC";
+
+    //$('#table-' + href).empty();
+    //console.log('table_handle ' + href);
+
+    for (i = 0; i < fakeList.length; i++){
+      var list1 = fakeList[i];
+      var sectionGroup1 = document.createElement("div");
+      sectionGroup1.className = "section";
+      sectionGroup1.className += " group";
+      affTeam = list1.aff_team
+      console.log(affTeam);
+      var div1 = document.createElement('div');
+      var node1 = document.createTextNode(affTeam);
+      div1.className = "col";
+      div1.className += " teamName";
+      //if (j == 1) div.className += " record";
+      //if (j > 1) div.className += " round6";
+      if (i%2 == 0) {
+      	sectionGroup1.className += " standardeven";
+  	  }
+      else {
+      	sectionGroup1.className += " standardodd";
+  	  }
+
+      div1.appendChild(node1);  
+      sectionGroup1.appendChild(div1); 
+      var sectionGroup1 = document.createElement("div"); 
+      var element1 = document.getElementById("table-TOC-Main");
+      element1.appendChild(sectionGroup1);
+      console.log('work nigga');
+      } */
+
+      
+
   }
   
   //**
@@ -244,7 +298,7 @@ $(document).ready(function() {
         for(m=0; m<tournamentList.length; m++){
         	tournament = tournamentList[m];
         	if (tournament!=href){
-        	  $(".subsidebar-" + tournament).hide(200);
+        	  $(".subsidebar-" + tournament).hide(300);
             }
     	}
         $(".subsidebar-" + href).show(400);
@@ -262,7 +316,9 @@ $(document).ready(function() {
 	  //creates the table
 	  	//console.log("got into tournament click");
 	    var href = tournament;
+
 	    $('#table-' + href).empty();
+	    //console.log('table_handle ' + href);
 
 	    for (i = 0; i < entryList.length; i++){
 	      var list = entryList[i];
@@ -275,13 +331,13 @@ $(document).ready(function() {
 	        div.className = "col";
 	        if (j == 0) div.className += " teamName";
 	        if (j == 1) div.className += " record";
-	        if (j > 1) div.className += " round6";
+	        //if (j > 1) div.className += " round6";
 	        if (i%2 == 0) sectionGroup.className += " standardeven";
 	        else sectionGroup.className += " standardodd";
 
 	        div.appendChild(node);
 	        sectionGroup.appendChild(div);
-	        var element = document.getElementById("table-" + href);
+	        var element = document.getElementById("table-" + href + '-' + 'Entries');
 	        element.appendChild(sectionGroup);
 	      }
 	    }
@@ -299,7 +355,7 @@ $(document).ready(function() {
       contentType: 'application/json',
       success: function (data) {
         entryList = [];
-        console.log(data);
+        //console.log(data);
         for (i=0;i<data.length;i++){
           entryList.push([data[i].team_name]);
         }
@@ -311,8 +367,65 @@ $(document).ready(function() {
       async: true
     });
   }
-    
 
+  //**
+  //Ajax for rounds
+  //**
+  function roundQuery(tournament){
+  	//queries for rounds
+
+  	//finds out how many rounds there are
+  	$.ajax({
+      type: 'GET',
+      url: "http://127.0.0.1:8000/1/tournament/",
+      contentType: 'application/json',
+      success: function (data) {
+        var prelim;
+        for (i=0;i<data.length;i++){
+          if (tournament == data[i]['tournament_name']) {
+          	prelim = data[i]['prelims']
+          }
+        }
+        for (g=0; g<prelim; g++){
+          intermediateRoundQuery(tournament, g)
+    	}
+
+//GARY LIN 
+//why wont it go into intermediateRoundQuery
+        //intermediateRoundQuery(tournament, prelim);
+        //console.log(tournament + ' ' + prelim);
+      },
+      error: function(a , b, c){
+        console.log('There is an error in roundQuery1');
+      },
+      async: true
+    });
+  }
+
+  function intermediateRoundQuery(tournament, prelim){
+  	//queries for each round
+    //console.log('intermediateRoundquery ' + tournament + ' '+ prelim);
+    //account for starting at 0
+    prelim += 1
+      $.ajax({
+        type: 'GET',
+        url: "http://127.0.0.1:8000/1/tournament/" + tournament + '/round/' + prelim,
+        contentType: 'application/json',
+        success: function (data) {
+          //console.log(tournament + ' ' + 'round ' + g + ' ' + data);
+          //for (i=0;i<data.length;i++){
+           // prelim = data[i]['prelims']  
+         // }  
+          //console.log(data);
+        
+          //table_handle(tournament, entryList);
+        },
+        error: function(a , b, c){
+          console.log('There is an error in quering for ' + tournament + 'round ' + g);
+        },
+        async: true
+      });
+  }
 
   //**
   //Main function that puts everything together
@@ -377,6 +490,45 @@ $(document).ready(function() {
     //fixes scroll problem
     scrollfix.preventDefault();
   })
+
+
+  /*function testing_function() {
+	  //when a tournament gets clicked
+	  //creates the table
+	  	//console.log("got into tournament click");
+	    var fakeList = [{"winner": "undecided", "neg_team": "Tsao & Wiechman", "aff_code": "Rowland Hall RU", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Dallas Jesuit TW", "aff_team": "Ritter & Uchitel", "round_num": 1}, 
+	    {"winner": "undecided", "neg_team": "Xiao & Loftus", "aff_code": "Green Valley AB", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Johns Creek LX", "aff_team": "Horn & Bhatti", "round_num": 1}, 
+	    {"winner": "undecided", "neg_team": "enter_names", "aff_code": "Downtown Magnets AD", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Maywood Academy GS", "aff_team": "Antonio & Davis", "round_num": 1}, 
+	    {"winner": "undecided", "neg_team": "Aguilar & Chung", "aff_code": "St Francis GU", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Loyola AC", "aff_team": "Gu & Ram", "round_num": 1}, 
+	    {"winner": "undecided", "neg_team": "Lee & Hunter", "aff_code": "Niles West CM", "tournament": "Berkeley", "loser": "undecided", "neg_code": "St. Vincent De Paul HL", "aff_team": "Geraghty & McLellan", "round_num": 1}, 
+	    {"winner": "undecided", "neg_team": "Le & Samson", "aff_code": "Juan Diego Catholic CL", "tournament": "Berkeley", "loser": "undecided", "neg_code": "Millard South H.s. LS", "aff_team": "Lewis & Zmyslo", "round_num": 1}];
+	    var href = "TOC";
+
+	    $('#table-' + href).empty();
+	    //console.log('table_handle ' + href);
+
+	    for (i = 0; i < fakeList.length; i++){
+	      var list = fakeList[i];
+	      var sectionGroup = document.createElement("div");
+	      sectionGroup.className = "section";
+	      sectionGroup.className += " group";
+	      affTeam = list.aff_team
+          var div = document.createElement('div');
+          var node = document.createTextNode(affTeam);
+          div.className = "col";
+          div.className += " teamName";
+          //if (j == 1) div.className += " record";
+          //if (j > 1) div.className += " round6";
+          if (i%2 == 0) sectionGroup.className += " standardeven";
+          else sectionGroup.className += " standardodd";
+
+	      div.appendChild(node);
+	      sectionGroup.appendChild(div);
+	      var element = document.getElementById("table-TOC-Main");
+	      element.appendChild(sectionGroup);
+	      }
+	    }*/
+  
 
 
   tournamentQuery();

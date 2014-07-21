@@ -23,6 +23,7 @@
 	display: ;
 }
 
+/*
 #entry_section {
 	width: 20%;
 	height: 400px;
@@ -35,7 +36,7 @@
 	height: 400px;
 	width: 100%;
 }
-
+*/
 .main{
 	background-color: #F5F5F5;
 }
@@ -53,9 +54,9 @@
 	color: #C41117;
 }
 
-.tourn_section_title {
+/*.tourn_section_title {
 	color: #F39000;
 	text-align: center;
 	background-color: #C41117;
 	font-size: 200%;
-}
+}*/

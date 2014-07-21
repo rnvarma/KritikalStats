@@ -37,8 +37,8 @@
 /*  GRID OF TWELVE  */
 .teamName {
 	/* 2/12 */
-/*	width: 13.5%;
-*/	margin: .2% 0 0% .3%;
+	width: 13.5%;
+	margin: .2% 0 0% .3%;
 }
 
 .record {
@@ -61,6 +61,7 @@
 	background: rgba(144, 238, 144, 0.85);
 }
 
+/* Standardeven/Standardodd formats the color*/
 .standardeven {
 		background: #ccc;
 		background: #F39000;
