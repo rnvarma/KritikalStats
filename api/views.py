@@ -62,7 +62,6 @@ class TournamentRounds(APIView):
   def process_rounds(cls, rounds_data):
     new_list = []
     for round in rounds_data:
-      print round
       new_round = {}
       tourn_id = round["tournament"][0]
       aff_id = round["aff_team"]
@@ -99,9 +98,12 @@ class TournamentRounds(APIView):
       new_list.append(new_round)
     return new_list
 
-  def get(self, request, pk, rn, format = None):
+  def get(self, request, pk, format = None):
     tournaments = Tournament.objects.get(tournament_name=pk)
-    rounds = tournaments.rounds.filter(round_num__exact=rn)
+    rounds = tournaments.rounds.all()
     serializer = RoundSerializer(rounds, many=True)
     rounds = TournamentRounds.process_rounds(serializer.data)
-    return Response(rounds)
+    data = {}
+    data["curr_round"] = tournaments.curr_rounds
+    data["rounds"] = rounds
+    return Response(data)
