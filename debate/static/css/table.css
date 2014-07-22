@@ -64,12 +64,12 @@
 /* Standardeven/Standardodd formats the color*/
 .standardeven {
 		background: #ccc;
-		background: #F39000;
+		background: #FFDB88;
 }
 
 .standardodd {
 		background: #ccc;
-		background: white;
+		background: #F0FFFF;
 }
 
 .lose {
