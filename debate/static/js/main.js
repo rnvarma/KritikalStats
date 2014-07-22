@@ -4,7 +4,15 @@ $(document).ready(function() {
   //**
   //This is used to create the webpage
   //**
-  function createPage(tournamentList){
+  function createPage(tournamentData){
+    
+  	tournamentList = [];
+  	var prelim;
+    for (i=0;i<tournamentData.length;i++){
+      tournamentList.push(tournamentData[i].tournament_name);
+    }
+
+
     //makes sidebar
     for (i = 0; i < tournamentList.length; i++){
       var tournament = tournamentList[i];
@@ -146,14 +154,14 @@ $(document).ready(function() {
 
 
       }
-      
+      //gets the number of prelims for the tournament
+      prelim = tournamentData[l]['prelims'];
+
       //makes tables
-      entryQuery(tournament);
+      entryQuery(tournament, prelim);
 
       //makes entries
       //Gary Lin
-      //makes master column
-      mastercolumn(tournament);
       roundQuery(tournament);
       //console.log('prelim ' + prelim);
       //console.log('roundQuery for ' + tournament);
@@ -349,7 +357,7 @@ $(document).ready(function() {
   //**
   //Ajax request for entries
   //**
-  function entryQuery(tournament){
+  function entryQuery(tournament, prelim){
     //queries for tournaments
     $.ajax({
       type: 'GET',
@@ -362,6 +370,9 @@ $(document).ready(function() {
           entryList.push([data[i].team_name]);
         }
         table_handle(tournament, entryList);
+
+        //makes the side column in the main page
+        populateMasterColumn(tournament, data, prelim)
       },
       error: function(a , b, c){
         console.log('There is an error in entryQuery');
@@ -371,23 +382,7 @@ $(document).ready(function() {
   }
 
 
-  function mastercolumn(tournament){
-  	//queries for entries and makes the side column
-  	$.ajax({
-      type: 'GET',
-      url: "http://127.0.0.1:8000/1/tournament/" + tournament  + "/entries/",
-      contentType: 'application/json',
-      success: function (data) {
-      	populateMasterColumn(tournament, data)
-      },
-      error: function(a , b, c){
-        console.log('There is an error in mastercolumn');
-      },
-      async: true
-    });
-  }
-
-  function populateMasterColumn(tournament, entryData){
+  function populateMasterColumn(tournament, entryData, prelim){
   	var table = document.getElementById("table-" + tournament + "-Main")
   	for (j = 0; j < entryData.length; j++){
   	  var sectionGroup = document.createElement('div');
@@ -400,19 +395,29 @@ $(document).ready(function() {
   	  	sectionGroup.className += " standardodd";
   	  }
   	  sectionGroup.id = entryData[j]['team_id']
+  	  team_id = entryData[j]['team_id']
   	  var teamName = document.createElement('div');
   	  teamName.className = "col teamName";
   	  var node = document.createTextNode(entryData[j]['team_code'])
   	  teamName.appendChild(node);
+  	  //each container's ID is labeled under this format
+  	  //[tournament]-[TYPE]-[team_id]
+  	  //ex: Berkeley-round1-1
   	  sectionGroup.appendChild(teamName);
   	  table.appendChild(sectionGroup);
   	  var record = document.createElement('div');
   	  record.className = "col record";
-  	  //this is static to be fixed later
+  	  record.id = tournament + '-record-' + team_id
+
   	  //Gary Lin
-  	  var recordNode = document.createTextNode("6-0");
-  	  record.appendChild(recordNode);
   	  sectionGroup.appendChild(record);
+  	  for (y = 0; y<prelim; y++){
+  	  	var round = document.createElement('div');
+  	  	round.className = "col round" + prelim
+  	  	x = y + 1
+  	  	round.id = tournament + '-round' + x + '-'+  team_id
+  	  	sectionGroup.appendChild(round);
+  	  }
 
   	}
 
@@ -420,7 +425,51 @@ $(document).ready(function() {
 
   }
 
+  function roundQuery(tournament){
+  	$.ajax({
+        type: 'GET',
+        url: "http://127.0.0.1:8000/1/tournament/" + tournament + '/round/',
+        contentType: 'application/json',
+        success: function (data) {
+          //console.log(tournament + ' ' + data.rounds.length)
+          if (data.rounds.length > 0){
+          	var currentRound = data.curr_round;
+          	if (currentRound == 0){
+          	  currentRound = 7;
+            }
+            //console.log(data.rounds[0]['round_num'])
+            x = 0;
+            for (t=0; t<currentRound; t++){
+        	  round = currentRound + 1
+              while (data.rounds[x]['round_num'] <= round){
+                populateMain(tournament, data['rounds'][x]);
+                x += 1;
+              }
+            }
 
+          }
+          
+
+        },
+        error: function(a , b, c){
+          console.log('There is an error in quering for ' + tournament + ' in roundQuery');
+        },
+        async: true
+    });
+  }
+
+  function populateMain (tournament, data){
+  	console.log(tournament + '-round' + data.round_num + '-' + data.aff_id);
+  	var elementAff = document.getElementById(tournament + '-round' + data.round_num + '-' + data.aff_id);
+  	var nodeAff = document.createTextNode(data.neg_code);
+  	elementAff.appendChild(nodeAff);
+  	var elementNeg = document.getElementById(tournament + '-round' + data.round_num + '-' + data.neg_id);
+  	var nodeNeg = document.createTextNode(data.aff_code);
+  	elementNeg.appendChild(nodeNeg);
+  	
+  }
+
+/* useless shit
   //**
   //Ajax for rounds
   //**
@@ -481,6 +530,8 @@ $(document).ready(function() {
         async: true
       });
   }
+end of uselessness
+  */
 
   //**
   //Main function that puts everything together
@@ -497,7 +548,7 @@ $(document).ready(function() {
         for (i=0;i<data.length;i++){
           tournamentList.push(data[i].tournament_name);
         }
-        createPage(tournamentList);
+        createPage(data);
         tournament_handle(tournamentList);
 
 
