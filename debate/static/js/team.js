@@ -1,8 +1,41 @@
 
-function create_round(round_data, round_type, team_code, tourn_table) {
+function add_table_heads(tourn_table) {
+  var header = document.createElement("div");
+  header.className = "table_head";
+
+  var num_div = document.createElement("div");
+  num_div.className = "round_num";
+  num_div.innerText = "Round";
+  header.appendChild(num_div);
+
+  var side_div = document.createElement("div");
+  side_div.className = "round_side";
+  side_div.innerText = "Side";
+  header.appendChild(side_div);
+
+  var opponent_div = document.createElement("div");
+  opponent_div.className = "opponent_name";
+  opponent_div.innerText = "Opponent";
+  header.appendChild(opponent_div);
+
+  var decision_div = document.createElement("div");
+  decision_div.className = "round_decision";
+  decision_div.innerText = "Decision";
+  header.appendChild(decision_div);
+
+  tourn_table.appendChild(header);
+}
+
+function create_round(round_data, round_type, team_code, tourn_table, last) {
   var round = document.createElement("div");
   round.className = "table_round";
   round.setAttribute("id", round_type);
+
+  var round_num = round_data.round_num.toString();
+  var num_div = document.createElement("div");
+  num_div.className = "round_num";
+  num_div.innerText = round_num;
+  round.appendChild(num_div);
 
   var side = (round_type == "aff_round") ? "AFF" : "NEG";
   var side_div = document.createElement("div");
@@ -27,6 +60,12 @@ function create_round(round_data, round_type, team_code, tourn_table) {
   round.appendChild(decision_div);
 
   tourn_table.appendChild(round);
+
+  if (!last) {
+    var divider = document.createElement("div");
+    divider.className = "round_divider";
+    round.appendChild(divider);
+  }
 }
 
 function load_tournament_rounds(rounds_data, tourn_name, code) {
@@ -35,6 +74,8 @@ function load_tournament_rounds(rounds_data, tourn_name, code) {
   tourn_table.className = "rounds_table";
   tourn_table.setAttribute("id", tourn_name);
   content.appendChild(tourn_table);
+
+  add_table_heads(tourn_table)
 
   var aff = rounds_data.aff;
   var neg = rounds_data.neg;
@@ -51,8 +92,13 @@ function load_tournament_rounds(rounds_data, tourn_name, code) {
   var filled_list = aff.length ? aff : neg;
   var round_type = aff.length ? "aff_round" : "neg_round";
   for (var i = 0; i < filled_list.length; i ++){
-  	create_round(filled_list[i], round_type, code, tourn_table);
+  	if (i == filled_list.length - 1) {
+   	  create_round(filled_list[i], round_type, code, tourn_table, true);
+   	} else {
+   	  create_round(filled_list[i], round_type, code, tourn_table, false);
+   	}
   }
+  $(".rounds_table").hide(500);
   $('div[id^="' + tourn_name + '"].rounds_table').show(1000);
 }
 
@@ -80,7 +126,6 @@ function load_team_info(team_data, team_id) {
         url: "http://127.0.0.1:8000/1/team/rounds/" + tourn_name + "/" + team_id,
         contentType: 'application/json',
         success: function (data) {
-      	  $(".rounds_table").hide(500);
           load_tournament_rounds(data, tourn_name, code);
         },
         error: function(a , b, c){
