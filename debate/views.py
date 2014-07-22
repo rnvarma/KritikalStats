@@ -16,3 +16,6 @@ def testingandshit(request):
 
 def splash(request):
 	return render(request, 'splash.html')
+
+def team_page(request, id):
+    return render(request, 'team.html', {'team_id': id})

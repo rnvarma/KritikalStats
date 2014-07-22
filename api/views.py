@@ -107,3 +107,17 @@ class TournamentRounds(APIView):
     data["curr_round"] = tournaments.curr_rounds
     data["rounds"] = rounds
     return Response(data)
+
+class TeamRoundsFetch(APIView):
+
+  def get(self, request, tourn_name, team_id, format = None):
+    team = Team.objects.get(id=team_id)
+    tournament = Tournament.objects.get(tournament_name = tourn_name)
+    aff_rounds = team.aff_rounds.filter(tournament__exact = tournament)
+    neg_rounds = team.neg_rounds.filter(tournament__exact = tournament)
+    aff_serializer = RoundSerializer(aff_rounds, many=True)
+    neg_serializer = RoundSerializer(neg_rounds, many=True)
+    data = {}
+    data["aff"] = TournamentRounds.process_rounds(aff_serializer.data)
+    data["neg"] = TournamentRounds.process_rounds(neg_serializer.data)
+    return Response(data)
