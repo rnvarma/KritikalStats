@@ -94,6 +94,7 @@ body {
 
 .tournament {
 	color: #C41117;
+	cursor: pointer;
 }
 
 .tournament:hover {
