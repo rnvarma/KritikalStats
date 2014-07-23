@@ -4,6 +4,22 @@
    Author's custom styles
    ========================================================================== */
 
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+}
+
+.container-fluid {
+	height: 100%;
+}
+
+.row {
+	height: 100%;
+}
+
 .input-group {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -15,8 +31,17 @@
 }
 
 .subsidebar {
-	margin-left: 20px;
 	display: none;
+	color: #C41117;
+	background-color: #EAEAEA;
+}
+
+.subsidebar:hover {
+	background-color: #C0C0C0 !important;
+}
+
+.subsidebar:hover {
+	color: #C41117;
 }
 
 #container-home {
@@ -39,6 +64,7 @@
 */
 .main{
 	background-color: #F5F5F5;
+	height: 100%;
 }
 
 .html {
@@ -51,6 +77,10 @@
 }
 
 .tournament {
+	color: #C41117;
+}
+
+.tournament:hover {
 	color: #C41117;
 }
 
@@ -71,11 +101,16 @@
     text-align: center;
 }
 
+#admin {
+	color: #C41117 !important;
+}
+
 .tournaments {
 	margin-top: 50px;
 	width: 30%;
 	float: left;
 	border: 1px solid black;
+	border-radius: 5px;
 }
 
 .tournaments_title {
@@ -97,6 +132,14 @@
 .tourn-entered {
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+
+.tourn-entered-clicked {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: #C0C0C0;
+	color: #C41117;
+	font-weight: 700;
 }
 
 .tourn-entered:hover {
@@ -167,8 +210,8 @@
 	padding-left: 8px;
 	padding-right: 8px;
 	float:left;
-	background-color: #778794 !important;
-	color: white;
+	background-color: #C0C0C0 !important;
+	color: #C41117;
 	margin: -10px;
 	margin-bottom: 0px;
 }

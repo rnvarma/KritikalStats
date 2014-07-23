@@ -459,7 +459,6 @@ $(document).ready(function() {
   }
 
   function populateMain (tournament, data){
-  	console.log(tournament + '-round' + data.round_num + '-' + data.aff_id);
   	var elementAff = document.getElementById(tournament + '-round' + data.round_num + '-' + data.aff_id);
   	var nodeAff = document.createTextNode(data.neg_code);
   	elementAff.appendChild(nodeAff);

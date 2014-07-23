@@ -120,24 +120,28 @@ function load_team_info(team_data, team_id) {
   }
   $(".tourn-entered").click(function() {
   	var tourn_name = $(this).attr("data-tournname");
-  	if (!$('div[id^="' + tourn_name + '"].rounds_table')[0]){
-      $.ajax({
-        type: 'GET',
-        url: "http://127.0.0.1:8000/1/team/rounds/" + tourn_name + "/" + team_id,
-        contentType: 'application/json',
-        success: function (data) {
-          load_tournament_rounds(data, tourn_name, code);
-        },
-        error: function(a , b, c){
-          console.log('There is an error in retrieving team_info');
-        },
-        async: true
-      });
-    } else {
-      $(".rounds_table").hide(500);
-      $('div[id^="' + tourn_name + '"].rounds_table').show(1000);
-    }
-  })
+  	if ($(this).attr("class") == "tourn-entered") {
+  	  $(".tourn-entered-clicked").attr("class", "tourn-entered");
+  	  $(this).attr("class", "tourn-entered-clicked");
+  	  if (!$('div[id^="' + tourn_name + '"].rounds_table')[0]){
+        $.ajax({
+          type: 'GET',
+          url: "http://127.0.0.1:8000/1/team/rounds/" + tourn_name + "/" + team_id,
+          contentType: 'application/json',
+          success: function (data) {11
+            load_tournament_rounds(data, tourn_name, code);
+          },
+          error: function(a , b, c){
+            console.log('There is an error in retrieving team_info');
+          },
+          async: true
+        });
+      } else {
+        $(".rounds_table").hide(500);
+        $('div[id^="' + tourn_name + '"].rounds_table').show(1000);
+      };
+    };
+  });
 }
 
 
