@@ -29,21 +29,19 @@ $(document).ready(function() {
       element.appendChild(liGroup);
 
 
-      var sidebar = ['Main Sheet', 'Entries', 'Bracket'];
+      var sidebar = ['Dashboard', 'Main Sheet', 'Entries', 'Bracket'];
       //makes subsidebar
       for (j = 0; j<sidebar.length; j++){
         var side = sidebar[j];
         var liGroup = document.createElement("li");
     	liGroup.className = 'subsidebar-' + tournament;
         if (side == 'Main Sheet'){
-          liGroup.id= "active-" + tournament + '-' + 'Main';
+          side = 'Main';
         }
-        else {
-          liGroup.id= "active-" + tournament + '-' + side;
-    	}
+        liGroup.id= "active-" + tournament + '-' + side;
     	liGroup.style.display = "none";
         var aGroup = document.createElement("a");
-        aGroup.className = "subsidebar";
+        aGroup.className = "subsidebar " + side;
         if (side == 'Main Sheet'){
           aGroup.setAttribute("id", tournament + '-'+ "Main");
           aGroup.id = tournament + '-'+ "Main";
@@ -63,7 +61,7 @@ $(document).ready(function() {
       $('.subsidebar').click(function(scrollfix){
       	//Takes care of active sidebar
         var href = this.id;
-        console.log(href);
+        //console.log(href);
         //$(href)
 
         //take off the subnav subactive
@@ -80,7 +78,7 @@ $(document).ready(function() {
 
 
         //fixes scroll problem
-        scrollfix.preventDefault();
+        //scrollfix.preventDefault();
 
 
         //Determine which subsidebar to populate
@@ -211,13 +209,13 @@ $(document).ready(function() {
       
 
   }
-  
+
   //**
   //Helper- hide/show pages 
   //**
   function HideHelper(){
   	//hide
-    var sidebar = ['Main Sheet', 'Entries', 'Bracket'];
+    var sidebar = ['Dashboard','Main Sheet', 'Entries', 'Bracket'];
     for(i=0; i<tournamentList.length; i++){
       $('#container-' + tournamentList[i]).hide();
       for (k=0; k<sidebar.length; k++){
@@ -246,7 +244,7 @@ $(document).ready(function() {
     }
 
     //hide
-    var sidebar = ['Main Sheet', 'Entries', 'Bracket'];
+    var sidebar = ['Dashboard', 'Main Sheet', 'Entries', 'Bracket'];
     for(i=0; i<tournamentList.length; i++){
       $('#container-' + tournamentList[i]).hide();
       for (k=0; k<sidebar.length; k++){
@@ -300,7 +298,7 @@ $(document).ready(function() {
 	    HideShowHelper(href);
 
 	    //fixes scroll problem
-        scrollfix.preventDefault();
+        //scrollfix.preventDefault();
 
 
         //shows subsidebar
@@ -459,7 +457,7 @@ $(document).ready(function() {
   }
 
   function populateMain (tournament, data){
-  	console.log(tournament + '-round' + data.round_num + '-' + data.aff_id);
+  	//console.log(tournament + '-round' + data.round_num + '-' + data.aff_id);
   	var elementAff = document.getElementById(tournament + '-round' + data.round_num + '-' + data.aff_id);
   	var nodeAff = document.createTextNode(data.neg_code);
   	elementAff.appendChild(nodeAff);
@@ -565,11 +563,11 @@ end of uselessness
   //Used to handle home, about, admin pages
   //**
   $('.click').click(function(scrollfix){
-    console.log("clicked");
+    //console.log("clicked");
     //var link = $('.container' + idList[i]);
     //link.hide();
     var href = this.id;
-    console.log(href);
+    //console.log(href);
     //dashindex is used to handle the home page which
     //can be accessed by two different buttons
     HideShowHelper(href)
@@ -583,7 +581,7 @@ end of uselessness
 	}
 
     //fixes scroll problem
-    scrollfix.preventDefault();
+    //scrollfix.preventDefault();
   }) 
 
 
@@ -594,7 +592,7 @@ end of uselessness
     HideShowHelper(href);
 
     //fixes scroll problem
-    scrollfix.preventDefault();
+    //scrollfix.preventDefault();
   })
 
 
