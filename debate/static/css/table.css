@@ -4,7 +4,7 @@
 	padding: 10px;
 	font-size: 110%;
 	margin: 0px;
-	border-radius: 10px;
+	/*border-radius: 10px;*/
 }
 
 /*  COLUMN SETUP  */
@@ -37,7 +37,7 @@
 /*  GRID OF TWELVE  */
 .teamName {
 	/* 2/12 */
-	width: 13.5%;
+	width: 30%;
 	margin: .2% 0 0% .3%;
 }
 
@@ -77,6 +77,19 @@
 		background: rgba(230, 103, 97, 0.85);
 }
 
+.entry_table {
+	position: relative;
+}
+
+.entry {
+	cursor: pointer;
+	z-index: 5;
+}
+
+.entry:hover {
+	box-shadow: 0px 0px 25px 0px rgba(50, 50, 50, 0.75);
+	z-index: 100;
+}
 
 
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */

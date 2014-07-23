@@ -1,3 +1,15 @@
+function create_spinner_div() {
+  var spinner = document.createElement("div");
+  spinner.className = "spinner";
+
+  for (var i = 1; i < 6; i++) {
+    var div = document.createElement("div");
+    var class_name = "rect" + i.toString();
+    div.className = class_name;
+    spinner.appendChild(div);
+  }
+  return spinner
+}
 
 $(document).ready(function() {
 
@@ -324,33 +336,37 @@ $(document).ready(function() {
   function table_handle(tournament, entryList) {
 	  //when a tournament gets clicked
 	  //creates the table
-	  	//console.log("got into tournament click");
-	    var href = tournament;
+  	//console.log("got into tournament click");
+    var href = tournament;
 
-	    $('#table-' + href).empty();
-	    //console.log('table_handle ' + href);
+    $('#table-' + href).empty();
+    //console.log('table_handle ' + href);
 
-	    for (i = 0; i < entryList.length; i++){
-	      var list = entryList[i];
-	      var sectionGroup = document.createElement("div");
-	      sectionGroup.className = "section";
-	      sectionGroup.className += " group";
-	      for (j = 0; j < list.length; j++){
-	        var div = document.createElement('div');
-	        var node = document.createTextNode(list[j]);
-	        div.className = "col";
-	        if (j == 0) div.className += " teamName";
-	        if (j == 1) div.className += " record";
-	        //if (j > 1) div.className += " round6";
-	        if (i%2 == 0) sectionGroup.className += " standardeven";
-	        else sectionGroup.className += " standardodd";
+    for (i = 0; i < entryList.length; i++){
+      var list = entryList[i];
+      var sectionGroup = document.createElement("div");
+      sectionGroup.setAttribute("data-href", "http://127.0.0.1:8000/team/" + list.team_id.toString());
+      sectionGroup.className = "section";
+      sectionGroup.className += " group entry";
 
-	        div.appendChild(node);
-	        sectionGroup.appendChild(div);
-	        var element = document.getElementById("table-" + href + '-' + 'Entries');
-	        element.appendChild(sectionGroup);
-	      }
-	    }
+      var div = document.createElement('div');
+      var node = document.createTextNode(list.team_code);
+      div.className = "col";
+      if (j == 0) div.className += " teamName";
+      if (j == 1) div.className += " record";
+      //if (j > 1) div.className += " round6";
+      if (i%2 == 0) sectionGroup.className += " standardeven";
+      else sectionGroup.className += " standardodd";
+
+      div.appendChild(node);
+      sectionGroup.appendChild(div);
+      var element = document.getElementById("table-" + href + '-' + 'Entries');
+      element.appendChild(sectionGroup);
+    }
+    $(".entry").click(function() {
+      var href = $(this).attr("data-href");
+      window.location.href = href;
+    })
   }
   
 
@@ -364,12 +380,7 @@ $(document).ready(function() {
       url: "http://127.0.0.1:8000/1/tournament/" + tournament  + "/entries/",
       contentType: 'application/json',
       success: function (data) {
-        entryList = [];
-        //console.log(data);
-        for (i=0;i<data.length;i++){
-          entryList.push([data[i].team_name]);
-        }
-        table_handle(tournament, entryList);
+        table_handle(tournament, data);
 
         //makes the side column in the main page
         populateMasterColumn(tournament, data, prelim)
@@ -569,6 +580,10 @@ end of uselessness
     //link.hide();
     var href = this.id;
     console.log(href);
+
+    if (href == "main-home") {
+      window.location.href = "http://127.0.0.1:8000/home"
+    }
     //dashindex is used to handle the home page which
     //can be accessed by two different buttons
     HideShowHelper(href)

@@ -5,6 +5,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^', include('api.urls')),
+    url(r'^load/?', 'debate.views.loading_test'),
     url(r'^login/?', 'debate.views.load_loginpage', name="login"),
     url(r'^createtournament/?', 'debate.views.load_tourncreate', name="tourncreate"),
     url(r'^team/(?P<id>[A-Za-z0-9-_]+)/*$', 'debate.views.team_page'),
