@@ -167,7 +167,7 @@ $(document).ready(function() {
   function tournament_handle(tournamentList) {
     //when a tournament gets clicked
     //creates the table
-    $('.tournament').click(function(){
+    $('.tournament').hover(function(){
       //opens the right page and makes sidebar active
       var href = this.id;
       //shows subsidebar
