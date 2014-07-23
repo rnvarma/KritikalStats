@@ -71,7 +71,7 @@
           
           <ul class="nav nav-sidebar">
             <li class="admin" id="active-admin"><a class="click" id= "admin" href="/admin">admin</a></li> 
-            <li class="admin" id="active-addTournament"><a class="subsidebar" id="AddTournament" href="#addTournament">Add Tournament</a></li>
+            <li class="admin" id="active-addTournament"><a class="subsidebar" id="AddTournament" href="">Add Tournament</a></li>
           </ul>
         </div>
         
@@ -113,7 +113,8 @@
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/table.js' %}"></script>
 <script src="{% static 'js/team.js' %}"></script>
-<script src="{% static 'js/dashboard.js' %}"></script>
+{% block javascript %}
+{% endblock %}
 
 </body>
 
