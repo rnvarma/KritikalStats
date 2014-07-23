@@ -41,11 +41,19 @@ body {
 .subsidebar {
 	display: none;
 	color: #C41117;
-	background-color: #EAEAEA;
+	background-color: #D3D3D3;
 }
 
 .subsidebar:hover {
-	background-color: #C0C0C0 !important;
+	background-color: #FCD59B !important;
+}
+
+.click:hover {
+	background-color: #FCD59B !important;
+}
+
+.tournament:hover {
+	background-color: #FCD59B !important;
 }
 
 .subsidebar:hover {
