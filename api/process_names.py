@@ -39,5 +39,3 @@ def process_team_code(code):
   else:
     team_c = first_l + second_l
   return final_school + team_c
-
-print process_team_code("st. Vincent de PAUL YM")

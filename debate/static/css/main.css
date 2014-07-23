@@ -55,7 +55,7 @@ body {
 }
 
 .tournament:hover {
-	background-color: #606060 !important;
+	/*background-color: #606060 !important;*/
 	font-weight: 700;
 }
 
