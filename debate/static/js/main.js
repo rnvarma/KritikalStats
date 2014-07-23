@@ -141,9 +141,11 @@ $(document).ready(function() {
         if (tournament!=href){
         $(".subsidebar-" + tournament).hide(300);
         }
-    }
+      }
       $(".subsidebar-" + href).show(400);
-
+      
+      $(".active").removeClass("active");
+      $(this).parent().addClass('active');
 
   });
   }
