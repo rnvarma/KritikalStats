@@ -132,7 +132,7 @@ function populateMain (tournament, data){
 
 $(document).ready(function() {
   var tournament = $(".main_page").attr("data-tournament");
-  console.log(tournament)
+  //console.log(tournament)
 
   var divMain = document.getElementById('container-' + tournament + '-Main')
   var h1 = document.createElement("h1");

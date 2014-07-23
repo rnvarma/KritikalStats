@@ -22,8 +22,8 @@ $(document).ready(function() {
     href = document.URL;
     href = href.split('/');
     $('#active-' + href[href.length-1]).addClass('active')
-    //console.log(href)
   
+    //this shit seems to do nothing useless??
     var sidebar = ['Dashboard', 'Main Sheet', 'Entries', 'Bracket'];
     for (i=0 ; i<sidebar.length; i++){
       //console.log('href ' + href[href.length-1])
@@ -64,6 +64,7 @@ $(document).ready(function() {
       var tournament = tournamentList[i];
       var liGroup = document.createElement("li");
       liGroup.id= "active-" + tournament;
+      liGroup.className = "";
       var aGroup = document.createElement("a");
       aGroup.className = "tournament";
       aGroup.setAttribute("id", tournament);
@@ -72,6 +73,7 @@ $(document).ready(function() {
       liGroup.appendChild(aGroup);
       var element = document.getElementById("sidebar-populate");
       element.appendChild(liGroup);
+
 
 
       var sidebar = ['Dashboard', 'Main Sheet', 'Entries', 'Bracket'];
@@ -108,7 +110,8 @@ $(document).ready(function() {
 
  
 
-      $('.subsidebar').click(function(scrollfix){
+      /* useless??
+        $('.subsidebar').click(function(scrollfix){
         //Takes care of active sidebar
         var href = this.id;
         //console.log(href);
@@ -119,9 +122,42 @@ $(document).ready(function() {
         
         $('#'+'active-'+href).addClass('subactive')
 
-      })
+      })*/
 
+
+      url = document.URL;
+      url = url.split('/');
+      if (tournament == url[url.length-2]){
+        href = url[url.length-2]
+        //shows subsidebar
+        for(m=0; m<tournamentList.length; m++){
+          tournament = tournamentList[m];
+          if (tournament!=href){
+            $(".subsidebar-" + tournament).hide(300);
+          }
+        }
+        $(".subsidebar-" + href).show(400);
+
+        //makes the sidebar and subsidebar active
+        $('#active-' + href).addClass('active');
+        //console.log(sidebar);
+        //console.log('active-' + href);
+        //gary lin got to make this subactive
+        sidevalue = url[url.length-1];
+        for(n=0; n<sidebar.length; n++){
+          check = sidebar[n]
+          if (sidebar[n] == 'Main Sheet'){
+            check = 'Main';
+          }
+          if (sidevalue == check){
+            console.log('#active-' + href+ '-' + sidevalue)
+            $('#active-' + href+ '-' + sidevalue).addClass('subactive')
+          }
+        }
+      }
+      
     }
+
 
   }
 
@@ -144,6 +180,7 @@ $(document).ready(function() {
       }
       $(".subsidebar-" + href).show(400);
       
+      //makes tournaments active
       $(".active").removeClass("active");
       $(this).parent().addClass('active');
 

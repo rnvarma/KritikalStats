@@ -45,15 +45,22 @@ body {
 }
 
 .subsidebar:hover {
-	background-color: #FCD59B !important;
+	background-color: #909090 !important;
+	font-weight: 700;
 }
 
 .click:hover {
-	background-color: #FCD59B !important;
+	background-color: #606060 !important;
+	font-weight: 700;
 }
 
 .tournament:hover {
-	background-color: #FCD59B !important;
+	background-color: #606060 !important;
+	font-weight: 700;
+}
+
+.active:hover {
+	background-color: #C41117 !important;
 }
 
 .subsidebar:hover {
