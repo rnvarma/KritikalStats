@@ -48,7 +48,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a class="click" id="about" href="#about">About</a></li>
+            <li><a class="click" id="about" href="/about">About</a></li>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
@@ -61,7 +61,7 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active" id="active-home"><a class= "click" id= "side-home" href="#home">Home</a></li>
+            <li class="active" id="active-home"><a class= "click" id= "side-home" href="/home">Home</a></li>
           </ul>
 
 
@@ -71,8 +71,8 @@
           </ul>
           
           <ul class="nav nav-sidebar">
-            <li class="admin" id="active-admin"><a class="click" id= "admin" href="#admin">admin</a></li> 
-            <li class="admin" id="active-addTournament"><a class="subsidebar" id="AddTournament" href="#addTournament">Add Tournament</a></li>
+            <li class="admin" id="active-admin"><a class="click" id= "admin" href="/admin">admin</a></li> 
+            <li class="admin" id="active-addTournament"><a class="subsidebar" id="AddTournament" href="">Add Tournament</a></li>
           </ul>
         </div>
         
@@ -86,19 +86,6 @@
           
 
 <!--THIS IS WHERE THE CONTAINERS ARE MADE -->
-
-          <div class= "container" id="container-admin">
-            <h1 class="page-header">admin</h1>
-            <!-- <h4> secret shit </h4> -->
-            <div id="table-admin-Main" class="entry_table">
-              <div class="section group standardeven">
-                <!--give each team a unique ID and then search for that ID to append stuff to it -->]
-                <div class="col teamName">Jeffers &amp; Anderson</div>
-                <div class = "col record" id = 'testingnow'> 5-0 </div>
-              </div>
-            </div>
-
-          </div>
           
           <div class= "container" id="container-addTournament">
             <h1 class="page-header">Add Tournament</h1>
@@ -112,12 +99,6 @@
               </form>
           </div> 
 
-          <div class= "container" id="container-about">
-            <h1 class="page-header">About</h1>
-            <h4> We are awesome </h4>
-            <img src="http://puu.sh/9VClo/060ed98449.png" alt="gary" >
-            <img src="http://puu.sh/9VCmQ/a278222bbf.png" alt="rohan">
-          </div>
           {% block content %}
           {% endblock %}
 
@@ -133,6 +114,8 @@
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/table.js' %}"></script>
 <script src="{% static 'js/team.js' %}"></script>
+{% block javascript %}
+{% endblock %}
 
 </body>
 

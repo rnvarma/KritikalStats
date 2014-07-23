@@ -1,0 +1,15 @@
+{% extends 'real_base.html' %}
+
+{% block content %}
+
+<div id="container-{{ tournament }}-Main" data-tournament = "{{tournament}}" class = "main_page"></div>
+
+
+{% endblock %}
+
+
+
+{% block javascript %}
+{% load staticfiles %}
+<script src="{% static 'js/main_page.js' %}"></script>
+{% endblock %}
