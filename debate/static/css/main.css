@@ -191,9 +191,22 @@ body {
 	float:left;
 }
 
-.table_round:hover {
-	background-color: #FFB732;
+.won_round:hover {
+	background-color: #AAFFAA;
 	cursor: pointer;
+}
+
+.lost_round:hover {
+	background-color: #FFAAAA;
+	cursor: pointer;
+}
+
+.won_round {
+	background-color: #DDFFDD;
+}
+
+.lost_round {
+	background-color: #FFDDDD;
 }
 
 .round_num {
