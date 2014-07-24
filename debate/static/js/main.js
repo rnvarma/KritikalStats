@@ -81,7 +81,7 @@ $(document).ready(function() {
       for (j = 0; j<sidebar.length; j++){
         var side = sidebar[j];
         var liGroup = document.createElement("li");
-      liGroup.className = 'subsidebar-' + tournament;
+      liGroup.className = 'subsidebar subsidebar-' + tournament;
         if (side == 'Main Sheet'){
           side = 'Main';
         }
@@ -184,7 +184,41 @@ $(document).ready(function() {
       $(".active").removeClass("active");
       $(this).parent().addClass('active');
 
-  });
+  },
+    //hover off
+    function(){
+      //var check = 0;
+
+      for(m=0; m<tournamentList.length; m++){
+        url = document.URL.split('/');
+        if (url[url.length-2] == tournamentList[m]){
+          href = url[url.length-2];
+        }
+      }
+
+      $('.subsidebar').hover(function() {
+        var check = 1;
+        console.log(check)
+      
+        if (check == 1){
+        }
+        else{
+          //check if the subsidebar is hovered
+          var id = this.id
+          console.log(id)
+          for(n=0 ; n<tournamentList.length; n++){
+            tournament = tournamentList[n];
+            if (tournament!=href){
+              $(".subsidebar-" + tournament).hide(300);
+            }
+          }
+          $('.subsidebar-' + href).show(400);
+          $(".active").removeClass("active");
+          $('#active-' + href).addClass('active')
+      }
+
+      });
+    });
   }
 
   //**

@@ -72,6 +72,14 @@
 		background: #F0FFFF;
 }
 
+.tableheader {
+		background: #ccc;
+		background: #A9A9A9;
+		position:fixed;
+		width: 77%;
+		top:130px;
+}
+
 .lose {
 		background: #ccc;
 		background: rgba(230, 103, 97, 0.85);
