@@ -27,6 +27,7 @@ function mainPagePopulateHelper(tournament, prelim){
     url: "http://127.0.0.1:8000/1/tournament/" + tournament + '/entries/',
     contentType: 'application/json',
     success: function (data) {
+      tableHeaders(tournament)
       populateMasterColumn(tournament, data, prelim)
     },
     error: function(a , b, c){
@@ -34,6 +35,18 @@ function mainPagePopulateHelper(tournament, prelim){
     },
     async: true
 });
+}
+
+function tableHeaders(tournament){
+  var table = document.getElementById("table-" + tournament + "-Entries")
+  var sectionGroup = document.createElement('div');
+  sectionGroup.className = "section group tableheader";
+  var header = document.createElement('div');
+  header.className = "col";
+  var node1 = document.createTextNode("Team Code");
+  header.appendChild(node1);
+  table.appendChild(sectionGroup);
+  sectionGroup.appendChild(header);
 }
 
 function populateMasterColumn(tournament, entryData, prelim){
@@ -72,6 +85,8 @@ $(document).ready(function() {
   console.log(tournament)
 
   var divMain = document.getElementById('container-' + tournament + '-Entries')
+  var header = document.createElement('div');
+  header.className = "header";
   var h1 = document.createElement("h1");
   h1.className = 'page-header';
   var node = document.createTextNode(tournament + ' Entries');
@@ -79,7 +94,8 @@ $(document).ready(function() {
   var divTable = document.createElement("div");
   divTable.id = 'table-' + tournament + '-Entries';
   divTable.className = "entry_table";
-  divMain.appendChild(h1);
+  header.appendChild(h1);
+  divMain.appendChild(header);
   divMain.appendChild(divTable);
 
   mainPagePopulate(tournament);

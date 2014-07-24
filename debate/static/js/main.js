@@ -31,11 +31,7 @@ $(document).ready(function() {
       if (href[href.length-1] == sidebar[i]){
         //console.log(href[href.length-2])
         var clickable = document.getElementById("#" +  href[href.length-2])
-        //console.log(clickable)
-        //GARY LIN fix this auto click
-        //$( "#" +  href[href.length-2]).trigger( "click" );
-        //makeActiveHelper(href[href.length-2], href[href.length-1]);
-        //console.log(href[href.length-2], href[href.length-1]);
+        
       }
     }
 
@@ -140,9 +136,7 @@ $(document).ready(function() {
 
         //makes the sidebar and subsidebar active
         $('#active-' + href).addClass('active');
-        //console.log(sidebar);
-        //console.log('active-' + href);
-        //gary lin got to make this subactive
+       
         sidevalue = url[url.length-1];
         for(n=0; n<sidebar.length; n++){
           check = sidebar[n]
@@ -218,6 +212,18 @@ $(document).ready(function() {
       }
 
       });
+
+//gary lin- when not hovered, its fucked up
+    /*  for(n=0 ; n<tournamentList.length; n++){
+        tournament = tournamentList[n];
+        if (tournament!=href){
+          $(".subsidebar-" + tournament).hide(300);
+        }
+      }
+        $('.subsidebar-' + href).show(400);
+        $(".active").removeClass("active");
+        $('#active-' + href).addClass('active');
+*/
     });
   }
 
