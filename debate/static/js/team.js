@@ -1,5 +1,30 @@
 
-function add_table_heads(tourn_table) {
+function launch_table_click_handlers(tourn_table, tourn_name) {
+  $(".round_num").click(function() {
+    console.log("click")
+    var rounds_table = $('div[id^="' + tourn_name + '"].rounds_table')
+    var round_list = rounds_table.find(".table_round");
+    for (var i = 0; i < round_list.length; i ++) {
+      round_list[i].remove();
+    }
+    console.log(round_list);
+    var order = tourn_table.getAttribute("data-order");
+    if (order == "round_num_forward") {
+      console.log("going backward");
+      for (var j = round_list.length - 1; j >= 0; j --) {
+        rounds_table.append(round_list[j])
+      }
+      tourn_table.setAttribute("data-order", "round_num_backward");
+    } else {
+      for (var j = 0; j < round_list.length; j ++) {
+        rounds_table.append(round_list[j])
+      }
+      tourn_table.setAttribute("data-order", "round_num_forward");
+    }
+  })
+}
+
+function add_table_heads(tourn_table, tourn_name) {
   var header = document.createElement("div");
   header.className = "table_head";
 
@@ -24,6 +49,8 @@ function add_table_heads(tourn_table) {
   header.appendChild(decision_div);
 
   tourn_table.appendChild(header);
+
+  launch_table_click_handlers(tourn_table, tourn_name)
 }
 
 function create_round(round_data, round_type, team_code, tourn_table, last, team_id) {
@@ -79,9 +106,10 @@ function load_tournament_rounds(rounds_data, tourn_name, code, team_id) {
   var tourn_table = document.createElement("div");
   tourn_table.className = "rounds_table";
   tourn_table.setAttribute("id", tourn_name);
+  tourn_table.setAttribute("data-order", "round_num_forward")
   content.appendChild(tourn_table);
 
-  add_table_heads(tourn_table)
+  add_table_heads(tourn_table, tourn_name)
 
   var aff = rounds_data.aff;
   var neg = rounds_data.neg;
