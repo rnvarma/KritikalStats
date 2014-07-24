@@ -33,8 +33,11 @@ function mainPagePopulateHelper(tournament, prelim){
           entryList.push([data[i].team_name]);
         }
 
+        //makes the headers
+        tableHeaders(tournament, prelim);
+
         //makes the side column in the main page
-        populateMasterColumn(tournament, data, prelim)
+        populateMasterColumn(tournament, data, prelim);
       
 
     },
@@ -43,6 +46,31 @@ function mainPagePopulateHelper(tournament, prelim){
     },
     async: true
 });
+}
+
+function tableHeaders(tournament, prelim){
+  var table = document.getElementById("table-" + tournament + "-Main")
+  var sectionGroup = document.createElement('div');
+  sectionGroup.className = "section group tableheader";
+  var teamName = document.createElement('div');
+  teamName.className = "col teamName";
+  var node1 = document.createTextNode('Team Code');
+  table.appendChild(sectionGroup);
+  teamName.appendChild(node1);
+  sectionGroup.appendChild(teamName);
+  var record = document.createElement('div');
+  record.className = "col record"
+  var node2 = document.createTextNode('W-L');
+  record.appendChild(node2);
+  sectionGroup.appendChild(record);
+  for (i=0; i<prelim; i++){
+    var round = document.createElement('div');
+    round.className = "col round" + prelim
+    var roundNumber = i + 1 
+    var node3 = document.createTextNode('Round ' + roundNumber);
+    round.appendChild(node3);
+    sectionGroup.appendChild(round);
+  }
 }
 
 function populateMasterColumn(tournament, entryData, prelim){
@@ -136,6 +164,8 @@ $(document).ready(function() {
   $("#active-" + tournament).addClass("active");
 
   var divMain = document.getElementById('container-' + tournament + '-Main')
+  var header = document.createElement("div");
+  header.className = "header";
   var h1 = document.createElement("h1");
   h1.className = 'page-header';
   var node = document.createTextNode(tournament + ' Main Sheet');
@@ -143,7 +173,8 @@ $(document).ready(function() {
   var divTable = document.createElement("div");
   divTable.id = 'table-' + tournament + '-Main';
   divTable.className = "entry_table";
-  divMain.appendChild(h1);
+  header.appendChild(h1);
+  divMain.appendChild(header);
   divMain.appendChild(divTable);
 
   mainPagePopulate(tournament);
