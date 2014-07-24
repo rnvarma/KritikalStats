@@ -77,12 +77,13 @@ class TournamentRounds(APIView):
       neg = Team.objects.get(id = neg_id).team_name
       aff_code = Team.objects.get(id = aff_id).team_code
       neg_code = Team.objects.get(id = neg_id).team_code
+      print win_id
       if win_id == aff_id:
-        win = aff
-        lose = neg
+        win = aff_id
+        lose = neg_id
       elif win_id == neg_id:
-        win = neg
-        lose = aff
+        win = neg_id
+        lose = aff_id
       else:
         win, lose = "undecided", "undecided"
       new_round["tournament"] = tournament
