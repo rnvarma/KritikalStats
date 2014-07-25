@@ -10,14 +10,16 @@ TODO: create tool to remove duplicate rounds (requires a little thinking)
 def enter_team_list(url, tournament, website="tabroom"):
   team_list = get_team_list(url)
   tourny = Tournament.objects.get(tournament_name = tournament)
-  for (team, names) in team_list:
-    team = process_team_code(team)
+  for (code, names) in team_list:
+    code = process_team_code(code)
     try:
-      team = Team.objects.get(team_code = team)
+      team = Team.objects.get(team_code = code)
+      print "got team %s" % code
       team.tournaments.add(tourny)
     except:
-      team = Team(team_code = team, team_name = names)
+      team = Team(team_code = code, team_name = names)
       team.save()
+      print "made team %s" % code
       team.tournaments.add(tourny)
 
 def check_team_existence_or_create(name, tourny):
@@ -50,6 +52,7 @@ def enter_tournament_round(url, tournament, round_num, website="tabroom"):
     try:
       round = Round.objects.get(aff_team=aff_team, neg_team=neg_team,
                                tournament=tourny)
+      print "already made round"
     except:
       print aff + " v. " + neg
       round_obj = Round(aff_team=aff_team, neg_team=neg_team, 
@@ -57,9 +60,11 @@ def enter_tournament_round(url, tournament, round_num, website="tabroom"):
       round_obj.save()
       round_obj.tournament.add(tourny)
       round_obj.judge.add(judge_obj)
+      print "round made"
 
 def enter_completed_tournament(first_round_url, tournament, num_prelims,
                                website="tabroom"):
   for i in xrange(num_prelims):
     url = first_round_url[:-3] + str(int(first_round_url[-3:]) + i)
+    print url
     enter_tournament_round(url, tournament, i + 1)

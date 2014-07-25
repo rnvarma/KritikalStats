@@ -31,7 +31,7 @@ $(document).ready(function() {
       if (href[href.length-1] == sidebar[i]){
         //console.log(href[href.length-2])
         var clickable = document.getElementById("#" +  href[href.length-2])
-        
+
       }
     }
 

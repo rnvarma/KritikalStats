@@ -8,14 +8,14 @@ TODO: add "judge" and "round_num" fields to Round model and update DB
 # Create your models here.
 class Tournament(models.Model):
   tournament_name = models.CharField(max_length=50, blank=True, default='')
-  num_entries = models.IntegerField()
-  start_date = models.IntegerField()
-  end_date = models.IntegerField()
-  bid_round = models.IntegerField()
-  prelims = models.IntegerField()
+  num_entries = models.IntegerField(default=0)
+  start_date = models.IntegerField(default=0)
+  end_date = models.IntegerField(default=0)
+  bid_round = models.IntegerField(default=0)
+  prelims = models.IntegerField(default=0)
   # number of teams that break (16 = octos, 32 = doubles)
-  breaks_to = models.IntegerField()
-  curr_rounds = models.IntegerField()
+  breaks_to = models.IntegerField(default=0)
+  curr_rounds = models.IntegerField(default=0)
 
 class Team(models.Model):
   team_name = models.CharField(max_length=100, blank=True, default='') #Leland AV
