@@ -98,6 +98,7 @@ function create_round(round_data, round_type, team_code, tourn_table, last, team
   var round = document.createElement("div");
   round.className = "table_round";
   round.setAttribute("id", round_type);
+  round.setAttribute("data-round_id", round_data.round_id);
 
   var round_num = round_data.round_num.toString();
   var num_div = document.createElement("div");
@@ -175,6 +176,13 @@ function load_tournament_rounds(rounds_data, tourn_name, code, team_id) {
   }
   $(".rounds_table").hide(500);
   $('div[id^="' + tourn_name + '"].rounds_table').show(1000);
+
+  $(".table_round").click(function() {
+    var id = $(this).attr("data-round_id");
+    var url = "http://127.0.0.1:8000/round/" + id
+    console.log(url);
+    window.location.href = url;
+  })
 }
 
 function load_team_info(team_data, team_id) {

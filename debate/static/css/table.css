@@ -1,17 +1,51 @@
 /*  SECTIONS  */
 .section {
 	clear: both;
-	padding: 10px;
 	font-size: 110%;
 	margin: 0px;
 	/*border-radius: 10px;*/
 }
+
+.section:hover {
+	font-weight: 700;
+}
+
+.section:hover > .win {
+	background-color: #AAFFAA;
+}
+
+.section:hover > .lose {
+	background-color: #FFAAAA;
+}
+
+.section:hover > .teamName {
+	background-color: #222222;
+	color: white;
+}
+
+.section:hover > .record {
+	background-color: #222222;
+	color: white;
+}
+
+.win:hover {
+	background-color: #00FF00 !important;
+}
+
+.lose:hover {
+	background-color: #FF0000 !important;
+}
+
 
 /*  COLUMN SETUP  */
 .col {
 	display: block;
 	float:left;
 	/*text-align:center; */
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding: 10px;
 }
 .col:before { 
 	content: "\00a0 "; 
@@ -38,18 +72,16 @@
 .teamName {
 	/* 2/12 */
 	width: 13.5%;
-	margin: .2% 0 0% .3%;
 }
 
 .record {
 	/* 1/12 */
-  	width: 4%;
-  	margin: .2% 0 0% .3%;
+  	width: 6%;
+  	text-align: center;
 }
 
 .round6 {
   	width: 11.88%;
-  	margin: .2% 0 0% .1%;
 }
 
 .round7 {
@@ -87,6 +119,7 @@
 
 .entry_table {
 	position: relative;
+	background-color: white;
 }
 
 .entry {

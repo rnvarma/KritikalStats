@@ -28,18 +28,17 @@ function mainPagePopulateHelper(tournament, prelim){
     contentType: 'application/json',
     success: function (data) {
       entryList = [];
-        //console.log(data);
-        for (i=0;i<data.length;i++){
-          entryList.push([data[i].team_name]);
-        }
+      //console.log(data);
+      for (i=0;i<data.length;i++){
+        entryList.push([data[i].team_name]);
+      }
 
-        //makes the headers
-        tableHeaders(tournament, prelim);
+      //makes the headers
+      tableHeaders(tournament, prelim);
 
-        //makes the side column in the main page
-        populateMasterColumn(tournament, data, prelim);
-      
-
+      //makes the side column in the main page
+      populateMasterColumn(tournament, data, prelim);
+      roundQuery(tournament);
     },
     error: function(a , b, c){
       console.log('There is an error in quering for ' + tournament + ' in mainPagePopulateHelper');
@@ -64,7 +63,7 @@ function tableHeaders(tournament, prelim){
   record.appendChild(node2);
   sectionGroup.appendChild(record);
   for (i=0; i<prelim; i++){
-    var round = document.createElement('div');
+    var round = document.createElement('span');
     round.className = "col round" + prelim
     var roundNumber = i + 1 
     var node3 = document.createTextNode('Round ' + roundNumber);
@@ -79,12 +78,6 @@ function populateMasterColumn(tournament, entryData, prelim){
 	  var sectionGroup = document.createElement('div');
 	  sectionGroup.className = "section";
 	  sectionGroup.className += " group";
-	  if (j%2 == 0){
-	  	sectionGroup.className += " standardeven";
-	  }
-	  else {
-	  	sectionGroup.className += " standardodd";
-	  }
 	  sectionGroup.id = entryData[j]['team_id']
 	  team_id = entryData[j]['team_id']
 	  var teamName = document.createElement('div');
@@ -99,11 +92,13 @@ function populateMasterColumn(tournament, entryData, prelim){
 	  var record = document.createElement('div');
 	  record.className = "col record";
 	  record.id = tournament + '-record-' + team_id
+    record.setAttribute("data-wins", "0");
+    record.setAttribute("data-losses", "0");
 
 	  //Gary Lin
 	  sectionGroup.appendChild(record);
 	  for (y = 0; y<prelim; y++){
-	  	var round = document.createElement('div');
+	  	var round = document.createElement('span');
 	  	round.className = "col round" + prelim
 	  	x = y + 1
 	  	round.id = tournament + '-round' + x + '-'+  team_id
@@ -114,31 +109,33 @@ function populateMasterColumn(tournament, entryData, prelim){
 
 }
 
+
+function assign_records(tournament) {
+  var first_item = true;
+  $(".record").each(function() {
+    if (first_item) {
+      first_item = false;
+    } else {
+      var wins = $(this).attr("data-wins");
+      var losses = $(this).attr("data-losses");
+      var record = wins + " - " + losses;
+      $(this).text(record);
+    }
+  })
+}
+
 function roundQuery(tournament){
   $.ajax({
       type: 'GET',
       url: "http://127.0.0.1:8000/1/tournament/" + tournament + '/round/',
       contentType: 'application/json',
       success: function (data) {
-        //console.log(tournament + ' ' + data.rounds.length)
         if (data.rounds.length > 0){
-          var currentRound = data.curr_round;
-          if (currentRound == 0){
-            currentRound = 7;
+          for (var r_index = 0; r_index < data.rounds.length; r_index++) {
+            populateMain(tournament, data.rounds[r_index]);
           }
-          //console.log(data.rounds[0]['round_num'])
-          x = 0;
-          for (t=0; t<currentRound; t++){
-          round = currentRound + 1
-            while (data.rounds[x]['round_num'] <= round){
-              populateMain(tournament, data['rounds'][x]);
-              x += 1;
-            }
-          }
-
+          assign_records(tournament);
         }
-        
-
       },
       error: function(a , b, c){
         console.log('There is an error in quering for ' + tournament + ' in roundQuery');
@@ -148,23 +145,31 @@ function roundQuery(tournament){
 }
 
 function populateMain (tournament, data){
-  //console.log(tournament + '-round' + data.round_num + '-' + data.aff_id);
-  console.log(tournament + '-round' + data.round_num + '-' + data.aff_id);
+  var aff_record_cls = "#" + tournament + "-record-" + data.aff_id
+  var neg_record_cls = "#" + tournament + "-record-" + data.neg_id
   var elementAff = document.getElementById(tournament + '-round' + data.round_num + '-' + data.aff_id);
   if (data.aff_id == data.winner){
     elementAff.className += ' win'
+    var wins = $(aff_record_cls).attr("data-wins");
+    $(aff_record_cls).attr("data-wins", (Number(wins) + 1).toString());
   }
   else {
     elementAff.className += ' lose'
+    var losses = $(aff_record_cls).attr("data-losses");
+    $(aff_record_cls).attr("data-losses", (Number(losses) + 1).toString());
   }
   var nodeAff = document.createTextNode(data.neg_code);
   elementAff.appendChild(nodeAff);
   var elementNeg = document.getElementById(tournament + '-round' + data.round_num + '-' + data.neg_id);
   if (data.neg_id == data.winner){
     elementNeg.className += ' win'
+    var wins = $(neg_record_cls).attr("data-wins");
+    $(neg_record_cls).attr("data-wins", (Number(wins) + 1).toString());
   }
   else {
     elementNeg.className += ' lose'
+    var losses = $(neg_record_cls).attr("data-losses");
+    $(neg_record_cls).attr("data-losses", (Number(losses) + 1).toString());
   }
   var nodeNeg = document.createTextNode(data.aff_code);
   elementNeg.appendChild(nodeNeg);
@@ -191,6 +196,4 @@ $(document).ready(function() {
   divMain.appendChild(divTable);
 
   mainPagePopulate(tournament);
-  roundQuery(tournament);
-
 });

@@ -20,6 +20,9 @@ def splash(request):
 def team_page(request, id):
     return render(request, 'team.html', {'team_id': id})
 
+def round_page(request, id):
+	return render(request, 'round.html', {'round_id': id})
+
 def loading_test(request):
 	return render(request, 'loading.html')
 

@@ -97,6 +97,7 @@ class TournamentRounds(APIView):
       new_round["winner"] = win
       new_round["loser"] = lose
       new_round["round_num"] = round["round_num"]
+      new_round["round_id"] = round["id"]
       new_list.append(new_round)
     return new_list
 
