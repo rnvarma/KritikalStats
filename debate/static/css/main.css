@@ -85,6 +85,15 @@ body {
 
 }
 
+.win {
+	background-color: #d9ead3;
+	height: 100%;
+}
+
+.lose{
+	background-color: #f4cccc;
+}
+
 /*
 #entry_section {
 	width: 20%;

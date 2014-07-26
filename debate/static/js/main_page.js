@@ -150,9 +150,21 @@ function roundQuery(tournament){
 function populateMain (tournament, data){
   //console.log(tournament + '-round' + data.round_num + '-' + data.aff_id);
   var elementAff = document.getElementById(tournament + '-round' + data.round_num + '-' + data.aff_id);
+  if (data.aff_id == data.winner){
+    elementAff.className += ' win'
+  }
+  else {
+    elementAff.className += ' lose'
+  }
   var nodeAff = document.createTextNode(data.neg_code);
   elementAff.appendChild(nodeAff);
   var elementNeg = document.getElementById(tournament + '-round' + data.round_num + '-' + data.neg_id);
+  if (data.neg_id == data.winner){
+    elementNeg.className += ' win'
+  }
+  else {
+    elementNeg.className += ' lose'
+  }
   var nodeNeg = document.createTextNode(data.aff_code);
   elementNeg.appendChild(nodeNeg);
   
