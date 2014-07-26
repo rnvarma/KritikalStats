@@ -11,6 +11,9 @@ def load_loginpage(request):
 def load_tourncreate(request):
 	return render(request, 'create_tournament.html')
 
+def load_roundcreate(request):
+	return render(request, 'create_round.html')
+
 def splash(request):
 	return render(request, 'splash.html')
 

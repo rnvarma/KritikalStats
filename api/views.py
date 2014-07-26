@@ -5,6 +5,8 @@ from rest_framework import status
 from django.http import Http404
 from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer
 from api.models import Team, Tournament, Round
+from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
+from django.shortcuts import render
 
 class TeamDataFetch(APIView):
 
@@ -121,3 +123,73 @@ class TeamRoundsFetch(APIView):
     data["aff"] = TournamentRounds.process_rounds(aff_serializer.data)
     data["neg"] = TournamentRounds.process_rounds(neg_serializer.data)
     return Response(data)
+
+class TournamentCreate(APIView):
+
+  @classmethod
+  def input_entries(cls, meta):
+    entry_url = meta['entry_url'][0]
+    # host_site = meta['host_site']
+    tourn_name = meta['name'][0]
+    enter_team_list(entry_url, tourn_name)
+
+  @classmethod
+  def create_tournament(cls, meta):
+    name = meta['name'][0]
+    bid_round = int(meta['bid'][0])
+    prelims = int(meta['prelims'][0])
+    breaks_to = int(meta['break'][0])
+    curr_rounds = int(meta['curr_rounds'][0])
+    tourn = Tournament(tournament_name=name, bid_round=bid_round,
+                       prelims=prelims, breaks_to=breaks_to,
+                       curr_rounds=curr_rounds)
+    tourn.save()
+
+  def post(self, request, format = None):
+    if not request.DATA.get('name', False):
+      return Response("No tournament data inputed",
+                status=status.HTTP_403_FORBIDDEN)
+    meta = dict(request.DATA)
+    TournamentCreate.create_tournament(meta)
+    TournamentCreate.input_entries(meta)
+    return render(request, 'homepage.html')
+
+class RoundCreate(APIView):
+
+  @classmethod
+  def enter_round(cls, data):
+    tname = data['tname'][0]
+    round_url = data['round_url'][0]
+    round_num = data['round_num'][0]
+    enter_tournament_round(round_url, tname, round_num)
+
+  @classmethod
+  def entre_complete_tourn_rounds(cls, data):
+    tname = data['tname'][0]
+    tourn_obj = Tournament.objects.get(tournament_name=tname)
+    num_prelims = tourn_obj.prelims
+    round_one_url = data['round_url'][0]
+    round_num = data['round_num'][0]
+    if int(round_num) != 1:
+      return Response("If tournament complete enter round 1",
+                  status=status.HTTP_403_FORBIDDEN)
+    enter_completed_tournament(round_one_url, tname, num_prelims)
+
+  def post(self, request, format = None):
+    if not request.DATA.get("status", False):
+      return Response("No tournament status inputed",
+                status=status.HTTP_403_FORBIDDEN)
+    req_data = dict(request.DATA)
+    if req_data['status'][0] != 'complete':
+      RoundCreate.enter_round(req_data)
+    else:
+      RoundCreate.entre_complete_tourn_rounds(req_data)
+    return render(request, 'homepage.html')
+
+
+
+
+
+
+
+

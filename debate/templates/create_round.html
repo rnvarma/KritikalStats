@@ -1,0 +1,21 @@
+{% extends "real_base.html" %}
+
+{% block content %}
+{% load staticfiles %}
+<div class = "page_header">
+	<div class = "page_title">Create a Round</div>
+	<div class = "page_head_divider"></div>
+</div>
+<div class = "create_form">
+  <form id = "tournament-form" class = "form" method = "POST" action = "/1/create/round">
+  	{% csrf_token %}
+  	<input class="text_input" id="input_tname" name="tname" placeholder="What is the tournament name?" type="text"/>
+  	<input class="text_input" id="input_url" name="round_url" placeholder="Provide a url to the round pairings list" type="text"/>
+  	<input class="text_input" id="input_round_num" name="round_num" placeholder="What is the round number?" type="text"/>
+    <input class="text_input" id="input_status" name="status" placeholder="What is the tournament status?" type="text"/>
+  	<button type="submit" class="complete_button">Submit!</button>
+  </forrm>
+</div>
+
+<script src="{% static 'js/tourn_entry.js' %}"></script>
+{% endblock %}

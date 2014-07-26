@@ -132,6 +132,7 @@ body {
 .team_page {
 	background-color: #FFFFFF;
 	padding: 40px;
+	position: relative;
 }
 
 .team_code {
@@ -143,6 +144,15 @@ body {
 .team_name {
 	font-size: 120%;
     /*text-align: center;*/
+}
+
+.team_stats_divider {
+	height: 100px;
+	width: 1px;
+	background-color: #C0C0C0;
+	position: absolute;
+	left: 700px;
+	top:20px;
 }
 
 #admin {
@@ -165,6 +175,7 @@ body {
 	padding-bottom: 10px;
 	font-size: 130%;
 	width:100%;
+	font-weight: 900;
 	/*background-color: #C41117;*/
 	color: #FFB732;
 }
@@ -272,4 +283,67 @@ body {
 	background-color: #C0C0C0 !important;
 	color: #C41117;
 	margin-bottom: 0px;
+}
+
+.create_form {
+	background-color: #FFFFFF;
+	margin: 15px;
+	padding: 30px;
+}
+
+.text_input {
+	outline: none !important;
+	position: relative;
+	display: block;
+	margin: 0 auto;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding: 15px;
+	border-radius: 5px;
+	border: 2px solid #F1F2F7;
+	float: none;
+	width: 45%;
+	font-size: 120%;
+}
+
+.text_input:focus {
+	border: 2px solid #C41117;
+}
+
+.complete_button {
+	outline: none !important;
+	position: relative;
+	display: block;
+	margin: 0 auto;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	padding: 15px;
+	border-radius: 5px;
+	border: 2px solid #EEEEEE;
+	background-color: #C41117;
+	color: white;
+	float: none;
+	width: 45%;
+	font-size: 140%;
+}
+
+.page_header {
+	padding: 40px;
+	background-color: #FFFFFF;
+	margin: 15px;
+	position: relative;
+}
+
+.page_title {
+	font-size: 200%;
+	font-weight: 900;
+}
+
+.page_head_divider {
+	height: 80%;
+	width: 1px;
+	background-color: #C0C0C0;
+	position: absolute;
+	left: 33%;
+	top: 10%;
 }

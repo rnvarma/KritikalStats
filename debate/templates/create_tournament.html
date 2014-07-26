@@ -1,15 +1,23 @@
-{% extends "base.html" %}
+{% extends "real_base.html" %}
 
-{% block body %}
-
-<div class="form_background">
-	<div class = "form_title">Create a Tournament</div>
-	<div id = "page_selection">
-		<div id = "page_select_text"> Which website is the tournament hosted on?</div>
-		<button class = "page_select" data-clicked = "false" id = "tabroom_button">Tabroom</button>
-		<button class = "page_select" data-clicked = "false" id = "joy_button">Joy of Tournaments</button>
-	</div>
-
+{% block content %}
+{% load staticfiles %}
+<div class = "page_header">
+	<div class = "page_title">Create a Tournament</div>
+	<div class = "page_head_divider"></div>
+</div>
+<div class = "create_form">
+  <form id = "tournament-form" class = "form" method = "POST" action = "/1/create/tournament">
+  	{% csrf_token %}
+  	<input class="text_input" id="input_tname" name="name" placeholder="What is the tournament name?" type="text"/>
+  	<input class="text_input" id="input_entries" name="entry_url" placeholder="Provide a url to the entry list" type="text"/>
+  	<input class="text_input" id="input_curr_rounds" name="curr_rounds" placeholder="Enter current round/tournament complete (Ex: Complete, Finished..)" type="text"/>
+  	<input class="text_input" id="input_prelims" name="prelims" placeholder="How many prelims are there?" type="text"/>
+  	<input class="text_input" id="input_break" name="break" placeholder="What does it break to? (Ex: Doubles, Semi-finals..)" type="text"/>
+  	<input class="text_input" id="input_bid" name="bid" placeholder="What's the bid round? (Ex: Quarters, Octos..)" type="text"/>
+  	<button type="submit" class="complete_button">Submit!</button>
+  </forrm>
 </div>
 
+<script src="{% static 'js/tourn_entry.js' %}"></script>
 {% endblock %}
