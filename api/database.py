@@ -25,6 +25,10 @@ def enter_team_list(url, tournament, website="tabroom"):
 def check_team_existence_or_create(name, tourny):
   try:
     team = Team.objects.get(team_code = name)
+    # check to make sure that the team is actually entered
+    # this is to solve when a team is in rounds but wasnt on the entries page
+    if tourny not in Tournament.objects.filter(entries__id=team.id):
+      team.tournaments.add(tourny)
     return team
   except:
     team = Team(team_code = name, team_name= "enter_names")

@@ -1,4 +1,46 @@
 
+function round_num_cmp(obj1, obj2) {
+  var val1 = obj1.find(".round_num").text();
+  var val2 = obj2.find(".round_num").text();
+  var obj1_is_smaller = (Number(val1) <Number(val2)) ? true : false;
+  return obj1_is_smaller
+}
+
+function remove_nth_element(arr, index) {
+  sub_arr1 = arr.slice(0, index);
+  sub_arr2 = arr.slice(index + 1, arr.length);
+  $.merge(sub_arr1, sub_arr2);
+  return sub_arr1
+}
+
+function merge(left, right, cmp) {
+  if (left.length == 0 || right.length == 0) {
+    console.log("got here")
+    $.merge(left, right);
+    return left;
+  } else {
+    if (cmp(left.eq(0), right.eq(0))) {
+      $.merge(left.slice(0, 1), merge(left.slice(1, left.length), right, cmp));
+      return left
+    } else {
+      $.merge(right.slice(0, 1), merge(left, right.slice(1, right.length), cmp));
+      return right
+    }
+  }
+}
+
+function merge_sort_rounds_table(round_list, cmp) {
+  if (round_list.length < 2) {
+    return round_list;
+  } else {
+    console.log(round_list);
+    mid = Math.floor(round_list.length / 2);
+    left = merge_sort_rounds_table(round_list.slice(0, mid), cmp);
+    right = merge_sort_rounds_table(round_list.slice(mid, round_list.length), cmp);
+    return merge(left, right, cmp);
+  }
+}
+
 function launch_table_click_handlers(tourn_table, tourn_name) {
   $(".round_num").click(function() {
     console.log("click")
@@ -7,10 +49,9 @@ function launch_table_click_handlers(tourn_table, tourn_name) {
     for (var i = 0; i < round_list.length; i ++) {
       round_list[i].remove();
     }
-    console.log(round_list);
+    console.log(merge_sort_rounds_table(round_list, round_num_cmp));
     var order = tourn_table.getAttribute("data-order");
     if (order == "round_num_forward") {
-      console.log("going backward");
       for (var j = round_list.length - 1; j >= 0; j --) {
         rounds_table.append(round_list[j])
       }
@@ -50,7 +91,7 @@ function add_table_heads(tourn_table, tourn_name) {
 
   tourn_table.appendChild(header);
 
-  launch_table_click_handlers(tourn_table, tourn_name)
+  // launch_table_click_handlers(tourn_table, tourn_name)
 }
 
 function create_round(round_data, round_type, team_code, tourn_table, last, team_id) {

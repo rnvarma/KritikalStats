@@ -1,6 +1,6 @@
 from django.forms import widgets
 from rest_framework import serializers
-from api.models import Tournament, Team, Round
+from api.models import Tournament, Team, Round, Judge
 
 
 class TournamentSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class TeamSerializer(serializers.ModelSerializer):
 
 class JudgeSerializer(serializers.ModelSerializer):
   class Meta:
-  	model = Team
+  	model = Judge
   	fields = ('name', 'paradigm', 'school')
 
 class RoundSerializer(serializers.ModelSerializer):

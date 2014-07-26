@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
-from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer
-from api.models import Team, Tournament, Round
+from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer
+from api.models import Team, Tournament, Round, Judge
 from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
 from django.shortcuts import render
 
@@ -186,6 +186,12 @@ class RoundCreate(APIView):
       RoundCreate.entre_complete_tourn_rounds(req_data)
     return render(request, 'homepage.html')
 
+class JudgeList(APIView):
+
+  def get(self, request, format=None):
+    judges = Judge.objects.all()
+    serializer = JudgeSerializer(judges, many=True)
+    return Response(serializer.data)
 
 
 
