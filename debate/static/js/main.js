@@ -1,3 +1,8 @@
+//fixes the sidebar issue
+var fromSideBar = 0
+//subsidebar elements
+var sidebar = ['Dashboard', 'Main', 'Entries', 'Bracket'];
+
 function create_spinner_div() {
   var spinner = document.createElement("div");
   spinner.className = "spinner";
@@ -24,7 +29,6 @@ $(document).ready(function() {
     $('#active-' + href[href.length-1]).addClass('active')
   
     //this shit seems to do nothing useless??
-    var sidebar = ['Dashboard', 'Main Sheet', 'Entries', 'Bracket'];
     for (i=0 ; i<sidebar.length; i++){
       //console.log('href ' + href[href.length-1])
       //console.log('sidebar ' + sidebar[i])
@@ -72,7 +76,6 @@ $(document).ready(function() {
 
 
 
-      var sidebar = ['Dashboard', 'Main Sheet', 'Entries', 'Bracket'];
       //makes subsidebar
       for (j = 0; j<sidebar.length; j++){
         var side = sidebar[j];
@@ -158,14 +161,62 @@ $(document).ready(function() {
   //**
   //Handles the tournament
   //**
-  function tournament_handle(tournamentList) {
-    //when a tournament gets clicked
-    //creates the table
+  function tournament_handle_click(tournamentList) {
+    //when tournament is clicked it is opened
+    $('.tournament').click(function(){
+      fromSideBar = 0
+      var href = this.id;
+      console.log ('id: '+ href)
+      //shows subsidebar
+      for(m=0; m<tournamentList.length; m++){
+        tournament = tournamentList[m];
+        if (tournament!=href){
+        $(".subsidebar-" + tournament).hide(300);
+        }
+      }
+      $(".subsidebar-" + href).show(400);
+      
+      //makes tournaments active
+      $(".active").removeClass("active");
+      $(this).parent().addClass('active');
+    });
+
+    //takes care of when the mouse is not over the sidebar
+    $('.sidebar').hover(function() {
+      },
+      //contracts the subsidebar and opens the correct subsidebar (if necessary)
+      //makes the right sidebar active (based on url)
+      function(fromSideBar){
+        for(n=0 ; n<tournamentList.length; n++){
+          tournament = tournamentList[n];
+          //console.log('tournament ' + href)
+          if (tournament!=href){
+            $(".subsidebar-" + tournament).hide(300);
+          }
+        }
+        
+        newHREF = document.URL.split('/')
+        newHREF1 = newHREF[newHREF.length-2]
+        if (href != newHREF1){
+          href = newHREF[newHREF.length-1]
+        }
+        $('.subsidebar-' + href).show(400);
+        $(".active").removeClass("active");
+        $('#active-' + href).addClass('active');   
+        console.log(href)
+                    
+    });
+
+  }
+
+
+  function tournament_handle_hover(tournamentList) {
+
+    //expands the right sidebar and makes it active
     $('.tournament').hover(function(){
-      //opens the right page and makes sidebar active
+      fromSideBar = 0
       var href = this.id;
       //shows subsidebar
- 
       for(m=0; m<tournamentList.length; m++){
         tournament = tournamentList[m];
         if (tournament!=href){
@@ -181,50 +232,106 @@ $(document).ready(function() {
   },
     //hover off
     function(){
-      //var check = 0;
-
+      var check = 0;
+      sidebar1 = sidebar
+      sidebar1[1] = 'Main'
+      
+      //gets href- the tournament it is on
       for(m=0; m<tournamentList.length; m++){
         url = document.URL.split('/');
         if (url[url.length-2] == tournamentList[m]){
           href = url[url.length-2];
         }
       }
-
-      $('.subsidebar').hover(function() {
-        var check = 1;
-        console.log(check)
       
-        if (check == 1){
+      //checks if it is a subsidebar
+      if (sidebar1.indexOf(url[url.length-1]) < 0 ){
+        //Gary Lin
+        //When not hovering over tournament- contract
+      }
+      else {
+        
+        //check if hovering over a sidebar
+        var isHovered = true;
+          for(p=0 ; p<tournamentList.length; p++){
+            for (q=0 ; q<sidebar1.length; q++){
+              isHovered = $('#active-' + tournamentList[p] + '-' + sidebar1[q]).is(function() { return $(this).is(":hover"); });
+              console.log(isHovered);
+              if (isHovered == true){
+                q = sidebar1.length
+                p = tournamentList.length
+              }
+            }
+          }
+
+        //once user 'hover-offs' subsidebar-- contracts
+        if (isHovered == true){
+          fromSideBar = 1;
+          $('.sidebar').hover(function() {
+            //when subsidebar is hovered
+          },
+            function(fromSideBar){
+                for(n=0 ; n<tournamentList.length; n++){
+                  tournament = tournamentList[n];
+                  //console.log('tournament ' + href)
+                  if (tournament!=href){
+                    $(".subsidebar-" + tournament).hide(300);
+                  }
+                }
+                $('.subsidebar-' + href).show(400);
+                $(".active").removeClass("active");
+                $('#active-' + href).addClass('active');
+
+                if (check == 0){
+                  //console.log('1: ' + check);
+                }     
+               
+              
+          });
+        
+
         }
-        else{
-          //check if the subsidebar is hovered
-          var id = this.id
-          console.log(id)
+ 
+        else {
+
+          //hides whatever was showing and show the sidebar that the 
+          //website is on
           for(n=0 ; n<tournamentList.length; n++){
             tournament = tournamentList[n];
+            console.log('tournament ' + href)
             if (tournament!=href){
               $(".subsidebar-" + tournament).hide(300);
             }
           }
-          $('.subsidebar-' + href).show(400);
-          $(".active").removeClass("active");
-          $('#active-' + href).addClass('active')
-      }
+            $('.subsidebar-' + href).show(400);
+            $(".active").removeClass("active");
+            $('#active-' + href).addClass('active');
 
-      });
-
-//gary lin- when not hovered, its fucked up
-    /*  for(n=0 ; n<tournamentList.length; n++){
-        tournament = tournamentList[n];
-        if (tournament!=href){
-          $(".subsidebar-" + tournament).hide(300);
+            if (check == 0){
+              console.log('1: ' + check);
+            }
         }
       }
-        $('.subsidebar-' + href).show(400);
-        $(".active").removeClass("active");
-        $('#active-' + href).addClass('active');
-*/
     });
+  }
+
+  function onSkin(){
+    for(p=0 ; p<tournamentList.length; p++){
+      for (q=0 ; q<sidebar1.length; q++){
+        isHovered = $('#active-' + tournamentList[p] + '-' + sidebar1[q]).is(function() { return $(this).is(":hover"); });
+        if (isHovered == true){
+          q = sidebar1.length
+          p = tournamentList.length
+        }
+      }
+    }
+    if (isHovered == false) {
+      fromSideBar = 0;
+    }
+    else {
+      fromSideBar = 1;
+    }
+
   }
 
   //**
@@ -243,7 +350,7 @@ $(document).ready(function() {
           tournamentList.push(data[i].tournament_name);
         }
         createPage(data);
-        tournament_handle(tournamentList);
+        tournament_handle_click(tournamentList);
 
       },
       error: function(a , b, c){
