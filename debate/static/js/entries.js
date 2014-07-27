@@ -1,7 +1,7 @@
 function mainPagePopulate(tournament){
 	$.ajax({
     type: 'GET',
-    url: "http://127.0.0.1:8000/1/tournament/",
+    url: "http://54.191.230.74/1/tournament/",
     contentType: 'application/json',
     success: function (data) {
       var prelim;
@@ -24,7 +24,7 @@ function mainPagePopulate(tournament){
 function mainPagePopulateHelper(tournament, prelim){
 	$.ajax({
     type: 'GET',
-    url: "http://127.0.0.1:8000/1/tournament/" + tournament + '/entries/',
+    url: "http://54.191.230.74/1/tournament/" + tournament + '/entries/',
     contentType: 'application/json',
     success: function (data) {
       tableHeaders(tournament)
@@ -53,7 +53,7 @@ function populateMasterColumn(tournament, entryData, prelim){
 	var table = document.getElementById("table-" + tournament + "-Entries")
 	for (j = 0; j < entryData.length; j++){
 	  var sectionGroup = document.createElement('div');
-    sectionGroup.setAttribute("data-href", "http://127.0.0.1:8000/team/" + entryData[j]['team_id'].toString());
+    sectionGroup.setAttribute("data-href", "http://54.191.230.74/team/" + entryData[j]['team_id'].toString());
 	  sectionGroup.className = "section";
 	  sectionGroup.className += " group entry";
 	  if (j%2 == 0){
