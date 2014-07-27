@@ -1,5 +1,23 @@
-{% extends "base.html" %}
+{% extends "real_base.html" %}
+{% load staticfiles %}
 
-{% block body %}
+{% block content %}
+  <div class="container-home" id="container-home">
+    <h1 class="page-header">Home</h1>
 
+    <div class="row placeholders">
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img class="circle" height= "200" width="200" src="{% static 'images/research.jpg' %}">
+        <h4>Research</h4>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img class="circle" height= "200" width="200" src="{% static 'images/debate.jpg' %}">
+        <h4>Debate</h4>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img class="circle" height= "200" width="200" src="{% static 'images/win.jpg' %}">
+        <h4>Win</h4>
+      </div>
+    </div>
+  </div>
 {% endblock %}

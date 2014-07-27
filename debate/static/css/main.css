@@ -376,7 +376,8 @@ body {
 }
 
 .form_after_header_seperator {
-	margin: .25%;
+	margin: .25%
+	;
 	height: 17%;
 	width: 84%;
 	z-index: 888888;
