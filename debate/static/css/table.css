@@ -105,11 +105,13 @@
 }
 
 .tableheader {
-		background: #ccc;
-		background: #A9A9A9;
-		position:fixed;
-		width: 81%;
-		top:130px;
+	background: #ccc;
+	background: #A9A9A9;
+	position:fixed;
+	width: 81%;
+	top:200px;
+	z-index: 900000;
+
 }
 
 .lose {
@@ -118,7 +120,6 @@
 }
 
 .entry_table {
-	position: relative;
 	background-color: white;
 }
 

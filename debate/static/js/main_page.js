@@ -183,17 +183,31 @@ $(document).ready(function() {
 
   var divMain = document.getElementById('container-' + tournament + '-Main')
   var header = document.createElement("div");
-  header.className = "header";
-  var h1 = document.createElement("h1");
-  h1.className = 'page-header';
+  header.className = "page_header";
+  var title = document.createElement("div");
+  title.className = 'page_title';
   var node = document.createTextNode(tournament + ' Main Sheet');
-  h1.appendChild(node);
+  title.appendChild(node);
+
+  var full_page = document.createElement('div');
+  full_page.className = 'full_page';
+
   var divTable = document.createElement("div");
   divTable.id = 'table-' + tournament + '-Main';
   divTable.className = "entry_table";
-  header.appendChild(h1);
+  header.appendChild(title);
+
+  filler1 = document.createElement('div');
+  filler1.className = 'after_header_seperator';
+  filler2 = document.createElement('div');
+  filler2.className = 'after_header_grey';
+
+  full_page.appendChild(divTable);
+
   divMain.appendChild(header);
-  divMain.appendChild(divTable);
+  divMain.appendChild(filler1);
+  divMain.appendChild(filler2);
+  divMain.appendChild(full_page);
 
   mainPagePopulate(tournament);
 });

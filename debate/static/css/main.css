@@ -111,6 +111,7 @@ body {
 .main{
 	background-color: #F1F2F7;
 	height: 100%;
+	padding: 0 !important;
 }
 
 .html {
@@ -336,16 +337,10 @@ body {
 	font-size: 140%;
 }
 
-.page_header {
-	padding: 40px;
-	background-color: #FFFFFF;
-	margin: 15px;
-	position: relative;
-}
-
 .page_title {
-	font-size: 200%;
-	font-weight: 900;
+	font-size: 300%;
+	font-weight: 700;
+	color: #C41117;
 }
 
 .page_head_divider {
@@ -355,4 +350,81 @@ body {
 	position: absolute;
 	left: 33%;
 	top: 10%;
+}
+
+.page_header {
+	position: fixed;
+	padding: 30px;
+	background-color: #FFFFFF;
+	margin: 1%;
+	width: 81.5%;
+	z-index: 999999;
+}
+
+.after_header_seperator {
+	margin: .25%;
+	height: 22%;
+	width: 84%;
+	z-index: 888888;
+	background-color: #F1F2F7;
+	position: fixed;
+}
+
+.after_header_grey {
+	height: 209px;
+	background-color: #F1F2F7;
+}
+
+.form_after_header_seperator {
+	margin: .25%;
+	height: 17%;
+	width: 84%;
+	z-index: 888888;
+	background-color: #F1F2F7;
+	position: fixed;
+}
+
+.form_after_header_grey {
+	height: 150px;
+	background-color: #F1F2F7;
+}
+
+.sub_header {
+	padding: 40px;
+	background-color: #FFFFFF;
+	margin: 1%;
+	position: relative;
+}
+
+.sub_header_text {
+	font-size: 120%;
+	font-weight: 700;
+}
+
+.full_page {
+	background-color: #FFFFFF;
+	margin: 1%;
+	width: 98%;
+	overflow: auto;
+	height: 600px;
+}
+
+.half_full_page {
+	padding: 20px;
+	background-color: #FFFFFF;
+	margin: 1%;
+	width: 47.9%;
+	float:left;
+	height: 60%;
+}
+
+.round_half_divider {
+	width: 1px;
+	background-color: #C0C0C0;
+	height: 65%;
+	float: left;
+}
+
+.round_page {
+	height: 100%;
 }

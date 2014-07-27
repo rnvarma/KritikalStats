@@ -83,15 +83,6 @@ body {
  * Main content
  */
 
-.main {
-  padding: 20px;
-}
-@media (min-width: 768px) {
-  .main {
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-}
 .main .page-header {
   margin-top: 0;
   color: #C41117;
