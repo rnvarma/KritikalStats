@@ -179,7 +179,7 @@ function load_tournament_rounds(rounds_data, tourn_name, code, team_id) {
 
   $(".table_round").click(function() {
     var id = $(this).attr("data-round_id");
-    var url = "http://127.0.0.1:8000/round/" + id
+    var url = location.protocol + "//" + location.hostname + "/round/" + id
     console.log(url);
     window.location.href = url;
   })
@@ -209,7 +209,7 @@ function load_team_info(team_data, team_id) {
   	  if (!$('div[id^="' + tourn_name + '"].rounds_table')[0]){
         $.ajax({
           type: 'GET',
-          url: "http://127.0.0.1:8000/1/team/rounds/" + tourn_name + "/" + team_id,
+          url: location.protocol + "//" + location.hostname + "/1/team/rounds/" + tourn_name + "/" + team_id,
           contentType: 'application/json',
           success: function (data) {11
             load_tournament_rounds(data, tourn_name, code, team_id);
@@ -233,7 +233,7 @@ $(document).ready(function() {
   var team_id = $(".team_page").attr("data-teamid");
   $.ajax({
       type: 'GET',
-      url: "http://127.0.0.1:8000/1/team/" + team_id,
+      url: location.protocol + "//" + location.hostname + "/1/team/" + team_id,
       contentType: 'application/json',
       success: function (data) {
         load_team_info(data, team_id);

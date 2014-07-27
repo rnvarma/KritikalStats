@@ -341,7 +341,7 @@ $(document).ready(function() {
     //queries for tournaments
     $.ajax({
       type: 'GET',
-      url: "http://127.0.0.1:8000/1/tournament/",
+      url: location.protocol + "//" + location.hostname + "/1/tournament/",
       contentType: 'application/json',
       success: function (data) {
         //console.log(data);
