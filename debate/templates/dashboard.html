@@ -2,7 +2,29 @@
 
 {% block content %}
 
-<div id="container-{{ tournament }}-Dashboard" class = "dashboard"><h1 class="page-header">DASHBOARD</h1></div>
+<div id="container-{{ tournament }}-Dashboard" data-tournament = "{{tournament}}" class = "dashboard"><h1 class="page-header">{{tournament}} Dashboard</h1></div>
+
+<div class="kritikal-info">
+	<div class="kritikal-info-round"></div>
+	<div class="kritikal-info-date"></div>
+	<div class="kritikal-info-location"></div>
+	<div class="kritikal-info-deadline"></div>
+	<div class="kritikal-info-host"></div>
+	<div class="kritikal-info-conflicting"></div>
+</div>
+
+<div class="competition-info">
+	<div class="competition-info-entered"></div>
+	<div class="competition-info-break"></div>
+	<div class="competition-info-bidded-teams"></div>
+	<div class="competition-info-schools-attending"></div>
+</div>
+
+<div class="history-info">
+	<div class="history-info-logo"></div>
+	<div class="history-info-history"></div>
+	<div class="history-info-updates"></div>
+</div>
 
 
 {% endblock %}
