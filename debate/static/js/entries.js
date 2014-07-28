@@ -1,7 +1,7 @@
 function mainPagePopulate(tournament){
 	$.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + "/1/tournament/",
+    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
     contentType: 'application/json',
     success: function (data) {
       var prelim;
@@ -24,7 +24,7 @@ function mainPagePopulate(tournament){
 function mainPagePopulateHelper(tournament, prelim){
 	$.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + "/1/tournament/" + tournament + '/entries/',
+    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + tournament + '/entries/',
     contentType: 'application/json',
     success: function (data) {
       tableHeaders(tournament)
@@ -53,7 +53,7 @@ function populateMasterColumn(tournament, entryData, prelim){
 	var table = document.getElementById("table-" + tournament + "-Entries")
 	for (j = 0; j < entryData.length; j++){
 	  var sectionGroup = document.createElement('div');
-    sectionGroup.setAttribute("data-href", location.protocol + "//" + location.hostname + "/team/" + entryData[j]['team_id'].toString());
+    sectionGroup.setAttribute("data-href", location.protocol + "//" + location.hostname + ":8000/team/" + entryData[j]['team_id'].toString());
 	  sectionGroup.className = "section";
 	  sectionGroup.className += " group entry";
 	  if (j%2 == 0){
@@ -82,7 +82,6 @@ function populateMasterColumn(tournament, entryData, prelim){
 
 $(document).ready(function() {
   var tournament = $(".entries").attr("data-tournament");
-  console.log(tournament)
 
   var divMain = document.getElementById('container-' + tournament + '-Entries')
   var header = document.createElement('div');
@@ -96,18 +95,11 @@ $(document).ready(function() {
   divTable.className = "entry_table";
   header.appendChild(title);
 
-  filler1 = document.createElement('div');
-  filler1.className = 'after_header_seperator';
-  filler2 = document.createElement('div');
-  filler2.className = 'after_header_grey';
-
   var full_page = document.createElement('div');
   full_page.className = 'full_page';
   full_page.appendChild(divTable);
 
   divMain.appendChild(header);
-  divMain.appendChild(filler1);
-  divMain.appendChild(filler2);
   divMain.appendChild(full_page);
 
   mainPagePopulate(tournament);
