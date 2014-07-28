@@ -1,14 +1,51 @@
-{% extends 'real_base.html' %}
+{% extends 'new_base.html' %}
 
 {% block content %}
+{% load staticfiles %}
 
-<div id="container-{{ tournament }}-Entries" class = "entries" data-tournament = "{{tournament}}"></div>
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12">
+  	<section class = "panel">
+  	  <div class = "panel-body">
+  	  	<div class = "col-sm-6 col-md-3 col-lg-3 pull-left">
+  	  	  <h1>Entries</h1>
+  	  	</div>
+  	  	<div class = "col-sm-6 col-md-3 col-lg-3 pull-right">
+  	  	  <h2 style="text-align:right;">{{ tournament }}</h2>
+  	  	</div>
+  	  </div>
+  	</section>
+  </div>
+</div>
 
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12">
+  	<section class = "panel">
+  	  <div class = "panel-body">
+  	  	<table class = "table  table-hover general-table">
+  	  	  <thead>
+  	  	  	<tr>
+  	  	  	  <th>Team Code</th>
+  	  	  	  <th class = "hidden-sm hidden-xs">Team Names</th>
+  	  	  	  <th>Win %</th>
+  	  	  	  <th>Bids</th>
+  	  	  	</tr>
+  	  	  </thead>
+  	  	  <tbody class = "entries_table">
+  	  	  </tbody>
+  	  	</table>
+  	  </div>
+  	</section>
+  </div>
+</div>
+
+<div class = "entries_hidden" data-tournament = "{{tournament}}"></div>
+
+<script src="{% static 'js/entries.js' %}"></script>
 
 {% endblock %}
 
 
 {% block javascript %}
-{% load staticfiles %}
-<script src="{% static 'js/entries.js' %}"></script>
+
 {% endblock %}

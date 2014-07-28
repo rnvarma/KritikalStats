@@ -1,7 +1,7 @@
 function mainPagePopulate(tournament){
 	$.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + "/1/tournament/",
+    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
     contentType: 'application/json',
     success: function (data) {
       var prelim;
@@ -24,7 +24,7 @@ function mainPagePopulate(tournament){
 function mainPagePopulateHelper(tournament, prelim){
 	$.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + "/1/tournament/" + tournament + '/entries/',
+    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + tournament + '/entries/',
     contentType: 'application/json',
     success: function (data) {
       entryList = [];
@@ -127,7 +127,7 @@ function assign_records(tournament) {
 function roundQuery(tournament){
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + "/1/tournament/" + tournament + '/round/',
+      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + tournament + '/round/',
       contentType: 'application/json',
       success: function (data) {
         if (data.rounds.length > 0){
