@@ -16,6 +16,8 @@ class Tournament(models.Model):
   # number of teams that break (16 = octos, 32 = doubles)
   breaks_to = models.IntegerField(default=0)
   curr_rounds = models.IntegerField(default=0)
+  registration_date = models.CharField(max_length=100, blank=True, default='')
+  loc = models.CharField(max_length=100, blank=True, default='')
 
 class Team(models.Model):
   team_name = models.CharField(max_length=100, blank=True, default='') #Leland AV
