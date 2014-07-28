@@ -2,7 +2,7 @@
 sub_pages = ["Dashboard", "Main", "Entries", "Bracket"];
 
 function create_tournament_div(tourn_data) {
-	var t_name = tourn_data["tournament_name"];
+	var t_name_text = tourn_data["tournament_name"];
 	var t_div = document.createElement("li");
 	t_div.className = "sub-menu dcjq-parent-li";
 
@@ -15,7 +15,7 @@ function create_tournament_div(tourn_data) {
 
 	t_name_span = document.createElement("span");
 	t_name_span.className = "sb-tab";
-	t_name = document.createTextNode(t_name);
+	t_name = document.createTextNode(t_name_text);
 	t_name_span.appendChild(t_name);
 
 	t_name_icon = document.createElement("span");
@@ -32,7 +32,7 @@ function create_tournament_div(tourn_data) {
 
 	for (var i = 0; i < sub_pages.length; i ++) {
 		var page = sub_pages[i];
-		var url = "/" + t_name + "/" + page;
+		var url = "/" + t_name_text + "/" + page;
 		li = document.createElement("li");
 		page_a = document.createElement("a");
 		page_a.href = url;

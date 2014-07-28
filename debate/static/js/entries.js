@@ -82,7 +82,6 @@ function populateMasterColumn(tournament, entryData, prelim){
 
 $(document).ready(function() {
   var tournament = $(".entries").attr("data-tournament");
-  console.log(tournament)
 
   var divMain = document.getElementById('container-' + tournament + '-Entries')
   var header = document.createElement('div');
@@ -96,18 +95,11 @@ $(document).ready(function() {
   divTable.className = "entry_table";
   header.appendChild(title);
 
-  filler1 = document.createElement('div');
-  filler1.className = 'after_header_seperator';
-  filler2 = document.createElement('div');
-  filler2.className = 'after_header_grey';
-
   var full_page = document.createElement('div');
   full_page.className = 'full_page';
   full_page.appendChild(divTable);
 
   divMain.appendChild(header);
-  divMain.appendChild(filler1);
-  divMain.appendChild(filler2);
   divMain.appendChild(full_page);
 
   mainPagePopulate(tournament);

@@ -68,6 +68,8 @@
   <section id="main-content">
       <section class="wrapper">
           <!--main content goes here-->
+          {% block content %}
+          {% endblock %}
       </section>
   </section>
 <!--main content end-->
@@ -113,6 +115,13 @@
 <script src="{% static 'js/vendor/dashboard.js' %}"></script>
 <!--common script init for all pages-->
 <script src="{% static 'js/vendor/scripts.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/entries.js' %}"></script>
+<script src="{% static 'js/table.js' %}"></script>
+<script src="{% static 'js/team.js' %}"></script>
+<script src="{% static 'js/round.js' %}"></script>
+{% block javascript %}
+{% endblock %}
 <!--script for this page-->
 </body>
 </html>
