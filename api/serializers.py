@@ -7,7 +7,8 @@ class TournamentSerializer(serializers.ModelSerializer):
   class Meta:
   	model = Tournament
   	fields = ('tournament_name', 'num_entries', 'start_date', 'end_date',
-  		       'bid_round','prelims','breaks_to','curr_rounds')
+  		       'bid_round','prelims','breaks_to','curr_rounds', 'loc',
+             'registration_date')
 
 class TeamSerializer(serializers.ModelSerializer):
   class Meta:
