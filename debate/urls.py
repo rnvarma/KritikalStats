@@ -22,4 +22,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_ROOT, 'show_indexes': True }),
+    url(r'^test/home/*$', 'debate.views.test_home'),
 )
