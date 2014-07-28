@@ -123,6 +123,7 @@ class TeamRoundsFetch(APIView):
     data = {}
     data["aff"] = TournamentRounds.process_rounds(aff_serializer.data)
     data["neg"] = TournamentRounds.process_rounds(neg_serializer.data)
+    data["t_name"] = tourn_name
     return Response(data)
 
 class TournamentCreate(APIView):
