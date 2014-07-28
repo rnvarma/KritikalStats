@@ -1,107 +1,17 @@
-.kritikal-info {
+.top-half {
 	position: relative;
-	height: 426px;
-	width: 300px;
+	height: 200px;
+	width: 100%;
 	background-color:#ff69b4;
 	float:left;
-	margin-right: 15px;
+	margin-right: 2%;
 }
 
-.competition-info {
+
+.bottom-half {
 	position: relative;
-	height: 426px;
-	width: 300px;
+	height: 200px;
+	width: 100%;
 	background-color:#7ec0ee;
 	float:left;
-	margin-right: 15px;
-}
-
-.history-info {
-	position: relative;
-	height: 426px;
-	width: 300px;
-	background-color:#FF4500;
-	float:left;
-	margin-right: 15px;
-}
-
-.kritikal-info-round {
-	position: relative;
-	height: 71px;
-	background-color: #FFA6C9;
-}
-
-.kritikal-info-date {
-	position: relative;
-	height: 71px;
-	background-color: #FB607F;
-}
-
-.kritikal-info-location {
-	position: relative;
-	height: 71px;
-	background-color: #FF6347;
-}
-
-.kritikal-info-deadline {
-	position: relative;
-	height: 71px;
-	background-color: #FF355E;
-}
-
-.kritikal-info-host {
-	position: relative;
-	height: 71px;
-	background-color: #CB4154;
-}
-
-.kritikal-info-conflicting {
-	position: relative;
-	height: 71px;
-	background-color: #960018;
-}
-
-.competition-info-entered {
-	position: relative;
-	height: 71px;
-	background-color: #ACE5EE;
-}
-
-.competition-info-break {
-	position: relative;
-	height:71px;
-	background-color: #00BFFF;
-	
-}
-
-.competition-info-bidded-teams {
-	position: relative;
-	height:142px;
-	background-color: #1A5798;
-	
-}
-
-.competition-info-schools-attending {
-	position: relative;
-	height:142px;
-	background-color:  #191970;
-	
-}
-
-.history-info-logo{
-	position:relative;
-	height: 163px;
-	background-color: #FFFDD0;
-}
-
-.history-info-history{
-	position:relative;
-	height:101px;
-	background-color: #FFFF99;
-}
-
-.history-info-updates{
-	position:relative;
-	height:162px;
-	background-color: #FDFD02;
 }
