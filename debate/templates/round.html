@@ -1,27 +1,63 @@
-{% extends 'real_base.html' %}
+{% extends 'new_base.html' %}
 
 {% block content %}
 
-<div class="round_page" data-teamid="{{ round_id }}">
-  <div class = "page_header">
-  	<div class = "page_title">Round</div>
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12">
+    <section class = "panel">
+      <div class = "panel-body">
+        <div class = "row">
+          <div class = "col-sm-12 col-xs-12 col-md-12 col-lg-12">
+            <h1 style="text-align:center" class = "round_header"></h1>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col-xs-5 col-sm-5 col-md-5 pull-left" style="text-align:center">
+            <span class = "text-muted" >AFF</span>
+            <h2 class = "aff_team_code" style = "color: #AB070F;"></h2>
+          </div>
+          <div class = "col-xs-2 col-sm-2 col-md-2" style="text-align:center">
+            <span class = "text-muted" >vs.</span>
+          </div>
+          <div class = "col-xs-5 col-sm-5 col-md-5 pull-right" style="text-align:center">
+            <span class = "text-muted" >NEG</span>
+            <h2 class = "neg_team_code" style = "color: #AB070F;"></h2>
+          </div> 
+        </div>
+      </div>
+    </section>
   </div>
-  <div class = "form_after_header_seperator">
 </div>
-<div class = "form_after_header_grey">
-</div>
-  <div class = "sub_header">
-  	<div class = "sub_header_text">Judge:</div>
-  </div>
-  <div class = "half_full_page">
 
-  </div>
-  <div class = "round_half_divider" style = "float: left;">
-
-  </div>
-  <div class = "half_full_page">
-
+<div class = "row">
+  <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <section class = "panel">
+      <div class = "panel-body" style="text-align:center">
+        <h4 class = "judge_name"></h4>
+      </div>
+    </section>
   </div>
 </div>
+
+<div class = "row">
+  <div class = "col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <section class = "panel">
+      <div class = "panel-body aff-panel">
+      </div>
+    </section>
+  </div>
+  <div class = "col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <section class = "panel">
+      <div class = "panel-body neg-panel">
+      </div>
+    </section>
+  </div>
+</div>
+
+
+<div class="round_hidden" data-round-id="{{ round_id }}"></div>
+
+{% load staticfiles %}
+<script src="{% static 'js/round.js' %}"></script>
 
 {% endblock %}

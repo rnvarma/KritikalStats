@@ -1,115 +1,60 @@
-function mainPagePopulate(tournament){
-	$.ajax({
-    type: 'GET',
-    url: location.protocol + "//" + location.hostname + "/1/tournament/",
-    contentType: 'application/json',
-    success: function (data) {
-      var prelim;
-      for (i=0;i<data.length;i++){
-        if (data[i].tournament_name == tournament){
-          prelim = data[i].prelims
-        }
-      } 
-  	  
-  	  mainPagePopulateHelper(tournament, prelim)
 
-    },
-    error: function(a , b, c){
-      console.log('There is an error in quering for ' + tournament + ' in roundQuery');
-    },
-    async: true
-});
+function create_entry(team_data) {
+  var team_row = document.createElement("tr");
+  team_row.className = "entry_row";
+  team_row.setAttribute("data-id", team_data["team_id"].toString());
+  var code_td = document.createElement("td");
+  var team_code = document.createTextNode(team_data["team_code"]);
+  code_td.appendChild(team_code);
+
+  var name_td = document.createElement("td");
+  name_td.className = "hidden-sm hidden-xs";
+  var team_name = document.createTextNode(team_data["team_name"]);
+  name_td.appendChild(team_name);
+
+  var winp_td = document.createElement("td");
+  var team_winp = document.createTextNode("0%");
+  winp_td.appendChild(team_winp);
+
+  var bids_td = document.createElement("td");
+  var team_bids = document.createTextNode(team_data["bids"].length.toString());
+  bids_td.appendChild(team_bids);
+
+  team_row.appendChild(code_td);
+  team_row.appendChild(name_td);
+  team_row.appendChild(winp_td);
+  team_row.appendChild(bids_td);
+
+  return team_row;
 }
 
-function mainPagePopulateHelper(tournament, prelim){
-	$.ajax({
-    type: 'GET',
-    url: location.protocol + "//" + location.hostname + "/1/tournament/" + tournament + '/entries/',
-    contentType: 'application/json',
-    success: function (data) {
-      tableHeaders(tournament)
-      populateMasterColumn(tournament, data, prelim)
-    },
-    error: function(a , b, c){
-      console.log('There is an error in quering for ' + tournament + ' in roundQuery');
-    },
-    async: true
-});
-}
+function load_entries_into_table(entries_data) {
+  var table = document.getElementsByClassName("entries_table")[0];
+  for (var i = 0; i < entries_data.length; i ++) {
+  	var entry = create_entry(entries_data[i]);
+  	table.appendChild(entry);
+  }
 
-function tableHeaders(tournament){
-  var table = document.getElementById("table-" + tournament + "-Entries")
-  var sectionGroup = document.createElement('div');
-  sectionGroup.className = "section group tableheader";
-  var header = document.createElement('div');
-  header.className = "col";
-  var node1 = document.createTextNode("Team Code");
-  header.appendChild(node1);
-  table.appendChild(sectionGroup);
-  sectionGroup.appendChild(header);
-}
-
-function populateMasterColumn(tournament, entryData, prelim){
-	var table = document.getElementById("table-" + tournament + "-Entries")
-	for (j = 0; j < entryData.length; j++){
-	  var sectionGroup = document.createElement('div');
-    sectionGroup.setAttribute("data-href", location.protocol + "//" + location.hostname + "/team/" + entryData[j]['team_id'].toString());
-	  sectionGroup.className = "section";
-	  sectionGroup.className += " group entry";
-	  if (j%2 == 0){
-	  	sectionGroup.className += " standardeven";
-	  }
-	  else {
-	  	sectionGroup.className += " standardodd";
-	  }
-	  sectionGroup.id = entryData[j]['team_id']
-	  team_id = entryData[j]['team_id']
-	  var teamName = document.createElement('div');
-	  teamName.className = "col";
-	  var node = document.createTextNode(entryData[j]['team_code'])
-	  teamName.appendChild(node);
-	  //each container's ID is labeled under this format
-	  //[tournament]-[TYPE]-[team_id]
-	  //ex: Berkeley-round1-1
-	  sectionGroup.appendChild(teamName);
-	  table.appendChild(sectionGroup);
-	}
-  $(".entry").click(function() {
-    var href = $(this).attr("data-href");
-    window.location.href = href;
+  $(".entry_row").click(function () {
+  	var id = $(this).attr("data-id");
+  	var url = location.protocol + "//" + location.hostname + ":8000/team/" + id;
+  	window.location.href = url;
   })
 }
 
 $(document).ready(function() {
-  var tournament = $(".entries").attr("data-tournament");
-  console.log(tournament)
+  var tourn_name = $(".entries_hidden").attr("data-tournament")
 
-  var divMain = document.getElementById('container-' + tournament + '-Entries')
-  var header = document.createElement('div');
-  header.className = "page_header";
-  var title = document.createElement("div");
-  title.className = 'page_title';
-  var node = document.createTextNode(tournament + ' Entries');
-  title.appendChild(node);
-  var divTable = document.createElement("div");
-  divTable.id = 'table-' + tournament + '-Entries';
-  divTable.className = "entry_table";
-  header.appendChild(title);
-
-  filler1 = document.createElement('div');
-  filler1.className = 'after_header_seperator';
-  filler2 = document.createElement('div');
-  filler2.className = 'after_header_grey';
-
-  var full_page = document.createElement('div');
-  full_page.className = 'full_page';
-  full_page.appendChild(divTable);
-
-  divMain.appendChild(header);
-  divMain.appendChild(filler1);
-  divMain.appendChild(filler2);
-  divMain.appendChild(full_page);
-
-  mainPagePopulate(tournament);
-
-});
+  $.ajax({
+    type: 'GET',
+    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + tourn_name + '/entries/',
+    contentType: 'application/json',
+    success: function (data) {
+      load_entries_into_table(data);
+    },
+    error: function(a , b, c){
+      console.log('There is an error in quering for ' + tournament + ' in roundQuery');
+    },
+    async: true
+  });
+})

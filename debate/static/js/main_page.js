@@ -1,141 +1,64 @@
-function mainPagePopulate(tournament){
-	$.ajax({
-    type: 'GET',
-    url: location.protocol + "//" + location.hostname + "/1/tournament/",
-    contentType: 'application/json',
-    success: function (data) {
-      var prelim;
-      for (i=0;i<data.length;i++){
-        if (data[i].tournament_name == tournament){
-          prelim = data[i].prelims
-        }
-      } 
-  	  
-  	  mainPagePopulateHelper(tournament, prelim)
 
-    },
-    error: function(a , b, c){
-      console.log('There is an error in quering for ' + tournament + ' in mainPagePopulate');
-    },
-    async: true
-});
-}
-
-function mainPagePopulateHelper(tournament, prelim){
-	$.ajax({
-    type: 'GET',
-    url: location.protocol + "//" + location.hostname + "/1/tournament/" + tournament + '/entries/',
-    contentType: 'application/json',
-    success: function (data) {
-      entryList = [];
-      //console.log(data);
-      for (i=0;i<data.length;i++){
-        entryList.push([data[i].team_name]);
-      }
-
-      //makes the headers
-      tableHeaders(tournament, prelim);
-
-      //makes the side column in the main page
-      populateMasterColumn(tournament, data, prelim);
-      roundQuery(tournament);
-    },
-    error: function(a , b, c){
-      console.log('There is an error in quering for ' + tournament + ' in mainPagePopulateHelper');
-    },
-    async: true
-});
-}
-
-function tableHeaders(tournament, prelim){
-  var table = document.getElementById("table-" + tournament + "-Main")
-  var sectionGroup = document.createElement('div');
-  sectionGroup.className = "section group tableheader";
-  var teamName = document.createElement('div');
-  teamName.className = "col teamName";
-  var node1 = document.createTextNode('Team Code');
-  table.appendChild(sectionGroup);
-  teamName.appendChild(node1);
-  sectionGroup.appendChild(teamName);
-  var record = document.createElement('div');
-  record.className = "col record"
-  var node2 = document.createTextNode('W-L');
-  record.appendChild(node2);
-  sectionGroup.appendChild(record);
-  for (i=0; i<prelim; i++){
-    var round = document.createElement('span');
-    round.className = "col round" + prelim
-    var roundNumber = i + 1 
-    var node3 = document.createTextNode('Round ' + roundNumber);
-    round.appendChild(node3);
-    sectionGroup.appendChild(round);
-  }
-}
-
-function populateMasterColumn(tournament, entryData, prelim){
-	var table = document.getElementById("table-" + tournament + "-Main")
-	for (j = 0; j < entryData.length; j++){
-	  var sectionGroup = document.createElement('div');
-	  sectionGroup.className = "section";
-	  sectionGroup.className += " group";
-	  sectionGroup.id = entryData[j]['team_id']
-	  team_id = entryData[j]['team_id']
-	  var teamName = document.createElement('div');
-	  teamName.className = "col teamName";
-	  var node = document.createTextNode(entryData[j]['team_code'])
-	  teamName.appendChild(node);
-	  //each container's ID is labeled under this format
-	  //[tournament]-[TYPE]-[team_id]
-	  //ex: Berkeley-round1-1
-	  sectionGroup.appendChild(teamName);
-	  table.appendChild(sectionGroup);
-	  var record = document.createElement('div');
-	  record.className = "col record";
-	  record.id = tournament + '-record-' + team_id
-    record.setAttribute("data-wins", "0");
-    record.setAttribute("data-losses", "0");
-
-	  //Gary Lin
-	  sectionGroup.appendChild(record);
-	  for (y = 0; y<prelim; y++){
-	  	var round = document.createElement('span');
-	  	round.className = "col round" + prelim
-	  	x = y + 1
-	  	round.id = tournament + '-round' + x + '-'+  team_id
-	  	sectionGroup.appendChild(round);
-	  }
-
-	}
-
-}
-
-
-function assign_records(tournament) {
-  var first_item = true;
-  $(".record").each(function() {
-    if (first_item) {
-      first_item = false;
-    } else {
-      var wins = $(this).attr("data-wins");
-      var losses = $(this).attr("data-losses");
-      var record = wins + " - " + losses;
-      $(this).text(record);
-    }
+function assign_records() {
+  $(".team-row").each(function() {
+  	console.log($(this).attr("id"));
+  	var wins = $(this).attr("data-wins");
+  	var losses = $(this).attr("data-losses");
+  	var record = wins + " - " + losses;
+  	var t_id = $(this).attr("id");
+  	var record_cls = ".wl-td-" + t_id;
+  	$(record_cls).text(record);
   })
 }
 
-function roundQuery(tournament){
+function populate_round(t_name, round_data) {
+  var aff_tr = document.getElementsByClassName("team-row-" + round_data.aff_id)[0];
+  var neg_tr = document.getElementsByClassName("team-row-" + round_data.neg_id)[0];
+
+  var aff_td = document.createElement("td");
+  aff_td.id = round_data.round_id;
+  var aff_opp = document.createTextNode(round_data.neg_code);
+  aff_td.appendChild(aff_opp);
+  aff_tr.appendChild(aff_td);
+
+  var neg_td = document.createElement("td");
+  neg_td.id = round_data.round_id;
+  var neg_opp = document.createTextNode(round_data.aff_code);
+  neg_td.appendChild(neg_opp);
+  neg_tr.appendChild(neg_td);
+
+  if (round_data.winner == round_data.aff_id) {
+  	aff_td.className = "mainpage-round round-won bg-success";
+  	neg_td.className = "mainpage-round round-loss bg-danger";
+  	var a_wins = (Number(aff_tr.getAttribute("data-wins")) + 1).toString();
+  	aff_tr.setAttribute("data-wins", a_wins);
+  	var n_losses = (Number(neg_tr.getAttribute("data-losses")) + 1).toString();
+  	neg_tr.setAttribute("data-losses", n_losses);
+  } else {
+  	neg_td.className = "mainpage-round round-won bg-success";
+  	aff_td.className = "mainpage-round round-loss bg-danger";
+  	var n_wins = (Number(neg_tr.getAttribute("data-wins")) + 1).toString();
+  	neg_tr.setAttribute("data-wins", n_wins);
+  	var a_losses = (Number(aff_tr.getAttribute("data-losses")) + 1).toString();
+  	aff_tr.setAttribute("data-losses", a_losses);
+  }
+}
+
+function get_rounds(t_name) {
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + "/1/tournament/" + tournament + '/round/',
+      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + t_name + '/round/',
       contentType: 'application/json',
       success: function (data) {
-        if (data.rounds.length > 0){
-          for (var r_index = 0; r_index < data.rounds.length; r_index++) {
-            populateMain(tournament, data.rounds[r_index]);
-          }
-          assign_records(tournament);
+        for (var i = 0; i < data.rounds.length; i++) {
+          populate_round(t_name, data.rounds[i]);
         }
+        $(".mainpage-round").click(function () {
+          var id = $(this).attr("id");
+          var url = location.protocol + "//" + location.hostname + ":8000/round/" + id;
+          window.location.href = url;
+        })
+        assign_records();
       },
       error: function(a , b, c){
         console.log('There is an error in quering for ' + tournament + ' in roundQuery');
@@ -144,70 +67,79 @@ function roundQuery(tournament){
   });
 }
 
-function populateMain (tournament, data){
-  var aff_record_cls = "#" + tournament + "-record-" + data.aff_id
-  var neg_record_cls = "#" + tournament + "-record-" + data.neg_id
-  var elementAff = document.getElementById(tournament + '-round' + data.round_num + '-' + data.aff_id);
-  if (data.aff_id == data.winner){
-    elementAff.className += ' win'
-    var wins = $(aff_record_cls).attr("data-wins");
-    $(aff_record_cls).attr("data-wins", (Number(wins) + 1).toString());
+function populate_entry_column(t_name, entry_data) { 
+  var table = document.getElementsByClassName("main_page_table")[0]
+  for (var i = 0; i < entry_data.length; i ++) {
+  	var team = entry_data[i];
+    var tr = document.createElement("tr");
+    tr.className = "team-row team-row-" + team.team_id.toString();
+    tr.setAttribute("data-wins", "0");
+    tr.setAttribute("data-losses", "0");
+    tr.id = team.team_id.toString()
+
+    var team_td = document.createElement("td");
+    var team_code = document.createTextNode(team.team_code);
+    team_td.className = "team-code";
+    team_td.id = team.team_id.toString();
+    team_td.appendChild(team_code);
+    tr.appendChild(team_td);
+
+    var wl_td = document.createElement("td");
+    wl_td.className = "wl-td-" + team.team_id.toString();
+    tr.appendChild(wl_td);
+    table.appendChild(tr);
   }
-  else {
-    elementAff.className += ' lose'
-    var losses = $(aff_record_cls).attr("data-losses");
-    $(aff_record_cls).attr("data-losses", (Number(losses) + 1).toString());
-  }
-  var nodeAff = document.createTextNode(data.neg_code);
-  elementAff.appendChild(nodeAff);
-  var elementNeg = document.getElementById(tournament + '-round' + data.round_num + '-' + data.neg_id);
-  if (data.neg_id == data.winner){
-    elementNeg.className += ' win'
-    var wins = $(neg_record_cls).attr("data-wins");
-    $(neg_record_cls).attr("data-wins", (Number(wins) + 1).toString());
-  }
-  else {
-    elementNeg.className += ' lose'
-    var losses = $(neg_record_cls).attr("data-losses");
-    $(neg_record_cls).attr("data-losses", (Number(losses) + 1).toString());
-  }
-  var nodeNeg = document.createTextNode(data.aff_code);
-  elementNeg.appendChild(nodeNeg);
-  
+
+  $(".team-code").click(function () {
+  	var id = $(this).attr("id");
+  	var url = location.protocol + "//" + location.hostname + ":8000/team/" + id;
+  	window.location.href = url;
+  })
 }
 
-$(document).ready(function() {
-  var tournament = $(".main_page").attr("data-tournament");
-  console.log($("#active-" + tournament));
-  $("#active-" + tournament).addClass("active");
+function main_page_populate_helper(t_name, prelim) {
+  var table_header = document.getElementsByClassName("main_table_header")[0];
+  for (var i = 0; i < prelim; i ++) {
+    var round_head = document.createElement("th");
+    var round_text = document.createTextNode("Round " + (i + 1).toString());
+    round_head.appendChild(round_text);
+    table_header.appendChild(round_head);
+  }
 
-  var divMain = document.getElementById('container-' + tournament + '-Main')
-  var header = document.createElement("div");
-  header.className = "page_header";
-  var title = document.createElement("div");
-  title.className = 'page_title';
-  var node = document.createTextNode(tournament + ' Main Sheet');
-  title.appendChild(node);
+  $.ajax({
+    type: 'GET',
+    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + t_name + '/entries/',
+    contentType: 'application/json',
+    success: function (data) {
+      populate_entry_column(t_name, data);
+      get_rounds(t_name);
+    },
+    error: function(a , b, c){
+      console.log('There is an error in quering for ' + tournament + ' in mainPagePopulateHelper');
+    },
+    async: true
+  });
+}
 
-  var full_page = document.createElement('div');
-  full_page.className = 'full_page';
+$(document).ready(function () {
+  var t_name = $("#tournament_hidden").attr("data-tournament");
+  $.ajax({
+    type: 'GET',
+    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+    contentType: 'application/json',
+    success: function (data) {
+      var prelim;
+      for (i=0;i<data.length;i++){
+        if (data[i].tournament_name == t_name){
+          prelim = data[i].prelims
+        }
+      }
+  	  main_page_populate_helper(t_name, prelim)
 
-  var divTable = document.createElement("div");
-  divTable.id = 'table-' + tournament + '-Main';
-  divTable.className = "entry_table";
-  header.appendChild(title);
-
-  filler1 = document.createElement('div');
-  filler1.className = 'after_header_seperator';
-  filler2 = document.createElement('div');
-  filler2.className = 'after_header_grey';
-
-  full_page.appendChild(divTable);
-
-  divMain.appendChild(header);
-  divMain.appendChild(filler1);
-  divMain.appendChild(filler2);
-  divMain.appendChild(full_page);
-
-  mainPagePopulate(tournament);
-});
+    },
+    error: function(a , b, c){
+      console.log('There is an error in quering for ' + tournament + ' in mainPagePopulate');
+    },
+    async: true
+  });
+})

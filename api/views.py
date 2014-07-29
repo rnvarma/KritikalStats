@@ -87,6 +87,7 @@ class TournamentRounds(APIView):
         lose = aff_id
       else:
         win, lose = "undecided", "undecided"
+      judge = Judge.objects.get(id = round["judge"][0]).name
       new_round["tournament"] = tournament
       new_round["aff_team"] = aff
       new_round["aff_id"] = aff_id
@@ -98,6 +99,7 @@ class TournamentRounds(APIView):
       new_round["loser"] = lose
       new_round["round_num"] = round["round_num"]
       new_round["round_id"] = round["id"]
+      new_round["judge"] = judge
       new_list.append(new_round)
     return new_list
 
@@ -123,6 +125,7 @@ class TeamRoundsFetch(APIView):
     data = {}
     data["aff"] = TournamentRounds.process_rounds(aff_serializer.data)
     data["neg"] = TournamentRounds.process_rounds(neg_serializer.data)
+    data["t_name"] = tourn_name
     return Response(data)
 
 class TournamentCreate(APIView):
@@ -194,9 +197,12 @@ class JudgeList(APIView):
     serializer = JudgeSerializer(judges, many=True)
     return Response(serializer.data)
 
+class RoundData(APIView):
 
-
-
-
+  def get(self, request, r_id, format = None):
+    r_data = Round.objects.get(id = r_id)
+    serializer = RoundSerializer(r_data)
+    processed_data = TournamentRounds.process_rounds([serializer.data])
+    return Response(processed_data)
 
 

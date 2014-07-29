@@ -17,6 +17,10 @@ function create_spinner_div() {
 }
 
 $(document).ready(function() {
+
+  $(".sidebar-toggle").click(function () {
+    $(".sidebar").toggle("display");
+  });
   
   //**
   //Set the right class to be active (highlighted)
@@ -341,7 +345,7 @@ $(document).ready(function() {
     //queries for tournaments
     $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + "/1/tournament/",
+      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
       contentType: 'application/json',
       success: function (data) {
         //console.log(data);

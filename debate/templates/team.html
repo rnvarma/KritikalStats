@@ -1,17 +1,46 @@
-{% extends 'real_base.html' %}
+{% extends 'new_base.html' %}
 
 {% block content %}
 
-<div class="team_page" data-teamid="{{ team_id }}">
-  <div class = "team_code"></div>
-  <div class = "team_name"></div>
-  <div class = "team_stats_divider"></div>
-  <div class = "tournaments">
-  	<div class = "tournaments_title">Tournaments</div>
-  	<div class = "tournament_list"></div>
-  </div>
-  <div class = "display">
+{% load staticfiles %}
+
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12">
+  	<section class = "panel">
+  	  <div class = "panel-body profile-information">
+  	  	<div class = "col-xs-12 col-sm-8 col-md-8 col-lg-8">
+  	  	  <div class = "profile-desk" style="height:15%;">
+  	  	    <h1 class = "team_code"></h1>
+  	  	    <span class = "text-muted team_name"></span>
+  	  	  </div>
+  	  	</div>
+  	  	
+  	  	<div class = "hidden-xs col-sm-4 col-md-4 col-lg-4">
+  	  	  <div class = "profile-statistics">
+  	  	  	<h3 class = "bid_count"></h3>
+  	  	  	<p style="color: #C45056;">Total Bids</p>
+  	  	  	<h3 class = "tournament_count"></h3>
+  	  	  	<p style="color: #C45056;">Tournaments Attended</p>
+  	  	  </div>
+  	  	</div>
+  	  </div>
+  	</section>
   </div>
 </div>
+
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12 col-md-12 col-lg-12">
+  	<section class = "panel" id = "tournaments_panel">
+  	  <header class = "panel-heading"> 
+  	  	<ul class = "nav nav-tabs nav-justified tournament_nav">
+  	  	</ul>
+  	  </header>
+  	</section>
+  </div>
+</div>
+
+<div class = "team_id_hidden" data-id = "{{ team_id }}"></div>
+
+<script src="{% static 'js/team.js' %}"></script>
 
 {% endblock %}
