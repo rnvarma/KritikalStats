@@ -70,10 +70,14 @@ function click_handlers() {
             $("#main-content").css("margin-left", "240px");
     	}
     	var thisPointer = this
-    	if ($(thisPointer).hasClass("active")) {
-    		$(thisPointer).removeClass("active");
+    	if ($(thisPointer).hasClass("sb-active")) {
+    		$(thisPointer).removeClass("sb-active");
     	} else {
-    		$(thisPointer).addClass("active");
+            $(".sb-active").each(function(){
+                $(this).removeClass("sb-active");
+                $(this).nextAll(".sub").slideToggle("fast");
+            });
+    		$(thisPointer).addClass("sb-active");
     	}
         $(thisPointer).nextAll(".sub").slideToggle("fast");
     })
@@ -87,7 +91,7 @@ function click_handlers() {
     		$(".brand_img").attr("src", "/debate/static/images/crown.png");
     		$(".brand_img").css("width", "46px");
     		$(".dcjq-parent").each(function() {
-    			$(this).removeClass("active");
+    			$(this).removeClass("sb-active");
     			$(this).nextAll(".sub").hide();
     		})
             $("#main-content").css("margin-left", "70px");

@@ -275,7 +275,7 @@ ul.sidebar-menu li a {
     -ms-transition:all 0.3s ease;
     transition:all 0.3s ease;
 }
-ul.sidebar-menu li a.active,ul.sidebar-menu li a:hover,ul.sidebar-menu li a:focus {
+ul.sidebar-menu li a.sb-active,ul.sidebar-menu li a:hover,ul.sidebar-menu li a:focus {
     background:#28282e;
     color:#AB070F;
     display:block;
