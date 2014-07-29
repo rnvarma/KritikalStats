@@ -14,3 +14,8 @@
 .team_tourn_round {
 	cursor: pointer;
 }
+
+.about-btn:hover {
+	font-weight: 900;
+	color: #AB070F;
+}

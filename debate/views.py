@@ -43,6 +43,3 @@ def entries_page(request, tournament):
 
 def bracket_page(request, tournament):
 	return render(request, 'bracket.html', {'tournament': tournament})
-
-def test_home(request):
-	return render(request, 'new_base.html')
