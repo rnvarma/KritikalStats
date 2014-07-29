@@ -51,11 +51,6 @@ function widgetPopulate(data, tournament){
       var xsDateNode = document.createTextNode(monthnumber + '/' + startdateNumber + '-' + monthnumber + '/' + enddateNumber);
       xsDate.appendChild(xsDateNode);
 
-      //DOM for Teams Widget
-      var totalTeams = document.getElementById("dashboard-teams-entered");
-      var totalTeamsNumber = document.createTextNode(data[i].num_entries);
-      totalTeams.appendChild(totalTeamsNumber);
-
       //DOM for Bid Level
       var bidLevel = document.getElementById("dashboard-bid-level");
       bidLevelQuery = data[i].bid_round
@@ -143,6 +138,13 @@ function scrollSchoolPopulate(data){
   
 }
 
+function teamsEntered(data) {
+  //DOM for Teams Widget
+  var totalTeams = document.getElementById("dashboard-teams-entered");
+  var totalTeamsNumber = document.createTextNode(data.length);
+  totalTeams.appendChild(totalTeamsNumber);
+}
+
 $(document).ready(function () {
   var team_id = $(".team_id_hidden").attr("data-id");
   tournament = document.URL;
@@ -169,6 +171,7 @@ $(document).ready(function () {
       success: function (data) {
         scrollBidPopulate(data);
         scrollSchoolPopulate(data);
+        teamsEntered(data)
       },
       error: function(a , b, c){
         console.log('There is an error in retrieving tournament entries, dashboard.js');
