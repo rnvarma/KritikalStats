@@ -127,9 +127,10 @@ function showAll() {
 
 function initialize() { 
 	tournament_marker_list = []; 
-	var center_start = new google.maps.LatLng(37, -98); 
+	var center_start = new google.maps.LatLng(40, -98); 
 	var map_options = { 
-		zoom: 4, 
+		zoom: 5,
+		scrollwheel: false,
 		center: center_start, 
 		mapTypeControl: false,
 		panControl: false, 
@@ -232,4 +233,3 @@ function initialize() {
 
 
 $(document).ready(initialize)
-
