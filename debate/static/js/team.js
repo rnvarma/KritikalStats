@@ -34,6 +34,12 @@ function create_rounds_header(t_name, active) {
   tourn_row.appendChild(tourn_filler);
   tab_head.appendChild(tourn_row);
 
+  var prelim_title = document.createElement("h3");
+  var prelim = document.createTextNode("Prelims");
+  prelim_title.appendChild(prelim);
+  prelim_title.setAttribute("style", "text-align: center;");
+  tourn_filler.appendChild(prelim_title);
+
   var table = document.createElement("table");
   table.className = "table table-hover general-table " + t_name + "-table";
   tourn_filler.appendChild(table);
@@ -62,11 +68,11 @@ function create_rounds_header(t_name, active) {
   tr.appendChild(dec_th);
   
   // NOTE TODO: add once judge info is with rounds  
-  // var judge_th = document.createElement("th");
-  // var judge_text = document.createTextNode("Judge");
-  // judge_th.className = "hidden-xs hidden-sm";
-  // judge_th.appendChild(judge_text);
-  // tr.appendChild(judge_th); 
+  var judge_th = document.createElement("th");
+  var judge_text = document.createTextNode("Judge");
+  judge_th.className = "hidden-xs hidden-sm";
+  judge_th.appendChild(judge_text);
+  tr.appendChild(judge_th); 
 
   thead.appendChild(tr);
   table.appendChild(thead);
@@ -107,6 +113,11 @@ function create_round(round_data, round_type, team_code, last, team_id, tbody) {
   decision_div.innerText = decision;
   tr.appendChild(decision_div);
 
+  var judge_div = document.createElement("td");
+  var judge_name = document.createTextNode(round_data.judge);
+  judge_div.appendChild(judge_name);
+  tr.appendChild(judge_div);
+
   if (decision == "WON") {
     tr.className += " won_round bg-success";
   } else if (decision == "LOST") {
@@ -142,6 +153,11 @@ function create_tournament_rounds(rounds_data, code, team_id) {
    	  create_round(filled_list[i], round_type, code, false, team_id, tbody);
    	}
   }
+  $(".team_tourn_round").click(function () {
+    var id = $(this).attr("data-round_id");
+    var url = location.protocol + "//" + location.hostname + ":8000/round/" + id;
+    window.location.href = url;
+  })
 }
 
 function add_tab_content() {

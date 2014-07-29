@@ -2,26 +2,213 @@
 
 {% block content %}
 
-<div id="container-{{ tournament }}-Dashboard" data-tournament = "{{tournament}}" class = "dashboard">
-  <div class = "page_header">
-    <div class = "page_title">{{ tournament }} Dashboard
-    </div>
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12">
+    <section class = "panel">
+      <div class = "panel-body">
+        <div class = "hidden-xs col-sm-6 col-md-3 col-lg-3 pull-left">
+          <h1>Dashboard</h1>
+        </div>
+        <div class = "col-xs-6 hidden-sm hidden-md hidden-lg pull-left">
+          <h2>Dashboard</h2>
+        </div>
+        <div class = "col-sm-6 col-md-3 col-lg-3 pull-right">
+          <h2 style="text-align:right;">{{ tournament }}</h2>
+        </div>
+      </div>
+    </section>
   </div>
-
-  <div class = "form_after_header_seperator"></div>
-  <div class = "form_after_header_grey"></div>
-  <div class = "full_page">
-  
-
-  	<div class="top-half">
-    </div>
-
-    <div class="bottom-half">
-    </div>
-
-
-  </div>
-
 </div>
+
+<div class = "row">
+  <div class= "col-md-3 col-sm-4 col-xs-4 col-md-offset-1">
+    <div class= "profile-nav alt">
+      <section class= "panel text-center">
+        <div class= "user-heading alt wdgt-row terques-bg">
+          <i class="fa fa-calendar">
+          </i>
+        </div>
+        <div class= "panel-body">
+          <div class= "wdgt-value">
+            <div class= "hidden-xs">
+              <h1 class="count">Feb. 15 - 17</h1>
+            </div>
+            <div class = "hidden-sm hidden-md hidden-lg">
+              <h1 class="count">2/15-2/17</h1>
+            </div>
+            <p>Dates</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class= "col-md-3 col-sm-4 col-xs-4 center-block">
+    <div class= "profile-nav alt">
+      <section class= "panel text-center">
+        <div class= "user-heading alt wdgt-row red-bg">
+          <i class="fa fa-users">
+          </i>
+        </div>
+        <div class= "panel-body">
+          <div class= "wdgt-value">
+            <h1 class="count">300</h1>
+            <p>Teams Entered</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class= "col-md-3 col-sm-4 col-xs-4 center-block">
+    <div class= "profile-nav alt">
+      <section class= "panel text-center">
+        <div class= "user-heading alt wdgt-row yellow-bg">
+          <i class="fa fa-trophy">
+          </i>
+        </div>
+        <div class= "panel-body">
+          <div class= "wdgt-value">
+            <h1 class="count">Octos</h1>
+            <p>Bid Level</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col-md-4 col-sm-4 col-xs-4 col-lg-4 col-md-offset-1">
+    <section class= "panel">
+      <header class= "panel-heading">
+        Bidded Teams
+      </header>
+      <div class="panel-body">
+        <div class="slimScrollDiv" style="position: relative; overflow:hidden; width: auto; height:150px;">
+          <ul class="to-do-list ui-sortable" id="sortable-todo" style="overflow:hidden; width:auto; height:150px">
+            <li class="clearfix" style="position:relative;">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                Leland AV
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                Leland LK
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                Bellarmine SV
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                Kinkaid RT
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                McClatchy SH
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                CPS GY
+              </p>
+            </li>
+            </ul>
+            <div class="slimScrollBar" style="width: 7px; position: absolute; top: 38px; opacity: 0.4; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; height: 262.3906705539359px; background: rgb(0, 0, 0);"></div>
+            <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(51, 51, 51);"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class = "col-md-4 col-sm-4 col-xs-4 col-lg-4">
+    <section class= "panel">
+      <header class= "panel-heading">
+        Schools Attending
+      </header>
+      <div class="panel-body">
+        <div class="slimScrollDiv" style="position: relative; overflow:hidden; width: auto; height:150px;">
+          <ul class="to-do-list ui-sortable" id="sortable-todo" style="overflow:hidden; width:auto; height:150px">
+            <li class="clearfix" style="position:relative;">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                Leland AV
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                Leland LK
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                Bellarmine SV
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                Kinkaid RT
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                McClatchy SH
+              </p>
+            </li>
+            <li class="clearfix">
+              <span class="drag-marker">
+                <i></i>
+              </span>
+              <p class="todo-title" style="padding-left:20px;">
+                CPS GY
+              </p>
+            </li>
+            </ul>
+            <div class="slimScrollBar" style="width: 7px; position: absolute; top: 38px; opacity: 0.4; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; z-index: 99; right: 1px; height: 262.3906705539359px; background: rgb(0, 0, 0);"></div>
+            <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-right-radius: 7px; border-bottom-left-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(51, 51, 51);"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+
 
 {% endblock %}

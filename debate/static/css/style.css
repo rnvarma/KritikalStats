@@ -779,6 +779,11 @@ ul.top-menu>li>a:hover,ul.top-menu>li>a:focus {
     width:100%;
     display:inline-block;
 }
+
+.yellow-bg {
+    background:#EEDC82;
+}
+
 .right-side-accordion .red-bg {
     background:#fa8564;
     color:#fff;
