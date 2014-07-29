@@ -24,6 +24,7 @@ class Team(models.Model):
   team_code = models.CharField(max_length=50, blank=True, default='') # Advani & Varma
   tournaments = models.ManyToManyField(Tournament, related_name="entries")
   bids = models.ManyToManyField(Tournament, related_name="bids")
+  win_percent = models.IntegerField(default = 0)
 
   class Meta:
   	ordering = ('team_code',)
@@ -32,6 +33,8 @@ class Judge(models.Model):
   name = models.CharField(max_length=50, blank=True, default='')
   paradigm = models.TextField(blank=True, default='')
   school = models.CharField(max_length=50, blank=True, default='')
+  aff_percent = models.IntegerField(default = 0)
+  neg_percent = models.IntegerField(default = 0)
 
 class Round(models.Model):
   tournament = models.ManyToManyField(Tournament, related_name="rounds")
@@ -42,3 +45,7 @@ class Round(models.Model):
   loser = models.ForeignKey(Team, related_name="losses", blank=True, null=True)
   judge = models.ManyToManyField(Judge, related_name="rounds")
   round_num = models.IntegerField()
+  one_ac = models.CharField(max_length=200, blank=True, default='')
+  one_nc = models.CharField(max_length=200, blank=True, default='')
+  block = models.CharField(max_length=200, blank=True, default='')
+  two_nr = models.CharField(max_length=200, blank=True, default='')

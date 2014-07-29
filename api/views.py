@@ -28,6 +28,7 @@ class TeamDataFetch(APIView):
       bids.append(tourn_name)
     new_team['tournaments'] = tournaments
     new_team['bids'] = bids
+    new_team['win_percent'] = team_data['win_percent']
     return new_team
 
   def get(self, request, pk, format = None):

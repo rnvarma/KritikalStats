@@ -2,22 +2,29 @@
 {% load staticfiles %}
 
 {% block content %}
-  <div class="container-home" id="container-home">
-    <h1 class="page-header">Home</h1>
-
-    <div class="row placeholders">
-      <div class="col-xs-6 col-sm-3 placeholder">
-        <img class="circle" height= "200" width="200" src="{% static 'images/research.jpg' %}">
-        <h4>Research</h4>
-      </div>
-      <div class="col-xs-6 col-sm-3 placeholder">
-        <img class="circle" height= "200" width="200" src="{% static 'images/debate.jpg' %}">
-        <h4>Debate</h4>
-      </div>
-      <div class="col-xs-6 col-sm-3 placeholder">
-        <img class="circle" height= "200" width="200" src="{% static 'images/win.jpg' %}">
-        <h4>Win</h4>
+<div class="row">
+  <div class = "col-md-12">
+  	<div class = "panel">
+  	  <div class = "panel-heading">
+  	  	<h1>Tournaments</h1>
+  	  </div>
+  	  <div class = "panel-body">
+        <div class="container-home" id="container-home">
+          <div id = "maps-canvas" style = "height:70%; width:100%;"></div> 
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+  <script src = "https://maps.googleapis.com/maps/api/js?v=3.exp"> 
+  </script> 
+  <script src ="{% static 'js/homepgmap.js' %}">
+  </script>
+
+{% endblock %}
+
+{% block javascript %} 
+
+
 {% endblock %}

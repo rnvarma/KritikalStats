@@ -70,45 +70,21 @@ function click_handlers() {
             $("#main-content").css("margin-left", "240px");
     	}
     	var thisPointer = this
-    	if ($(thisPointer).hasClass("active")) {
-    		$(thisPointer).removeClass("active");
+    	if ($(thisPointer).hasClass("sb-active")) {
+    		$(thisPointer).removeClass("sb-active");
     	} else {
-    		$(thisPointer).addClass("active");
+            $(".sb-active").each(function(){
+                $(this).removeClass("sb-active");
+                $(this).nextAll(".sub").slideToggle("fast");
+            });
+    		$(thisPointer).addClass("sb-active");
     	}
         $(thisPointer).nextAll(".sub").slideToggle("fast");
     })
 
     $(".sidebar-toggle-box").click(function() {
-    	if ($(".brand").css("width") == "240px") {
-    		$(".brand").animate({
-    			width: "70px"
-    		}, {duration: 500, queue: false});
-    		$(".sb-tab").hide(0);
-    		$(".brand_img").attr("src", "/debate/static/images/crown.png");
-    		$(".brand_img").css("width", "46px");
-    		$(".dcjq-parent").each(function() {
-    			$(this).removeClass("active");
-    			$(this).nextAll(".sub").hide();
-    		})
-            $("#main-content").css("margin-left", "70px");
-    	} else {
-    		$(".brand").animate({
-    			width: "240px"
-    		}, {duration: 500, queue: false});
-    		$(".sb-tab").show(0);
-    		$(".brand_img").attr("src", "/debate/static/images/logo.png");
-    		$(".brand_img").css("width", "210");
-            $("#main-content").css("margin-left", "240px");
-    	}
-    	if ($("#sidebar").css("width") == "240px") {
-    		$("#sidebar").animate({
-    			width: "70px"
-    		}, {duration: 500, queue: false});
-    	} else {
-    		$("#sidebar").animate({
-    			width: "240px"
-    		}, {duration: 500, queue: false});
-    	}
+        $("#sidebar").toggleClass("hide-left-bar");
+        $("#main-content").toggleClass("merge-left");
     })
 }
 

@@ -145,10 +145,11 @@ a,a:hover,a:focus {
     height:100%;
     position:fixed;
     background:#32323a;
-    /*-webkit-transition:all .3s ease-in-out;
+    overflow: scroll;
+    -webkit-transition:all .3s ease-in-out;
     -moz-transition:all .3s ease-in-out;
     -o-transition:all .3s ease-in-out;
-    transition:all .3s ease-in-out;*/
+    transition:all .3s ease-in-out;
 }
 #sidebar ul li {
     position: relative;
@@ -274,7 +275,7 @@ ul.sidebar-menu li a {
     -ms-transition:all 0.3s ease;
     transition:all 0.3s ease;
 }
-ul.sidebar-menu li a.active,ul.sidebar-menu li a:hover,ul.sidebar-menu li a:focus {
+ul.sidebar-menu li a.sb-active,ul.sidebar-menu li a:hover,ul.sidebar-menu li a:focus {
     background:#28282e;
     color:#AB070F;
     display:block;

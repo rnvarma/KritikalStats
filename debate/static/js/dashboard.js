@@ -84,14 +84,16 @@ function widgetPopulate(data, tournament){
 function scrollBidPopulate(data){
   var bidScroll = document.getElementById("dashboard-bidded-teams-scroll");
   for (i=0; i<data.length; i++){
-    if (data[i].bids > 0) {
+    if (data[i].bids.length > 0) {
+      // console.log (data[i].team_code)
+      // console.log(data[i].bids)
       var li = document.createElement('li');
       li.className = "clearfix";
       li.style.position = "relative;";
       var span = document.createElement('span');
       span.className = "drag-marker";
-      var i = document.createElement('i');
-      span.appendChild(i);
+      var iValue = document.createElement('i');
+      span.appendChild(iValue);
       var p = document.createElement('p');
       p.className = "todo-title";
       p.style.paddingLeft = "20px";
