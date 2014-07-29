@@ -2,20 +2,29 @@
 {% load staticfiles %}
 
 {% block content %}
-  <div class="container-home" id="container-home">
-    <div id = "map-canvas" style = "height:750px; width:1250px;">
-    </div> 
-
-
+<div class="row">
+  <div class = "col-md-12">
+  	<div class = "panel">
+  	  <div class = "panel-heading">
+  	  	<h1>Tournaments</h1>
+  	  </div>
+  	  <div class = "panel-body">
+        <div class="container-home" id="container-home">
+          <div id = "maps-canvas" style = "height:70%; width:100%;"></div> 
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
-{% endblock %}
-
-{% block javascript %} 
   <script src = "https://maps.googleapis.com/maps/api/js?v=3.exp"> 
   </script> 
   <script src ="{% static 'js/homepgmap.js' %}">
   </script>
+
+{% endblock %}
+
+{% block javascript %} 
 
 
 {% endblock %}

@@ -13,7 +13,7 @@ class TournamentSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
   class Meta:
   	model = Team
-  	fields = ('team_name', 'team_code', 'tournaments','bids')
+  	fields = ('team_name', 'team_code', 'tournaments','bids', 'win_percent')
 
 class JudgeSerializer(serializers.ModelSerializer):
   class Meta:

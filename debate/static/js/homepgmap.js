@@ -182,7 +182,7 @@ function initialize() {
 	];
 
 
-	map = new google.maps.Map(document.getElementById('map-canvas'), map_options); 
+	map = new google.maps.Map(document.getElementById('maps-canvas'), map_options); 
 	map.mapTypes.set('cleanMapStyle', new google.maps.StyledMapType(cleanMapStyle, { name: 'cleanMapStyle' }));
 //  map.controls[google.maps.ControlPosition.TOP_CENTER].push(filterTournamentBox);
 //  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(test);
