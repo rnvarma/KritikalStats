@@ -32,6 +32,9 @@ def about_page(request):
 def admin_page(request):
 	return render(request, 'admin.html')
 
+def admin_login_page(request):
+	return render(request, 'admin_login.html')
+
 def dashboard_page(request, tournament):
 	return render(request, 'dashboard.html', {'tournament': tournament})
 
