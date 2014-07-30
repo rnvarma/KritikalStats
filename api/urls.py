@@ -16,5 +16,6 @@ urlpatterns = patterns('',
     url(r'^1/create/tournament', views.TournamentCreate.as_view()),
     url(r'^1/create/round', views.RoundCreate.as_view()),
     url(r'^1/judges/list', views.JudgeList.as_view()),
+    url(r'^1/similarteams/?$', views.SimilarTeams.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )

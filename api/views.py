@@ -6,7 +6,10 @@ from django.http import Http404
 from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer
 from api.models import Team, Tournament, Round, Judge
 from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
+from api.merge_teams import merge_teams
 from django.shortcuts import render
+
+import Levenshtein
 
 class TeamDataFetch(APIView):
 
@@ -205,5 +208,56 @@ class RoundData(APIView):
     serializer = RoundSerializer(r_data)
     processed_data = TournamentRounds.process_rounds([serializer.data])
     return Response(processed_data)
+
+class SimilarTeams(APIView):
+
+  @classmethod
+  def double_count_present(cls, obj, obj_list):
+    for o in obj_list:
+      if o["team1"] == obj["team2"] and o["team2"] == obj["team1"]:
+        return True
+    return False
+
+  @classmethod
+  def identify_similar_teams(cls):
+    matches = []
+    final = []
+    teams = Team.objects.all()
+    for team_primary in teams:
+      p_school = team_primary.team_code[:-3]
+      for team_sec in teams:
+        s_school = team_sec.team_code[:-3]
+        if (p_school != s_school):
+          if Levenshtein.ratio(team_primary.team_code, team_sec.team_code) > 0.50:
+            matches.append((team_primary, team_sec))
+    for t1, t2 in matches:
+      if Levenshtein.ratio(t1.team_name, t2.team_name) > .60:
+        data = {}
+        data["team1"] = {"team_code": t1.team_code, "team_name": t1.team_name, "id": t1.id}
+        data["team2"] = {"team_code": t2.team_code, "team_name": t2.team_name, "id": t2.id}
+        data["score"] = Levenshtein.ratio(t1.team_name, t2.team_name) + Levenshtein.ratio(t1.team_code, t2.team_code)
+        final.append(data)
+    processed_data = []
+    for obj in final:
+      if not processed_data:
+        processed_data.append(obj)
+      elif (obj not in processed_data) and (not SimilarTeams.double_count_present(obj, processed_data)):
+        processed_data.append(obj)
+    return processed_data
+
+  def get(self, request, format = None):
+    team_list = SimilarTeams.identify_similar_teams()
+    return Response(team_list)
+
+  def post(self, request, format = None):
+    if not request.DATA.get("merge", False):
+      return HTTP_403_FORBIDDEN("Incorrect request")
+    main_team = request.DATA.get("main", False)
+    side_team = request.DATA.get("side", False)
+    if not (main_team and side_team):
+      return HTTP_403_FORBIDDEN("Incorrect request, specify teams")
+    if request.DATA.get("execute", False):
+      merge_teams(main_team, side_team)
+    return Response({"We did well": "yeee"})
 
 
