@@ -1,7 +1,85 @@
-{% extends "new_base.html" %}
+{% extends "admin_base.html" %}
 
 {% block content %}
 {% load staticfiles %}
+
+<div class="row">
+  <div class = "col-md-12 col-xs-12">
+    <div class = "panel">
+      <div class = "panel-heading">
+        <h1>Create Tournament</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class= "col-lg-12 col-sm-12 col-xs-12 col-md-12">
+  <section class="panel">
+    <div class="panel-body">
+      <div class="position-center">
+        <form id="tournament-form" class= "form" method="POST" action ="/1/create/tournament">
+          {% csrf_token %}
+
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Tournament</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Tournament</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_name" class="form-control" name = "name" placeholder="What is the tournament name?">
+              <p></p>
+            </div>
+          </div>
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Entry URL</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Entry URL</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_entries" class="form-control" name = "entry_url" placeholder="Provide a url to the entry list">
+              <p></p>
+            </div>
+          </div>
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Current Round</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Current Round</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_curr_rounds" class="form-control" name = "curr_rounds" placeholder="Enter current round/tournament complete=??">
+              <p></p>
+            </div>
+          </div>
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Prelim Count</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Prelim Count</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_prelims" class="form-control" name = "prelims" placeholder="How many prelims are there?">
+              <p></p>
+            </div>
+          </div>
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Breaks to </label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Breaks to</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_break" class="form-control" name = "break" placeholder="What does it break to? (Ex: Doubles, Semi-finals..)">
+              <p></p>
+            </div>
+          </div>
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Bid round</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Bid round</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_bid" class="form-control" name = "bid" placeholder="What's the bid round? (Ex: Quarters, Octos..)">
+              <p></p>
+            </div>
+          </div>
+          <div class ="form-group">
+            <div class="col-lg-offset-4 col-lg-8 col-xs-offset-2 col-xs-8">
+              <button type="submit" class="btn btn-danger">Submit!</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
 <div class = "page_header">
 	<div class = "page_title">Create a Tournament</div>
 </div>

@@ -1,7 +1,72 @@
-{% extends "new_base.html" %}
+{% extends "admin_base.html" %}
 
 {% block content %}
 {% load staticfiles %}
+
+<div class="row">
+  <div class = "col-md-12 col-xs-12">
+    <div class = "panel">
+      <div class = "panel-heading">
+        <h1>Create Round</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class= "col-lg-12 col-sm-12 col-xs-12 col-md-12">
+  <section class="panel">
+    <div class="panel-body">
+      <div class="position-center">
+        <form id="tournament-form" class= "form" method="POST" action ="/1/create/round">
+          {% csrf_token %}
+
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Tournament</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Tournament</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_tname" class="form-control" name = "tname" placeholder="What is the tournament name?">
+              <p></p>
+            </div>
+          </div>
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Round URL</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Round URL</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_url" class="form-control" name = "round_url" placeholder="Provide a url to the round pairings">
+              <p></p>
+            </div>
+          </div>
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Round Number</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Round Number</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_round_num" class="form-control" name = "round_num" placeholder="What is the round number?">
+              <p></p>
+            </div>
+          </div>
+          <div class= "form-group">
+            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Tournament Status</label>
+            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Tournament Status</label>
+            <div class="col-lg-9">
+              <input type="text" id = "input_status" class="form-control" name = "status" placeholder="What is the tournament status?">
+              <p></p>
+            </div>
+          </div>
+          <div class ="form-group">
+            <div class="col-lg-offset-4 col-lg-8 col-xs-offset-2 col-xs-8">
+              <button type="submit" class="btn btn-danger">Submit!</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+
 <div class = "page_header">
 	<div class = "page_title">Create a Round</div>
 </div>
@@ -14,10 +79,18 @@
   	{% csrf_token %}
   	<input class="text_input" id="input_tname" name="tname" placeholder="What is the tournament name?" type="text"/>
   	<input class="text_input" id="input_url" name="round_url" placeholder="Provide a url to the round pairings list" type="text"/>
+  	
+
+
   	<input class="text_input" id="input_round_num" name="round_num" placeholder="What is the round number?" type="text"/>
+    
+
+
+
+
     <input class="text_input" id="input_status" name="status" placeholder="What is the tournament status?" type="text"/>
   	<button type="submit" class="complete_button">Submit!</button>
-  </forrm>
+  </form>
 </div>
 
 <script src="{% static 'js/tourn_entry.js' %}"></script>
