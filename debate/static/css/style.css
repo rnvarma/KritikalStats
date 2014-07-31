@@ -58,6 +58,21 @@ a,a:hover,a:focus {
     border-radius:5px;
     -webkit-border-radius:5px;
 }
+
+.admin-form-label{
+    text-align:right;
+    font-weight:300;
+    font-size:14px;
+    padding-top:1%;
+}
+
+.admin-form-label-xs{
+    text-align:center;
+    font-weight:300;
+    font-size:14px;
+    padding-top:1%;
+}
+
 .form-signin h2.form-signin-heading {
     margin:0;
     padding:35px 15px;
@@ -321,6 +336,7 @@ ul.sidebar-menu li a.active i {
     -o-transition:all .3s ease-in-out;
     transition:all .3s ease-in-out;
 }
+
 .merge-header {
     margin-right:240px;
 }
@@ -2071,6 +2087,17 @@ ul.inbox-pagination li {
 .mail-option .chk-all,.mail-option .btn-group {
     margin-right:5px;
 }
+
+.admin-header {
+    display: inline-block;
+    text-align: center;
+    vertical-align:middle;
+    background-image:none;
+    border: 1px solid transparent;
+    font-size:30px;
+    color:#f69200;
+}
+
 .mail-option .chk-all,.mail-option .btn-group a.btn {
     border:1px solid #e7e7e7;
     padding:5px 10px;
