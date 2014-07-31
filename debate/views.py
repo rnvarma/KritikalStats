@@ -46,3 +46,6 @@ def entries_page(request, tournament):
 
 def bracket_page(request, tournament):
 	return render(request, 'bracket.html', {'tournament': tournament})
+
+def merge_teams(request):
+	return render(request, 'merge_teams.html')
