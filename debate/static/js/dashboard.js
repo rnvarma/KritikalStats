@@ -146,7 +146,6 @@ function teamsEntered(data) {
 }
 
 $(document).ready(function () {
-  var team_id = $(".team_id_hidden").attr("data-id");
   tournament = document.URL;
   tournament = tournament.split('/');
   tournament = tournament[tournament.length-2];
