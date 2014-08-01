@@ -233,8 +233,8 @@ class SimilarTeams(APIView):
     for t1, t2 in matches:
       if Levenshtein.ratio(t1.team_name, t2.team_name) > .60:
         data = {}
-        data["team1"] = {"team_code": t1.team_code, "team_name": t1.team_name, "id": t1.id}
-        data["team2"] = {"team_code": t2.team_code, "team_name": t2.team_name, "id": t2.id}
+        data["team1"] = TeamDataFetch.process_teams(TeamSerializer(Team.objects.get(id=t1.id)).data)
+        data["team2"] = TeamDataFetch.process_teams(TeamSerializer(Team.objects.get(id=t2.id)).data)
         data["score"] = Levenshtein.ratio(t1.team_name, t2.team_name) + Levenshtein.ratio(t1.team_code, t2.team_code)
         final.append(data)
     processed_data = []
@@ -254,10 +254,10 @@ class SimilarTeams(APIView):
       return HTTP_403_FORBIDDEN("Incorrect request")
     main_team = request.DATA.get("main", False)
     side_team = request.DATA.get("side", False)
-    if not (main_team and side_team):
+    if not (main_team and side_team): 
       return HTTP_403_FORBIDDEN("Incorrect request, specify teams")
     if request.DATA.get("execute", False):
       merge_teams(main_team, side_team)
-    return Response({"We did well": "yeee"})
+    return Response({"teams_merged": True})
 
 
