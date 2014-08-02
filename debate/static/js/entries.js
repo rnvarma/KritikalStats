@@ -13,7 +13,7 @@ function create_entry(team_data) {
   name_td.appendChild(team_name);
 
   var winp_td = document.createElement("td");
-  var team_winp = document.createTextNode("0%");
+  var team_winp = document.createTextNode(team_data["win_percent"].toString() + "%");
   winp_td.appendChild(team_winp);
 
   var bids_td = document.createElement("td");

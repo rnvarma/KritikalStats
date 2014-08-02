@@ -1,0 +1,105 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+{% load staticfiles %}
+<div class="row">
+  <div class = "col-md-12">
+  	<div class = "panel">
+  	  <div class = "panel-heading">
+  	    <h1>Merge Teams</h1>
+  	    <h4 class = "text-muted">Are these teams the same?</h4>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class = "row merge-display">
+  <div class = "col-md-12">
+  	<div class = "panel">
+  	  <div class = "panel-heading">
+  	  	<h4>Verify whether or not these two teams are the same</h4>
+  	  </div>
+  	  <div class = "panel-body">
+  	  	<div class = "row">
+  	  	  <div class = "col-xs-12 col-sm-6 col-md-6">
+  	  	  	<div class = "panel">
+  	  	  	  <div class = "panel-heading">
+  	  	  	  	<div class = "team1_name"></div>
+  	  	  	  </div>
+  	  	  	  <div class = "panel-body bg-warning" style = "height:40%;overflow:scroll;">
+                <div style = "text-align:center;">
+                <h4><b>Team Code:</b></h4><h3 class = "team1_code"></h3>
+                <h4><b>Team Name:</b></h4><h3 class = "team1_names"></h3>
+              </div>
+                <table class = "table">
+                  <thead>
+                    <tr>
+                      <th>Tournaments Attended</th>
+                      <th>Bids</th>
+                    </tr>
+                  </thead>
+                  <tbody class = "team1_table">
+                  </tbody>
+                </table>
+  	  	  	  </div>
+  	  	  	</div>
+  	  	  </div>
+  	  	  <div class = "col-xs-12 col-sm-6 col-md-6">
+  	  	  	<div class = "panel">
+  	  	  	  <div class = "panel-heading">
+  	  	  	  	<div class = "team2_name"></div>
+  	  	  	  </div>
+  	  	  	  <div class = "panel-body bg-warning" style = "height:40%;overflow:scroll;">
+                <div style = "text-align: center;">
+                <h4><b>Team Code:</b></h4><h3 class = "team2_code"></h3>
+                <h4><b>Team Name:</b></h4><h3 class = "team2_names"></h3>
+              </div>
+                <table class = "table" >
+                  <thead>
+                    <tr>
+                      <th>Tournaments Attended</th>
+                      <th>Bids</th>
+                    </tr>
+                  </thead>
+                  <tbody class = "team2_table"> 
+                  </tbody>
+                </table>
+  	  	  	  </div>
+  	  	  	</div>
+  	  	  </div>
+  	  	</div>
+  	  </div>
+  	</div>
+  </div>
+</div>
+
+<div class = "row merge-btns">
+  <div class = "col-md-12">
+    <div class = "panel">
+      <div class = "panel-body">
+        <!-- <div class = "btn-group btn-group-justified"> -->
+          <div class ="btn btn-warning col-xs-12 col-md-4 team1_button" style="font-size:150%"></div>
+          <div class ="btn btn-danger col-xs-12 col-md-4 next_team_btn" style="font-size:150%">Don't Merge</div>
+          <div class ="btn btn-warning col-xs-12 col-md-4 team2_button" style="font-size:150%"></div>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class = "row merge-complete" style="display:none;">
+  <div class = "col-md-12">
+    <div class = "panel">
+      <div class = "panel-heading">
+        <h2>All Finished!</h2>
+      </div>
+      <div class = "panel-body">
+        <h4>Thank you for helping maintain the quality of KritikalStat</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src ="{% static 'js/merge_teams.js' %}"></script>
+
+{% endblock %}

@@ -2,12 +2,22 @@
 {% load staticfiles %}
 
 {% block content %}
-  <div class="row">
-    <div id = "map-canvas" class = "col-lg-12 col-md-12 co-sm-12">
-    </div> 
 
-
+<div class="row">
+  <div class = "col-md-12">
+  	<div class = "panel">
+  	  <div class = "panel-heading">
+  	  	<h1>Tournaments</h1>
+        <h4 class = "text-muted">currently happening across the nation</h4>
+  	  </div>
+  	  <div class = "panel-body">
+        <div class="container-home" id="container-home">
+          <div id = "maps-canvas" style = "height:65%; width:100%;"></div> 
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
   <script src = "https://maps.googleapis.com/maps/api/js?v=3.exp"> 
   </script> 
@@ -17,6 +27,10 @@
 
 {% block javascript %} 
 
+
+{% endblock %}
+
+{% block javascript %} 
 
 
 {% endblock %}

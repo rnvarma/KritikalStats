@@ -6,7 +6,23 @@ from django.http import Http404
 from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer
 from api.models import Team, Tournament, Round, Judge
 from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
-from django.shortcuts import render
+from api.merge_teams import merge_teams
+from django.shortcuts import render, redirect
+
+import Levenshtein
+
+class UpdateObjects:
+
+  @classmethod
+  def update_object_attributes(cls, obj, attributes):
+    # takes an object model and a dictionary of values and keys
+    # and updates the object based on the dictioary where the 
+    # keys are actual fields of the model and it checks if the 
+    # values are different than in the DB and saves them if so
+    for key in attributes.keys():
+      val = attributes[key]
+      setattr(obj, key, val)
+      obj.save()
 
 class TeamDataFetch(APIView):
 
@@ -28,6 +44,7 @@ class TeamDataFetch(APIView):
       bids.append(tourn_name)
     new_team['tournaments'] = tournaments
     new_team['bids'] = bids
+    new_team['win_percent'] = team_data['win_percent']
     return new_team
 
   def get(self, request, pk, format = None):
@@ -204,5 +221,87 @@ class RoundData(APIView):
     serializer = RoundSerializer(r_data)
     processed_data = TournamentRounds.process_rounds([serializer.data])
     return Response(processed_data)
+
+class SimilarTeams(APIView):
+
+  @classmethod
+  def double_count_present(cls, obj, obj_list):
+    for o in obj_list:
+      if o["team1"] == obj["team2"] and o["team2"] == obj["team1"]:
+        return True
+    return False
+
+  @classmethod
+  def identify_similar_teams(cls):
+    matches = []
+    final = []
+    teams = Team.objects.all()
+    for team_primary in teams:
+      p_school = team_primary.team_code[:-3]
+      for team_sec in teams:
+        s_school = team_sec.team_code[:-3]
+        if (p_school != s_school):
+          if Levenshtein.ratio(team_primary.team_code, team_sec.team_code) > 0.50:
+            matches.append((team_primary, team_sec))
+    for t1, t2 in matches:
+      if Levenshtein.ratio(t1.team_name, t2.team_name) > .60:
+        data = {}
+        data["team1"] = TeamDataFetch.process_teams(TeamSerializer(Team.objects.get(id=t1.id)).data)
+        data["team2"] = TeamDataFetch.process_teams(TeamSerializer(Team.objects.get(id=t2.id)).data)
+        data["score"] = Levenshtein.ratio(t1.team_name, t2.team_name) + Levenshtein.ratio(t1.team_code, t2.team_code)
+        final.append(data)
+    processed_data = []
+    for obj in final:
+      if not processed_data:
+        processed_data.append(obj)
+      elif (obj not in processed_data) and (not SimilarTeams.double_count_present(obj, processed_data)):
+        processed_data.append(obj)
+    return processed_data
+
+  def get(self, request, format = None):
+    team_list = SimilarTeams.identify_similar_teams()
+    return Response(team_list)
+
+  def post(self, request, format = None):
+    if not request.DATA.get("merge", False):
+      return HTTP_403_FORBIDDEN("Incorrect request")
+    main_team = request.DATA.get("main", False)
+    side_team = request.DATA.get("side", False)
+    if not (main_team and side_team): 
+      return HTTP_403_FORBIDDEN("Incorrect request, specify teams")
+    if request.DATA.get("execute", False):
+      merge_teams(main_team, side_team)
+    return Response({"teams_merged": True})
+
+class UpdateTournaments(APIView):
+
+  def post(self, request, format = None):
+    t_name = request.DATA.get("tourn_name")
+    tourn = Tournament.objects.get(tournament_name = t_name)
+    dates = request.DATA.get("date").split("-")
+    date_nums = []
+    for date in dates:
+      month, day, year = date.split("/")
+      if len(month) < 2:
+        month = "0" + month
+      if len(day) < 2:
+        day = "0" + day
+      date = int(year + month + day)
+      date_nums.append(date)
+    start_date, end_date = date_nums[0], date_nums[1]
+    location = request.DATA.get("location")
+    bid = request.DATA.get("bid_level")
+    attributes = {"loc": location,
+                  "start_date": start_date,
+                  "end_date": end_date,
+                  "bid_round": bid}
+    UpdateObjects.update_object_attributes(tourn, attributes)
+    return redirect("/admin")
+
+
+
+
+
+
 
 

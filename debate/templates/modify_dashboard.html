@@ -1,0 +1,63 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+{% load staticfiles %}
+
+<div class="row">
+  <div class = "col-md-12 col-xs-12">
+    <div class = "panel">
+      <div class = "panel-heading">
+        <h1>Modify {{tournament}} Dashboard</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class= "col-lg-12 col-sm-12 col-xs-12 col-md-12">
+  <section class="panel">
+    <div class="panel-body">
+      <div class="position-center">
+        <form id="tournament-form" class= "form" method="POST" action ="/1/update/tournament_data">
+          {% csrf_token %}
+
+          <div class="form-group">
+            <label class= "col-lg-12 col-sm-12 col-md-12 admin-form-label-modify">Date</label>
+            <div class="col-lg-12 col-sm-12 col-md-12"> 
+              <input contenteditable="true" class="form-control cke_editable cke_editable_incline cke_contents_ltr" tableindex="0" spellcheck="true" style="position:relative;" role="textbox" title="Rich Text Editor, editor1" aria-describedby="cke_53" id ="modify-dashboard-date" name = "date">
+              </input>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class= "col-lg-12 col-sm-12 col-md-12 admin-form-label-modify">Location</label>
+            <div class="col-lg-12 col-sm-12 col-md-12"> 
+              <input contenteditable="true" class="form-control cke_editable cke_editable_incline cke_contents_ltr" tableindex="0" spellcheck="true" style="position:relative;" role="textbox" title="Rich Text Editor, editor1" aria-describedby="cke_53" id = "modify-location" name = "location">
+              </input>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class= "col-lg-12 col-sm-12 col-md-12 admin-form-label-modify">Number of Teams that Bid (Ex: 16, 8, 4..)</label>
+            <div class="col-lg-12 col-sm-12 col-md-12"> 
+              <input contenteditable="true" class="form-control cke_editable cke_editable_incline cke_contents_ltr" tableindex="0" spellcheck="true" style="position:relative;" role="textbox" title="Rich Text Editor, editor1" aria-describedby="cke_53" id ="modify-dashboard-bid" name = "bid_level">
+              </input>
+              <p></p>
+            </div>
+          </div>
+
+          <div class ="form-group">
+            <div class="col-lg-offset-4 col-lg-8 col-xs-offset-2 col-xs-8">
+          <input type="hidden" name = "tourn_name" id="tourn-name"></input>
+              <button type="submit" class="btn btn-danger">Modify!</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="{% static 'js/modify_dashboard.js' %}"></script>
+
+{% endblock %}

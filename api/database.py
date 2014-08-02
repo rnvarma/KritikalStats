@@ -14,6 +14,8 @@ def enter_team_list(url, tournament, website="tabroom"):
     code = process_team_code(code)
     try:
       team = Team.objects.get(team_code = code)
+      if team.team_name != names:
+        team = Team(team_code = code, team_name = name)
       print "got team %s" % code
       team.tournaments.add(tourny)
     except:

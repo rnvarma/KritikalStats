@@ -145,9 +145,10 @@ function showAll() {
 function initialize() { 
 	alert("hello");
 	tournament_marker_list = []; 
-	var center_start = new google.maps.LatLng(37, -98); 
+	var center_start = new google.maps.LatLng(40, -98); 
 	var map_options = { 
-		zoom: 4, 
+		zoom: 5,
+		scrollwheel: false,
 		center: center_start, 
 		mapTypeControl: false,
 		panControl: false, 
@@ -200,7 +201,7 @@ function initialize() {
 	];
 
 
-	map = new google.maps.Map(document.getElementById('map-canvas'), map_options); 
+	map = new google.maps.Map(document.getElementById('maps-canvas'), map_options); 
 	map.mapTypes.set('cleanMapStyle', new google.maps.StyledMapType(cleanMapStyle, { name: 'cleanMapStyle' }));
 //  map.controls[google.maps.ControlPosition.TOP_CENTER].push(filterTournamentBox);
 //  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(test);
@@ -241,4 +242,3 @@ function initialize() {
 
 
 $(document).ready(initialize)
-
