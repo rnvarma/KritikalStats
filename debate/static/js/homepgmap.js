@@ -73,6 +73,19 @@ function setTournament(tournament) {
 						addedTournament.tournament_window.open(map); 
 					}
 				);
+
+				google.maps.event.addListener(addedTournament.Marker, 'mouseover', 
+					function(evt) { 
+						addedTournament.tournament_window.open(map); 
+					}
+				); 
+
+				google.maps.event.addListener(addedTournament.Marker, 'mouseout', 
+					function(evt) { 
+						setTimeout(function() { addedTournament.tournament_window.close(); }, 5000); 
+					}
+				); 
+
 			} else { 
 				alert("failure " + status); 
 			}
@@ -80,6 +93,10 @@ function setTournament(tournament) {
 	);
 }
 
+
+function createDelay() { 
+
+}
 
 /*
 function filterTournaments(filter_field, requirement) { 
@@ -126,6 +143,7 @@ function showAll() {
 
 
 function initialize() { 
+	alert("hello");
 	tournament_marker_list = []; 
 	var center_start = new google.maps.LatLng(37, -98); 
 	var map_options = { 
@@ -195,15 +213,6 @@ function initialize() {
 	})
 	//hardcoded for display
 /* 
-    setTournament('Greenhill', 'Dallas, Texas');
-    setTournament('Gonzaga', 'Spokane, Washington');
-    setTournament('Bronx', 'New York City, New York');
-    setTournament('Blake', 'Minneapolis, Minnesota');
-    setTournament('Long Beach', 'Long Beach, California');
-    setTournament('Fullerton', 'Fullerton, California');
-    setTournament('USC', 'Los Angeles, California');
-    setTournament('Cal', 'Berkeley, California');
-    setTournament('Stanford', 'Palo Alto, California');
 
   $(".filterButton").click(
   	function() { 
