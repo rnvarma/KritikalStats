@@ -298,6 +298,17 @@ class UpdateTournaments(APIView):
     UpdateObjects.update_object_attributes(tourn, attributes)
     return redirect("/admin")
 
+class TournamentSpecificRound(APIView):
+
+  def get(self, request, pk, r_num, format=None):
+    tournaments = Tournament.objects.get(tournament_name=pk)
+    rounds = tournaments.rounds.filter(round_num=r_num)
+    serializer = RoundSerializer(rounds, many=True)
+    rounds = TournamentRounds.process_rounds(serializer.data)
+    data = {}
+    data["curr_round"] = tournaments.curr_rounds
+    data["rounds"] = rounds
+    return Response(data)
 
 
 
