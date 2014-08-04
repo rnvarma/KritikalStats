@@ -7,9 +7,22 @@ from api.serializers import TeamSerializer, TournamentSerializer, RoundSerialize
 from api.models import Team, Tournament, Round, Judge
 from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
 from api.merge_teams import merge_teams
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 import Levenshtein
+
+class UpdateObjects:
+
+  @classmethod
+  def update_object_attributes(cls, obj, attributes):
+    # takes an object model and a dictionary of values and keys
+    # and updates the object based on the dictioary where the 
+    # keys are actual fields of the model and it checks if the 
+    # values are different than in the DB and saves them if so
+    for key in attributes.keys():
+      val = attributes[key]
+      setattr(obj, key, val)
+      obj.save()
 
 class TeamDataFetch(APIView):
 
@@ -259,5 +272,36 @@ class SimilarTeams(APIView):
     if request.DATA.get("execute", False):
       merge_teams(main_team, side_team)
     return Response({"teams_merged": True})
+
+class UpdateTournaments(APIView):
+
+  def post(self, request, format = None):
+    t_name = request.DATA.get("tourn_name")
+    tourn = Tournament.objects.get(tournament_name = t_name)
+    dates = request.DATA.get("date").split("-")
+    date_nums = []
+    for date in dates:
+      month, day, year = date.split("/")
+      if len(month) < 2:
+        month = "0" + month
+      if len(day) < 2:
+        day = "0" + day
+      date = int(year + month + day)
+      date_nums.append(date)
+    start_date, end_date = date_nums[0], date_nums[1]
+    location = request.DATA.get("location")
+    bid = request.DATA.get("bid_level")
+    attributes = {"loc": location,
+                  "start_date": start_date,
+                  "end_date": end_date,
+                  "bid_round": bid}
+    UpdateObjects.update_object_attributes(tourn, attributes)
+    return redirect("/admin")
+
+
+
+
+
+
 
 
