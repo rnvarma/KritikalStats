@@ -23,6 +23,9 @@ def team_page(request, id):
 def round_page(request, id):
 	return render(request, 'round.html', {'round_id': id})
 
+def archived_tournaments(request, year):
+	return render(request, 'archived_tournaments.html', {'year':year})
+
 def loading_test(request):
 	return render(request, 'loading.html')
 
