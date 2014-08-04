@@ -143,7 +143,6 @@ function showAll() {
 
 
 function initialize() { 
-	alert("hello");
 	tournament_marker_list = []; 
 	var center_start = new google.maps.LatLng(40, -98); 
 	var map_options = { 

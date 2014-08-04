@@ -1,8 +1,11 @@
-{% extends 'new_base.html' %}
+{% extends 'tournament_base.html' %}
+{% load staticfiles %}
+
 
 {% block content %}
 
 <div id="container-{{ tournament }}-Bracket" class = "bracket"><h1 class="page-header">Bracket</h1></div>
 
 
+<script src="{% static 'js/tournament_page.js' %}"></script>
 {% endblock %}

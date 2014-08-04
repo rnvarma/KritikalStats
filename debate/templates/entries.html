@@ -1,4 +1,4 @@
-{% extends 'new_base.html' %}
+{% extends 'tournament_base.html' %}
 
 {% block content %}
 {% load staticfiles %}
@@ -45,6 +45,7 @@
 <div class = "entries_hidden" data-tournament = "{{tournament}}"></div>
 
 <script src="{% static 'js/entries.js' %}"></script>
+<script src="{% static 'js/tournament_page.js' %}"></script>
 
 {% endblock %}
 
