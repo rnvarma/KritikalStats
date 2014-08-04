@@ -34,7 +34,7 @@ function populate_round(t_name, round_data) {
   	aff_tr.setAttribute("data-wins", a_wins);
   	var n_losses = (Number(neg_tr.getAttribute("data-losses")) + 1).toString();
   	neg_tr.setAttribute("data-losses", n_losses);
-  } else {
+  } else if (round_data.winner == round_data.neg_id){
   	neg_td.className = "mainpage-round round-won bg-success";
   	aff_td.className = "mainpage-round round-loss bg-danger";
   	var n_wins = (Number(neg_tr.getAttribute("data-wins")) + 1).toString();

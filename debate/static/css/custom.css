@@ -19,3 +19,25 @@
 	font-weight: 900;
 	color: #AB070F;
 }
+
+.admin_round_row:hover {
+	cursor: pointer;
+}
+
+.admin_round_row:hover > .bg-success {
+	background-color: #C2FF85;
+}
+
+.admin_round_row:hover > .bg-danger {
+	background-color: #FF7A7A;
+}
+
+.aff-side-admin:hover {
+	background-color: #DFF0D8;
+	cursor: pointer;
+}
+
+.neg-side-admin:hover {
+	background-color: #DFF0D8;
+	cursor: pointer;
+}
