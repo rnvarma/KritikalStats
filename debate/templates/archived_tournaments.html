@@ -1,0 +1,46 @@
+{% extends 'new_base.html' %}
+
+{% block content %}
+
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12">
+  	<section class = "panel">
+  	  <div class = "panel-body">
+  	  	<div class = "hidden-xs col-sm-8 col-md-5 col-lg-5 pull-left">
+          <h1>{{year}} Archive</h1>
+        </div>
+        <div class = "col-xs-11 hidden-sm hidden-md hidden-lg pull-left">
+          <h2>{{year}} Archive</h2>
+        </div>
+  	  </div>
+  	</section>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12">
+  	<section class = "panel">
+  	  <div class = "panel-body" style="height:70%; overflow: scroll;">
+  	  	<section id = "flip-scroll">
+  	  	<table class = "table table-bordered table-condensed cf">
+  	  	  <thead class = "cf">
+  	  	  	<tr class = "archived_table_header">
+  	  	  	  <th>Tournaments</th>
+  	  	  	</tr>
+  	  	  </thead>
+  	  	  <tbody class = "archives_table">
+  	  	  </tbody>
+  	  	</table>
+  	  </section>
+  	  </div>
+  	</section>
+  </div>
+</div>
+
+
+<div id="year_hidden" archived-year = "{{year}}"></div>
+
+{% load staticfiles %}
+<script src="{% static 'js/archived.js' %}"></script>
+
+{% endblock %}

@@ -24,6 +24,9 @@ def team_page(request, id):
 def round_page(request, id):
 	return render(request, 'round.html', {'round_id': id})
 
+def archived_tournaments(request, year):
+	return render(request, 'archived_tournaments.html', {'year':year})
+
 def loading_test(request):
 	return render(request, 'loading.html')
 
@@ -56,3 +59,7 @@ def bracket_page(request, tournament):
 @login_required(login_url = '/')
 def merge_teams(request):
 	return render(request, 'merge_teams.html')
+
+def admin_round(request, tournament, round_num):
+	return render(request, 'admin_round.html', {'tournament': tournament, 'r_num': round_num})
+

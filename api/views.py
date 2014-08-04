@@ -298,8 +298,39 @@ class UpdateTournaments(APIView):
     UpdateObjects.update_object_attributes(tourn, attributes)
     return redirect("/admin")
 
+class TournamentSpecificRound(APIView):
+
+  def get(self, request, pk, r_num, format=None):
+    tournaments = Tournament.objects.get(tournament_name=pk)
+    rounds = tournaments.rounds.filter(round_num=r_num)
+    serializer = RoundSerializer(rounds, many=True)
+    rounds = TournamentRounds.process_rounds(serializer.data)
+    data = {}
+    data["curr_round"] = tournaments.curr_rounds
+    data["rounds"] = rounds
+    return Response(data)
+
+class UpdateRoundResult(APIView):
+
+  @classmethod
+  def enter_round_result(cls, r_id, w_id, l_id):
+    winner = Team.objects.get(id = w_id)
+    loser = Team.objects.get(id = l_id)
+    the_round = Round.objects.get(id = r_id)
+    the_round.winner = winner
+    the_round.loser = loser
+    the_round.save()
 
 
+  def post(self, request, format = None):
+    if request.DATA.get("update", False) == "round_result":
+      win_id = request.DATA.get("win_id", False)
+      lose_id = request.DATA.get("lose_id", False)
+      r_id = request.DATA.get("r_id", False)
+      UpdateRoundResult.enter_round_result(r_id, win_id, lose_id)
+      return Response({"loser": lose_id, "winner": win_id, "r_id": r_id})
+    else:
+      return HTTP_403_FORBIDDEN("didnt give the correct data")
 
 
 
