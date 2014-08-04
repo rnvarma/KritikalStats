@@ -3,9 +3,29 @@
 
 
 {% block content %}
+{% load staticfiles %}
 
-<div id="container-{{ tournament }}-Bracket" class = "bracket"><h1 class="page-header">Bracket</h1></div>
+<div id="container-{{ tournament }}-Bracket" class = "bracket">
+	  <h1 class="page-header">Bracket</h1>
+	<div class = "bracket_box"> 
+		<div class = "col"> 
+		</div> 
+		<div class = "col"> 
+		</div> 
+		<div class = "col"> 
+		</div> 
+		<div class = "col"> 
+		</div> 
+		<div class = "col"> 
+		</div> 
+	</div>
+</div>
 
+<script src="{% static 'js/bracketview.js' %}"></script>
+
+{% endblock %}
+
+{% block javascript %}
 
 <script src="{% static 'js/tournament_page.js' %}"></script>
 {% endblock %}

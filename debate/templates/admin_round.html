@@ -1,0 +1,74 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+{% load staticfiles %}
+
+<div class = "row">
+  <div class = "col-md-12">
+  	<div class = "panel">
+  	  <div class = "panel-heading">
+  	  	<h1>{{tournament}} Round {{r_num}}</h1>
+  	  	<span class ="text-muted">Enter win/loss results for each debate</span>
+  	  </div>
+  	</div>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col-md-12">
+  	<div class = "panel">
+  	  <div class = "panel-heading">
+  	  	<h3>Undecided</h3>
+  	  	<span class ="text-muted">Let us know the results!</span>
+  	  </div>
+  	  <div class = "panel-body">
+  	  	<table class = "table  table-hover general-table">
+  	  	  <thead>
+  	  	  	<tr>
+  	  	  	  <th>Aff Code</th>
+  	  	  	  <th class ="visible-lg">Aff Name</th>
+  	  	  	  <th>Neg Code</th>
+  	  	  	  <th class ="visible-lg">Neg Name</th>
+  	  	  	  <th>Judge</th>
+  	  	  	</tr>
+  	  	  </thead>
+  	  	  <tbody class = "undecided_table">
+  	  	  </tbody>
+  	  	</table>
+  	  </div>
+  	</div>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col-md-12">
+  	<div class = "panel">
+  	  <div class = "panel-heading">
+  	  	<h3>Completed</h3>
+  	  	<span class ="text-muted">Modify results if you know what really happened!</span>
+  	  </div>
+  	  <div class = "panel-body">
+  	  	<table class = "table  table-hover general-table">
+  	  	  <thead>
+  	  	  	<tr>
+  	  	  	  <th>Aff Code</th>
+  	  	  	  <th class ="visible-lg">Aff Name</th>
+  	  	  	  <th>Neg Code</th>
+  	  	  	  <th class ="visible-lg">Neg Name</th>
+  	  	  	  <th>Judge</th>
+  	  	  	</tr>
+  	  	  </thead>
+  	  	  <tbody class = "decided_table">
+  	  	  </tbody>
+  	  	</table>
+  	  </div>
+  	</div>
+  </div>
+</div>
+
+<div class="t_name_hidden" data-name = "{{tournament}}"></div>
+<div class="r_num_hidden" data-num = "{{r_num}}"></div>
+
+<script src="{% static 'js/admin_round.js' %}"></script>
+
+{% endblock %}

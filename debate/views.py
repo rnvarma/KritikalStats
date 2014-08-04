@@ -59,3 +59,7 @@ def bracket_page(request, tournament):
 @login_required(login_url = '/')
 def merge_teams(request):
 	return render(request, 'merge_teams.html')
+
+def admin_round(request, tournament, round_num):
+	return render(request, 'admin_round.html', {'tournament': tournament, 'r_num': round_num})
+

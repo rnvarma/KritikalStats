@@ -110,4 +110,99 @@
 	background-color:  #E75480;
 	border-color:  #E75480;
 	color: #FFFFFF;
+=======
+.bracket { 
+	height:620px;
+	border-style:solid; 
+	border-width:10px;
+	border-color:#000000;
+	margin:0px;
+}
+
+.bracket_box { 
+	height:500px; 
+	border-style:solid; 
+	border-width:10px; 
+	border-color:#C0C0C0;
+}
+
+.col { 
+	height:480px;
+	width:215px;
+	border-style:solid; 
+	border-width:4px;
+	border-color:#FF00FF;
+	float:left;
+}
+
+.bracket_text { 
+	text-align:center;
+}
+
+.doubles { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#FF0000;
+	padding:2px;
+}
+
+
+.octos { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#B8B8B8;
+	padding:4px;
+}
+
+
+.quarters { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#00CC33; 
+}
+
+.semifinals { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#333300;
+}
+
+
+.finals { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#99FF00;
+}
+
+
+.admin_round_row:hover {
+	cursor: pointer;
+}
+
+.admin_round_row:hover > .bg-success {
+	background-color: #C2FF85;
+}
+
+.admin_round_row:hover > .bg-danger {
+	background-color: #FF7A7A;
+}
+
+.aff-side-admin:hover {
+	background-color: #DFF0D8;
+	cursor: pointer;
+}
+
+.neg-side-admin:hover {
+	background-color: #DFF0D8;
+	cursor: pointer;
 }
