@@ -114,7 +114,9 @@
 	background-color:  #E75480;
 	border-color:  #E75480;
 	color: #FFFFFF;
-=======
+}
+
+
 .bracket { 
 	height:85%;
 	border-width:10px;
@@ -124,6 +126,7 @@
 }
 
 .bracket_box { 
+  height:1000px;	
 }
 
 .col { 
@@ -147,11 +150,6 @@
 	border-bottom-style:solid;
 	border-width:1px;
 	border-color:black;
-/* 
-	border-right-style: solid;
-	border-right-width: 2px;
-	border-right-color: #000000;
-*/ 
 	position:relative;
 }
 
