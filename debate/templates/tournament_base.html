@@ -49,6 +49,11 @@
             <!-- <li> -->
                 <div class = "pull-right top-menu btn-group btn-group-justified" style="width: 15%;">
                     <a class ="btn about-btn" href="/about">About</a>
+                    {% if user.is_authenticated %}
+                    <a class ="btn about-btn" href="/admin">{{user}}</a>
+                    {% else %}
+                    <a class="btn about-btn" href="/admin">Login</a>
+                    {% endif %}
                 </div><!-- 
             </li>
         </ul> -->
@@ -89,23 +94,25 @@
       <section class="wrapper">
           <!--main content goes here-->
           <div class = "row">
-            <div class = "col-sm-12 hidden-xs col-md-12 col-lg-12">
-                <section class = "panel" style="margin-right:53.5%">
-                  <div href="" class="btn btn-dashboard btn-control" tournament-page= "Dashboard" style="margin-left:1%" id="hellohi">Dashboard</div>
-                  <div href="" class="btn btn-main btn-control" tournament-page= "Main">Main</div>
-                  <div href="" class="btn btn-entries btn-control" tournament-page= "Entries">Entries</div>
-                  <div href="" class="btn btn-bracket btn-control" tournament-page= "Bracket">Bracket</div>
-                </section>
+            <div class = "col-sm-12 col-xs-12 col-md-8 col-lg-8">
+                <div class = "panel">
+                  <div class = "panel-body">
+                    <div href="" class="btn btn-dashboard btn-control col-xs-6 col-sm-3 col-md-3 col-lg-3" tournament-page= "Dashboard" id="hellohi">Dashboard</div>
+                    <div href="" class="btn btn-main btn-control col-xs-6 col-sm-3 col-md-3 col-lg-3" tournament-page= "Main">Main</div>
+                    <div href="" class="btn btn-entries btn-control col-xs-6 col-sm-3 col-md-3 col-lg-3" tournament-page= "Entries">Entries</div>
+                    <div href="" class="btn btn-bracket btn-control col-xs-6 col-sm-3 col-md-3 col-lg-3" tournament-page= "Bracket">Bracket</div>
+                  </div>
+                </div>
             </div>
 
-            <div class = "hidden-sm hidden-md hidden-lg col-xs-12" style= "margin-bottom: 10px;">
+            <!-- <div class = "hidden-sm hidden-md hidden-lg col-xs-12" style= "margin-bottom: 10px;">
                 <section class = "panel">
                   <div href="" class="btn btn-dashboard-xs" style="margin-left:1%">Dashboard</div>
                   <div href="" class="btn btn-main-xs">Main</div>
                   <div href="" class="btn btn-entries-xs">Entries</div>
                   <div href="" class="btn btn-bracket-xs">Bracket</div>
                 </section>
-            </div>
+            </div> -->
 
           </div>
 
