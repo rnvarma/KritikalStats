@@ -7,6 +7,7 @@ from api import views
 urlpatterns = patterns('',
     #ex: 1/tournament/
     url(r'^1/tournament/$', views.TournamentList.as_view()),
+    url(r'^1/tournament/unentered_rounds/(?P<tourn_name>[A-Za-z0-9-_]+)/?$', views.TournamentRoundsLeft.as_view()),
     url(r'^1/tournament/(?P<pk>[A-Za-z0-9-_]+)/entries/$', views.TournamentEntries.as_view()),
     # url(r'^1/tournament/(?P<pk>[A-Za-z0-9-_]+)/round/(?P<rn>[0-9]+)/$', views.TournamentRounds.as_view()),
     url(r'^1/tournament/(?P<pk>[A-Za-z0-9-_]+)/round/$', views.TournamentRounds.as_view()),

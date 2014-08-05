@@ -4,25 +4,13 @@ from django.http import Http404,HttpResponseBadRequest,\
 from django.contrib.auth.decorators import login_required
 
 def load_homepage(request):
-  return render(request, 'homepage.html')
-
-def load_loginpage(request):
-	return render(request, 'login.html')
-
-def load_tourncreate(request):
-	return render(request, 'create_tournament.html')
-
-def load_roundcreate(request):
-	return render(request, 'create_round.html')
-
-def splash(request):
-	return render(request, 'splash.html')
+  return render(request, 'homepage.html', {'user': request.user})
 
 def team_page(request, id):
-    return render(request, 'team.html', {'team_id': id})
+    return render(request, 'team.html', {'team_id': id, 'user': request.user})
 
 def round_page(request, id):
-	return render(request, 'round.html', {'round_id': id})
+	return render(request, 'round.html', {'round_id': id, 'user': request.user})
 
 def archived_tournaments(request, year):
 	return render(request, 'archived_tournaments.html', {'year':year})
@@ -33,39 +21,52 @@ def archived(request):
 def udl_main(request):
 	return render(request, 'UDL_main.html')
 
-def loading_test(request):
-	return render(request, 'loading.html')
-
 def about_page(request):
-	return render(request, 'about.html')
+	print request.user
+	return render(request, 'about.html', {'user': request.user})
 
-@login_required(login_url = '/')
-def admin_page(request):
-	return render(request, 'admin.html')
+def dashboard_page(request, tournament):
+	return render(request, 'dashboard.html', {'tournament': tournament,
+		'user': request.user})
+
+def main_page(request, tournament):
+	return render(request, 'main.html', {'tournament': tournament,
+		'user': request.user})
+
+def entries_page(request, tournament):
+	return render(request, 'entries.html', {'tournament': tournament,
+		'user': request.user})
+
+def bracket_page(request, tournament):
+	return render(request, 'bracket.html', {'tournament': tournament,
+		'user': request.user})
+
+##### ADMIN VIEWS #####
 
 def admin_login_page(request):
 	return render(request, 'admin_login.html')
 
-@login_required(login_url = '/')
-def modify_dashboard(request, tournament):
-	return render(request, 'modify_dashboard.html', {'tournament': tournament})
+@login_required(login_url = '/adminlogin')
+def load_tourncreate(request):
+	return render(request, 'create_tournament.html', {'user': request.user})
 
-def dashboard_page(request, tournament):
-	return render(request, 'dashboard.html', {'tournament': tournament})
+@login_required(login_url = '/adminlogin')
+def load_roundcreate(request):
+	return render(request, 'create_round.html', {'user': request.user})
 
-def main_page(request, tournament):
-	return render(request, 'main.html', {'tournament': tournament})
-
-def entries_page(request, tournament):
-	return render(request, 'entries.html', {'tournament': tournament})
-
-def bracket_page(request, tournament):
-	return render(request, 'bracket.html', {'tournament': tournament})
-
-@login_required(login_url = '/')
+@login_required(login_url = '/adminlogin')
 def merge_teams(request):
-	return render(request, 'merge_teams.html')
+	return render(request, 'merge_teams.html', {'user': request.user})
 
+@login_required(login_url = '/adminlogin')
+def admin_page(request):
+	return render(request, 'admin.html', {'user': request.user})
+
+@login_required(login_url = '/adminlogin')
+def modify_dashboard(request, tournament):
+	return render(request, 'modify_dashboard.html', {'tournament': tournament, 'user': request.user})
+
+@login_required(login_url = '/adminlogin')
 def admin_round(request, tournament, round_num):
-	return render(request, 'admin_round.html', {'tournament': tournament, 'r_num': round_num})
+	return render(request, 'admin_round.html', {'tournament': tournament, 'r_num': round_num, 'user': request.user})
 
