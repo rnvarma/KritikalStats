@@ -21,78 +21,86 @@
 }
 
 .bracket { 
-	height:620px;
-	border-style:solid; 
+	height:85%;
 	border-width:10px;
 	border-color:#000000;
 	margin:0px;
+	overflow:scroll;
 }
 
 .bracket_box { 
-	height:500px; 
-	border-style:solid; 
-	border-width:10px; 
-	border-color:#C0C0C0;
 }
 
 .col { 
-	height:480px;
-	width:215px;
+	height:1050px;
+	width:175px;
 	border-style:solid; 
-	border-width:4px;
+	border-width:0px;
 	border-color:#FF00FF;
 	float:left;
 }
 
 .bracket_text { 
 	text-align:center;
+	bottom:0px;
+	left:65px;
+	position:absolute;
 }
 
 .doubles { 
-	height:15px; 
-	width: 215px;
-	border-style:solid;
-	border-width:2px;
-	border-color:#FF0000;
-	padding:2px;
+	height:32px; 
+	border-bottom-style:solid;
+	border-width:1px;
+	border-color:black;
+/* 
+	border-right-style: solid;
+	border-right-width: 2px;
+	border-right-color: #000000;
+*/ 
+	position:relative;
 }
 
 
 .octos { 
-	height:15px; 
-	width: 215px;
-	border-style:solid;
-	border-width:2px;
-	border-color:#B8B8B8;
-	padding:4px;
+	height:64px; 
+	border-bottom-style:solid;
+	border-width:1px;
+	border-color:black;
+	position:relative;
 }
 
 
 .quarters { 
-	height:15px; 
-	width: 215px;
-	border-style:solid;
-	border-width:2px;
-	border-color:#00CC33; 
+	height:128px; 
+	border-bottom-style:solid;
+	border-width:1px;
+	border-color:black; 
+	position:relative;
 }
 
 .semifinals { 
-	height:15px; 
-	width: 215px;
-	border-style:solid;
-	border-width:2px;
-	border-color:#333300;
+	height:256px; 
+	border-bottom-style:solid;
+	border-width:1px;
+	border-color:black; 
+	position:relative;
 }
 
 
 .finals { 
-	height:15px; 
-	width: 215px;
-	border-style:solid;
-	border-width:2px;
-	border-color:#99FF00;
+	height:512px; 
+	border-bottom-style:solid;
+	border-width:1px;
+	border-color:black; 
+	position:relative;
 }
 
+.top_elim_round { 
+	border-bottom-style:solid;
+	border-width:1px;
+	border-color:black; 
+	position:relative;
+}
 
 .admin_round_row:hover {
 	cursor: pointer;

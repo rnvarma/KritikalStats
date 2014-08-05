@@ -141,6 +141,8 @@ class BracketList:
 	                             |___ 31  ___|
 	                  ___ 63  ___|                
 
+
+* Indicates a valid team/seed
 	               """
 
 
@@ -189,23 +191,23 @@ class BracketList:
 
 	def generateBracketView(self, tournament_bracket): 
 		new_bracket_view = BracketList.bracket_storage_view
-
 		for i in range(0, 64):
 			if (tournament_bracket[i] < 10 and i >= 10):
 				find = " " + str(i)
-				repl = " " + str(tournament_bracket[i]) + " " 
+				repl = "*" + str(tournament_bracket[i]) + " " 
 			elif (tournament_bracket[i] >= 10 and i < 10): 
 				find = " " + str(i) + " " 
-				repl = " " + str(tournament_bracket[i])
+				repl = "*" + str(tournament_bracket[i])
 			elif (tournament_bracket[i] == 'XX' and i < 10): 
 				find = " " + str(i) + " " 
 				repl = " " + str(tournament_bracket[i])
 			else: 
 				find = " " + str(i) + " "
-				repl = " " + str(tournament_bracket[i]) + " "
-
+				if (tournament_bracket[i] != 'XX' and tournament_bracket[i] != 0): 
+					repl = "*" + str(tournament_bracket[i]) + " "
+				else: 
+					repl = " " + str(tournament_bracket[i]) + " "
 			new_bracket_view = new_bracket_view.replace(find, repl)
-
 		return new_bracket_view
 
 
@@ -213,13 +215,11 @@ class BracketList:
 	def bracketArray(self, bracket_size): 
 		tournament_bracket_array = [0] * 64
 		limit = len(self.seed_array)
-
 		for i in range(0, 32): 
 			if (i >= limit): 
 				tournament_bracket_array[self.bracket_dictionary[i + 1]] = 'XX'
 			else:
 				tournament_bracket_array[self.bracket_dictionary[self.seed_array[i]]] = self.seed_array[i]; 
-
 		return tournament_bracket_array
 
 
@@ -230,22 +230,17 @@ class BracketList:
 				print self.tournament_array[i]
 				print "ERROR: attempted Bracket has issues"
 				return []
-			
 			if (self.tournament_array[i] == 'XX' and (i % 2 == 1)): 
 				self.processByeWin(i)
-
 			if (self.tournament_array[i] == 'XX' and (i % 2 == 0)): 
 				self.processByeWin(i) 
 				bye_v_bye = True
-
 		if (bye_v_bye): 
 			if (depth <= 1): 
 				return
 			else: 
 				self.processBracket(depth/2)
-
 		return 
-
 
 
 	def processByeWin(self, bye_pos): 
@@ -255,27 +250,23 @@ class BracketList:
 			self.tournament_array[int(bye_pos / 2)] = self.tournament_array[bye_pos]
 
 
-
 	def processValidWin(self, team): 
 		bracket_position = self.findTeam(team)
-
 		if (bracket_position > 63): 
 			print("ERROR: Find has an issue") 
 			return 
-
 		if (self.tournament_array[bracket_position] == 'XX'): 
 			print("ERROR: Call processByeWin")
 			return
-
 		if bracket_position % 2 == 1: 
 			self.tournament_array[int((bracket_position - 1) / 2)] = self.tournament_array[bracket_position]
 		else: 
 			self.tournament_array[int(bracket_position / 2)] = self.tournament_array[bracket_position] 
+		return
 
 
 	def teamDistance(self, team): 
 		bracket_position = self.findTeam(team)
-
 		if bracket_position == 1: 
 			return "TOURNAMENT CHAMPION" 
 		elif bracket_position < 4: 
@@ -294,20 +285,19 @@ class BracketList:
 
 	def findTeam(self, team): 
 		i = 0; 
-
 		while i < 64 and self.tournament_array[i] != team: 
 			i += 1		
-
 		if i == 64: 
 			print("Team does not exist, or findTeam isn't working")
 			return ""
-
 		return i 
 
 
 """ Testing """ 
 
-test = BracketList(8); 
+test = BracketList(8)
+
+test.processValidWin(7)
 
 print(test.generateBracketView(test.tournament_array))
 print(test.tournament_array)
