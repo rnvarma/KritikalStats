@@ -1,7 +1,6 @@
 
 function assign_records() {
   $(".team-row").each(function() {
-  	console.log($(this).attr("id"));
   	var wins = $(this).attr("data-wins");
   	var losses = $(this).attr("data-losses");
   	var record = wins + " - " + losses;
@@ -21,19 +20,23 @@ function populate_round(t_name, round_data) {
   aff_td.appendChild(aff_opp);
   aff_tr.appendChild(aff_td);
 
-  var neg_td = document.createElement("td");
-  neg_td.id = round_data.round_id;
-  var neg_opp = document.createTextNode(round_data.aff_code);
-  neg_td.appendChild(neg_opp);
-  neg_tr.appendChild(neg_td);
+  if (round_data.neg_code != "BYE") {
+    var neg_td = document.createElement("td");
+    neg_td.id = round_data.round_id;
+    var neg_opp = document.createTextNode(round_data.aff_code);
+    neg_td.appendChild(neg_opp);
+    neg_tr.appendChild(neg_td);
+  }
 
   if (round_data.winner == round_data.aff_id) {
   	aff_td.className = "mainpage-round round-won bg-success";
-  	neg_td.className = "mainpage-round round-loss bg-danger";
   	var a_wins = (Number(aff_tr.getAttribute("data-wins")) + 1).toString();
   	aff_tr.setAttribute("data-wins", a_wins);
-  	var n_losses = (Number(neg_tr.getAttribute("data-losses")) + 1).toString();
-  	neg_tr.setAttribute("data-losses", n_losses);
+    if (round_data.neg_code != "BYE"){
+      neg_td.className = "mainpage-round round-loss bg-danger";
+  	  var n_losses = (Number(neg_tr.getAttribute("data-losses")) + 1).toString();
+  	  neg_tr.setAttribute("data-losses", n_losses);
+    }
   } else if (round_data.winner == round_data.neg_id){
   	neg_td.className = "mainpage-round round-won bg-success";
   	aff_td.className = "mainpage-round round-loss bg-danger";

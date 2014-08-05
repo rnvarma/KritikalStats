@@ -1,8 +1,8 @@
 import urllib2, json
 from bs4 import BeautifulSoup
-from process_names import process_judges_name
+from process_names import process_judges_name, proccess_special_case
 
-URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2339&round_id=74968"
+URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2891&round_id=83641"
 
 def is_number(s):
   try:
@@ -49,10 +49,10 @@ def get_info_from_text(text):
     i = 0  
     while(i < len(text)):
         if ((i-1) % 4) == 0:
-            aff.append(text[i])
+            aff.append(proccess_special_case(text[i]))
             i += 1
         elif ((i-2) % 4) == 0:
-            neg.append(text[i])
+            neg.append(proccess_special_case(text[i]))
             i += 1
         elif ((i-3) % 4) == 0:
             judge.append(process_judges_name(text[i]))
@@ -72,3 +72,6 @@ def get_round_list(url):
     data = clean_data(data)
     aff, neg, judge = get_info_from_text(data)
     return zip(aff, neg, judge)
+
+# for a, b, c in get_round_list(URL):
+#   print a + " | " + b + " | " + c

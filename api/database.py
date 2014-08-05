@@ -1,7 +1,7 @@
 from api.retrieve_team_list import get_team_list
 from api import retrieve_round_list
 from api.models import Tournament, Team, Round, Judge
-from api.process_names import process_team_code
+from api.process_names import process_team_code, proccess_special_case
 
 """
 TODO: create tool to remove duplicate rounds (requires a little thinking)
@@ -11,7 +11,7 @@ def enter_team_list(url, tournament, website="tabroom"):
   team_list = get_team_list(url)
   tourny = Tournament.objects.get(tournament_name = tournament)
   for (code, names) in team_list:
-    code = process_team_code(code)
+    code = proccess_special_case(code)
     try:
       team = Team.objects.get(team_code = code)
       if team.team_name != names:
@@ -33,6 +33,7 @@ def check_team_existence_or_create(name, tourny):
       team.tournaments.add(tourny)
     return team
   except:
+    print "making team: " + name
     team = Team(team_code = name, team_name= "enter_names")
     team.save()
     team.tournaments.add(tourny)
@@ -51,7 +52,6 @@ def enter_tournament_round(url, tournament, round_num, website="tabroom"):
   tourny = Tournament.objects.get(tournament_name = tournament)
   round_list = retrieve_round_list.get_round_list(url)
   for (aff, neg, judge_name) in round_list:
-    aff, neg = process_team_code(aff), process_team_code(neg)
     aff_team = check_team_existence_or_create(aff, tourny)
     neg_team = check_team_existence_or_create(neg, tourny)
     judge_obj = check_judge_existence_or_create(judge_name)
