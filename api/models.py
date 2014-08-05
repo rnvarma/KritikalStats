@@ -18,6 +18,7 @@ class Tournament(models.Model):
   curr_rounds = models.IntegerField(default=0)
   registration_date = models.CharField(max_length=100, blank=True, default='')
   loc = models.CharField(max_length=100, blank=True, default='')
+  bracket_list = models.CharField(max_length=300, blank=True, default='')
 
 class Team(models.Model):
   team_name = models.CharField(max_length=100, blank=True, default='') #Leland AV
@@ -49,3 +50,8 @@ class Round(models.Model):
   one_nc = models.CharField(max_length=200, blank=True, default='')
   block = models.CharField(max_length=200, blank=True, default='')
   two_nr = models.CharField(max_length=200, blank=True, default='')
+
+class Seed(models.Model):
+  team = models.ForeignKey(Team, related_name="team")
+  tournament = models.ManyToManyField(Tournament, related_name="seeds")
+  number = models.IntegerField(default = 0)
