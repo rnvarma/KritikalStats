@@ -47,14 +47,16 @@
         <!--search & user info goes here-->
         <!-- <ul class = "nav pull-right top-menu"> -->
             <!-- <li> -->
-                <div class = "pull-right top-menu btn-group btn-group-justified" style="width: 15%;">
-                    <a class ="btn about-btn" href="/about">About</a>
+            <div class = "row">
+                <div class = "pull-right top-menu btn-group col-xs-8 col-sm-4 col-md-4 col-lg-2">
+                    <a class ="btn about-btn pull-right" href="/about">About</a>
                     {% if user.is_authenticated %}
-                    <a class ="btn about-btn" href="/admin">{{user}}</a>
+                    <a class ="btn about-btn pull-right" href="/admin">{{user}}</a>
                     {% else %}
-                    <a class="btn about-btn" href="/admin">Login</a>
+                    <a class="btn about-btn pull-right" href="/admin">Login</a>
                     {% endif %}
-                </div><!-- 
+                </div>
+            </div><!-- 
             </li>
         </ul> -->
     </div>
