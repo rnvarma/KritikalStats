@@ -1,6 +1,11 @@
 var tournament_marker_list; 
 var map; 
 
+
+/* tournamentQueryAndSet() will access the tournaments listed in the *** and 
+ * create a marker for those tournaments on the map. 
+ */ 
+
 function tournamentQueryAndSet() {
 	$.ajax({
 		type: 'GET',
@@ -9,7 +14,7 @@ function tournamentQueryAndSet() {
 
 		success: 
 		function (data) {
-        for (i = 0;i < data.length; i++) {
+        for (i = 0; i < data.length; i++) {
         	setTournament(data[i]); 
         }
     },
@@ -21,6 +26,11 @@ function tournamentQueryAndSet() {
 }
 
 
+/* determineBid() will take in the bid_number(number of teams that receive a bid) field 
+ * of a tournamnet and return a user-friendly description to be displayed in the infoWindow. 
+ * 
+ * @param bid_number: the number of teams that receive a bid at the tournament 
+ */ 
 function determineBid(bid_number) { 
 	switch(bid_number) { 
 	  case 16: 
@@ -40,6 +50,20 @@ function determineBid(bid_number) {
 
 
 
+/* TournamentMarker object represents the tournaments listed in the ***. It contains the 
+ * marker that is represented on the map and other important information about that tournament. 
+ * 
+ * Marker: the Google Maps Marker object displayed to the map based on the tournaments location
+ * tournament_window: the Google Maps InfoWindow object, which contains information (tbd) about the
+ * tournamnet
+ * tournament_bid: the user-friendly description (Octos, Sems etc.) of the round needed to advance to
+ * receive a bid
+ * tournament_info: the html content for the InfoWindow object
+ * 
+ * @param tournamentLatLng is the Google Maps LatLng object determining the location of the Marker
+ * @param tournament is the tournament that this object will be representing 
+ */ 
+
 function TournamentMarker(tournamentLatLng, tournament) { 
 	this.Marker = new google.maps.Marker({ 
 	    position: tournamentLatLng, 
@@ -51,13 +75,27 @@ function TournamentMarker(tournamentLatLng, tournament) {
 
 	this.tournament_window = new google.maps.InfoWindow(); 
 	this.tournament_bid = determineBid(tournament["bid_round"]); 
-	this.tournament_info = '<div style = "width:100px;">' +  
-	'<h4 style = "text-align: center;">' + tournament["tournament_name"] +
-  ' (' + this.tournament_bid + ') </h4>';
+	this.tournament_info = '<div style = "width:175px;">' +  
+	'<a href= "/' + tournament["tournament_name"] + '/Dashboard" style = "text-align: center;">' + 
+  '<h4 style = "text-align: center;"> ' + tournament["tournament_name"] + 
+  ' (' + this.tournament_bid + ')' + '</h4> </a>';
 	this.tournament_window.setContent(this.tournament_info); 
 	this.tournament_window.setPosition(tournamentLatLng); 
 	this.Marker.setMap(map); 
 } 
+
+
+
+/* setTournament will take in a tournament from the *** and display that tournament on the map. 
+ * Rather than pass geographical coordinates, we use the Google Maps Geocoder object which can 
+ * take in a location in address format such as "San Jose, California" and generate a Google Maps
+ * LatLng object for that location. For the Geocoder to work, the tournament's location *must* be 
+ * written in string format, following the guidelines of : "city, state" . If the Geocoder is able 
+ * to determine a latitude and longitude for the location, it will generate a TournamentMarker object
+ * and represent it at that location. 
+ * 
+ * @param tournament is the tournament object passed from the *** 
+ */ 
 
 
 function setTournament(tournament) {  
@@ -76,7 +114,10 @@ function setTournament(tournament) {
 
 				google.maps.event.addListener(addedTournament.Marker, 'mouseover', 
 					function(evt) { 
-						addedTournament.tournament_window.open(map); 
+						if (addedTournament.tournament_window.getMap() == null) { 
+							addedTournament.tournament_window.open(map); 
+						}
+
 					}
 				); 
 
@@ -93,10 +134,6 @@ function setTournament(tournament) {
 	);
 }
 
-
-function createDelay() { 
-
-}
 
 /*
 function filterTournaments(filter_field, requirement) { 
@@ -120,8 +157,6 @@ function filterTournaments(filter_field, requirement) {
 }
 
 
-
-
 function showBidsOnly() { 
 	for (var i = 0; i < tournament_marker_list.length; i++) { 
 		if (tournament_marker_list[i].tournament_bid == "Not Bidded") { 
@@ -142,11 +177,14 @@ function showAll() {
 
 
 
+/* initialize will initialize all global fields and generate the map. This map contains a specific 
+ * style where no roads, terrain, or places of interest are shown. 
+ */ 
 function initialize() { 
 	tournament_marker_list = []; 
-	var center_start = new google.maps.LatLng(40, -98); 
+	var center_start = new google.maps.LatLng(38, -96); 
 	var map_options = { 
-		zoom: 5,
+		zoom: 4,
 		scrollwheel: false,
 		center: center_start, 
 		mapTypeControl: false,

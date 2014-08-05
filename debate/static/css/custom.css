@@ -20,6 +20,171 @@
 	color: #AB070F;
 }
 
+.archive_row:hover{
+	cursor:pointer;
+}
+
+.btn-entries{
+	background-color: #5cb85c;
+	border-color: #5cb85c;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	font-size:150%;
+}
+
+.btn-main{
+	background-color: #9466b5;
+	border-color: #9466b5;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	font-size:150%;
+}
+
+.btn-dashboard{
+	background-color: #57c8f1;
+	border-color: #57c8f1;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	font-size:150%;
+}
+
+.btn-bracket{
+	background-color:  #FB607F;
+	border-color:  #FB607F;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	font-size:150%;
+}
+
+.btn-entries-xs{
+	background-color: #5cb85c;
+	border-color: #5cb85c;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	font-size:100%;
+}
+
+.btn-main-xs{
+	background-color: #9466b5;
+	border-color: #9466b5;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	font-size:100%;
+}
+
+.btn-dashboard-xs{
+	background-color: #57c8f1;
+	border-color: #57c8f1;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	font-size:100%;
+}
+
+.btn-bracket-xs{
+	background-color:  #FB607F;
+	border-color:  #FB607F;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	font-size:100%;
+}
+
+.btn-entries:hover{
+	background-color: #32B141;
+	border-color: #32B141;
+	color: #FFFFFF;
+}
+
+.btn-main:hover{
+	background-color: #9457EB;
+	border-color: #9457EB;
+	color: #FFFFFF;
+}
+
+.btn-dashboard:hover{
+	background-color:  #00BFFF;
+	border-color:  #00BFFF;
+	color: #FFFFFF;
+}
+
+.btn-bracket:hover{
+	background-color:  #E75480;
+	border-color:  #E75480;
+	color: #FFFFFF;
+=======
+.bracket { 
+	height:620px;
+	border-style:solid; 
+	border-width:10px;
+	border-color:#000000;
+	margin:0px;
+}
+
+.bracket_box { 
+	height:500px; 
+	border-style:solid; 
+	border-width:10px; 
+	border-color:#C0C0C0;
+}
+
+.col { 
+	height:480px;
+	width:215px;
+	border-style:solid; 
+	border-width:4px;
+	border-color:#FF00FF;
+	float:left;
+}
+
+.bracket_text { 
+	text-align:center;
+}
+
+.doubles { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#FF0000;
+	padding:2px;
+}
+
+
+.octos { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#B8B8B8;
+	padding:4px;
+}
+
+
+.quarters { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#00CC33; 
+}
+
+.semifinals { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#333300;
+}
+
+
+.finals { 
+	height:15px; 
+	width: 215px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#99FF00;
+}
+
+
 .admin_round_row:hover {
 	cursor: pointer;
 }
