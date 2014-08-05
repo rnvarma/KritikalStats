@@ -1,4 +1,6 @@
-{% extends 'new_base.html' %}
+{% extends 'tournament_base.html' %}
+{% load staticfiles %}
+
 
 {% block content %}
 {% load staticfiles %}
@@ -29,4 +31,5 @@
 
 {% block javascript %}
 
+<script src="{% static 'js/tournament_page.js' %}"></script>
 {% endblock %}

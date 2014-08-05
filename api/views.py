@@ -332,7 +332,16 @@ class UpdateRoundResult(APIView):
     else:
       return HTTP_403_FORBIDDEN("didnt give the correct data")
 
+class TournamentRoundsLeft(APIView):
 
+  def get(self, request, tourn_name, format = None):
+    tourn = Tournament.objects.get(tournament_name = tourn_name)
+    result = {}
+    for r_num in xrange(1, tourn.prelims + 1):
+      unentered_rounds = tourn.rounds.filter(round_num = r_num, winner=None)
+      result["round " + str(r_num)] = len(unentered_rounds)
+    print result
+    return Response(result)
 
 
 
