@@ -27,6 +27,12 @@ def round_page(request, id):
 def archived_tournaments(request, year):
 	return render(request, 'archived_tournaments.html', {'year':year})
 
+def archived(request):
+	return render(request, 'archive.html')
+
+def udl_main(request):
+	return render(request, 'UDL_main.html')
+
 def loading_test(request):
 	return render(request, 'loading.html')
 

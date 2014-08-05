@@ -50,8 +50,42 @@ function create_tournament_div(tourn_data) {
 function load_tournaments_in_sidebar(tourns_data) {
 	var sidebar = document.getElementsByClassName("sidebar-menu")[0];
 	for (var i = 0; i < tourns_data.length; i ++) {
-		var t_div = create_tournament_div(tourns_data[i]);
-		sidebar.appendChild(t_div);
+		
+		//checks the date of the tournament and sees 
+		//if it should be in the sidebar or archived
+
+		var this_today = new Date();
+		var this_year = this_today.getFullYear();
+		var this_month = this_today.getMonth() + 1
+
+		var start_date = String(tourns_data[i].start_date);
+    	var start_year = parseInt(start_date.substring(0,4));
+    	var start_month = parseInt(start_date.substring(4,6));
+
+
+		if (this_year == start_year){
+			if ((this_month >= 7) && (start_month >= 7)){
+				var t_div = create_tournament_div(tourns_data[i]);
+				sidebar.appendChild(t_div);
+			}
+
+			if ((this_month <7) && (start_month<7)){
+				var t_div = create_tournament_div(tourns_data[i]);
+				sidebar.appendChild(t_div);
+			}
+
+		}
+
+		if ((this_year - 1 == start_year) && (this_month < 7) ) {
+			if (start_month >= 7) {
+				var t_div = create_tournament_div(tourns_data[i]);
+				sidebar.appendChild(t_div);
+			}
+
+		}
+
+		// var t_div = create_tournament_div(tourns_data[i]);
+		// sidebar.appendChild(t_div);
 	}
 }
 

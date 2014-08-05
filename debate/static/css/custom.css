@@ -24,6 +24,10 @@
 	cursor:pointer;
 }
 
+.archive_row_year:hover{
+	cursor:pointer;
+}
+
 .btn-entries{
 	background-color: #5cb85c;
 	border-color: #5cb85c;
