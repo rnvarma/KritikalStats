@@ -78,3 +78,19 @@ def enter_completed_tournament(first_round_url, tournament, num_prelims,
     url = first_round_url[:-3] + str(int(first_round_url[-3:]) + i)
     print url
     enter_tournament_round(url, tournament, i + 1)
+
+def enter_bye_round(team_code, tournament, round_num, dryrun=True):
+  tourny = Tournament.objects.get(tournament_name = tournament)
+  team = Team.objects.get(team_code = team_code)
+  bye_team = Team.objects.get(team_code = "BYE")
+  judge = Judge.objects.get(name = "Ghandi")
+  round_obj = Round(aff_team = team, neg_team = bye_team, round_num = round_num, winner = team)
+  if not dryrun:
+    round_obj.winner = team
+    round_obj.save()
+    round_obj.tournament.add(tourny)
+    round_obj.judge.add(judge)
+    return round_obj
+  else:
+    print "success creating bye for %s in round %d" % (team_code, round_num)
+
