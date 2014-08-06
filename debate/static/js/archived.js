@@ -48,7 +48,7 @@ function archive_table_populate(data, year) {
 
   $(".archive_row_year").click(function () {
     var id = $(this).attr("year-id");
-    var url = location.protocol + "//" + location.hostname + ":8000/" + "archived/" + id;
+    var url = kritstats.urls.base + "archived/" + id;
     window.location.href = url;
   })
 
@@ -57,7 +57,7 @@ function archive_table_populate(data, year) {
 $(document).ready(function () {
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+    url: kritstats.urls.tournament_query,
     contentType: 'application/json',
     success: function (data) {
       archive_table_populate(data);

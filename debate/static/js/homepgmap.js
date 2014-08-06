@@ -9,7 +9,7 @@ var map;
 function tournamentQueryAndSet() {
   $.ajax({
     type: 'GET',
-    url: "http://127.0.0.1:8000/1/tournament/",
+    url: kritstats.urls.tournament_query,
     contentType: 'application/json',
 
     success: 

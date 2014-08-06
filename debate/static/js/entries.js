@@ -37,7 +37,7 @@ function load_entries_into_table(entries_data) {
 
   $(".entry_row").click(function () {
   	var id = $(this).attr("data-id");
-  	var url = location.protocol + "//" + location.hostname + ":8000/team/" + id;
+  	var url = kritstats.urls.base + "team/" + id;
   	window.location.href = url;
   })
 }
@@ -47,7 +47,7 @@ $(document).ready(function() {
 
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + tourn_name + '/entries/',
+    url: kritstats.urls.base + "1/tournament/" + tourn_name + '/entries/',
     contentType: 'application/json',
     success: function (data) {
       load_entries_into_table(data);

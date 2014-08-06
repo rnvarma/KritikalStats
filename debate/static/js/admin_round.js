@@ -200,7 +200,7 @@ function enter_rounds(data) {
     var win_id = $(".results-round-" + r_id).attr("winner");
     var lose_id = $(".results-round-" + r_id).attr("loser");
     var post_data = {"update": "round_result", "win_id": win_id, "lose_id": lose_id, "r_id": r_id};
-    var url = location.protocol + "//" + location.hostname + ":8000/1/update/round_result/";
+    var url = kritstats.url.update_round;
 
     function getCookie(name) {
       var cookieValue = null;
@@ -273,7 +273,7 @@ $(document).ready(function() {
   var r_num = $(".r_num_hidden").attr("data-num");
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + t_name + "/round/" + r_num,
+    url: kritstats.urls.base + "/1/tournament/" + t_name + "/round/" + r_num,
     contentType: 'application/json',
     success: function (data) {
       enter_rounds(data.rounds);

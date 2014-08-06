@@ -32,7 +32,7 @@ function load_click_handlers(team1, team2) {
 	var csrftoken = getCookie('csrftoken');
   	$.ajax({
       type: 'POST',
-      url: location.protocol + "//" + location.hostname + ":8000/1/similarteams/",
+      url: kritstats.urls.similarteams,
       data: data,
       beforeSend: function (xhr) {
         xhr.withCredentials = true;
@@ -72,7 +72,7 @@ function load_click_handlers(team1, team2) {
 	var csrftoken = getCookie('csrftoken');
   	$.ajax({
       type: 'POST',
-      url: location.protocol + "//" + location.hostname + ":8000/1/similarteams/",
+      url: kritstats.urls.similarteams,
       data: data,
       beforeSend: function (xhr) {
         xhr.withCredentials = true;
@@ -146,7 +146,7 @@ function load_team_to_page() {
 $(document).ready(function () {
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/similarteams/",
+      url: kritstats.urls.similarteams,
       contentType: 'application/json',
       success: function (data) {
       	teams_to_merge = data
