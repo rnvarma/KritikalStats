@@ -224,3 +224,11 @@
 .admin-round-row {
 	cursor: pointer;
 }
+
+.sortable-table-header {
+	cursor: pointer;
+}
+
+.sortable-table-header:hover {
+	color: #AB070F;
+}
