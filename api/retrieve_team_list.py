@@ -56,5 +56,5 @@ def get_team_list(url):
     code, name = get_info_from_text(data)
     return zip(code, name)
 
-for a,b in get_team_list(URL):
-  print a + " | " + b
+# for a,b in get_team_list(URL):
+#   print a + " | " + b

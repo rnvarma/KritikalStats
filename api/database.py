@@ -7,7 +7,7 @@ from api.process_names import process_team_code, proccess_special_case
 TODO: create tool to remove duplicate rounds (requires a little thinking)
 """
 
-def enter_team_list(url, tournament, website="tabroom"):
+def enter_team_list(url, tournament, dryrun=True):
   team_list = get_team_list(url)
   tourny = Tournament.objects.get(tournament_name = tournament)
   for (code, names) in team_list:
@@ -20,11 +20,12 @@ def enter_team_list(url, tournament, website="tabroom"):
       team.tournaments.add(tourny)
     except:
       team = Team(team_code = code, team_name = names)
-      team.save()
+      if not dryrun:
+        team.save()
+        team.tournaments.add(tourny)
       print "made team %s" % code
-      team.tournaments.add(tourny)
 
-def check_team_existence_or_create(name, tourny):
+def check_team_existence_or_create(name, tourny, dryrun):
   try:
     team = Team.objects.get(team_code = name)
     # check to make sure that the team is actually entered
@@ -35,26 +36,28 @@ def check_team_existence_or_create(name, tourny):
   except:
     print "making team: " + name
     team = Team(team_code = name, team_name= "enter_names")
-    team.save()
-    team.tournaments.add(tourny)
+    if not dryrun:
+      team.save()
+      team.tournaments.add(tourny)
     return team
 
-def check_judge_existence_or_create(name):
+def check_judge_existence_or_create(name, dryrun):
   try:
     judge = Judge.objects.get(name = name)
     return judge
   except:
     judge = Judge(name = name)
-    judge.save()
-    return judge
+    if not dryrun:
+      judge.save()
+      return judge
 
-def enter_tournament_round(url, tournament, round_num, website="tabroom"):
+def enter_tournament_round(url, tournament, round_num, dryrun=True):
   tourny = Tournament.objects.get(tournament_name = tournament)
   round_list = retrieve_round_list.get_round_list(url)
-  for (aff, neg, judge_name) in round_list:
-    aff_team = check_team_existence_or_create(aff, tourny)
-    neg_team = check_team_existence_or_create(neg, tourny)
-    judge_obj = check_judge_existence_or_create(judge_name)
+  for (aff, neg, judge_name) in round_list: 
+    aff_team = check_team_existence_or_create(aff, tourny, dryrun)
+    neg_team = check_team_existence_or_create(neg, tourny, dryrun)
+    judge_obj = check_judge_existence_or_create(judge_name, dryrun)
     try:
       round = Round.objects.get(aff_team=aff_team, neg_team=neg_team,
                                tournament=tourny)
@@ -63,10 +66,11 @@ def enter_tournament_round(url, tournament, round_num, website="tabroom"):
       print aff + " v. " + neg
       round_obj = Round(aff_team=aff_team, neg_team=neg_team, 
                         round_num=round_num)
-      round_obj.save()
-      round_obj.tournament.add(tourny)
-      round_obj.judge.add(judge_obj)
-      print "round made"
+      if not dryrun:
+        round_obj.save()
+        round_obj.tournament.add(tourny)
+        round_obj.judge.add(judge_obj)
+        print "round made"
 
 def enter_completed_tournament(first_round_url, tournament, num_prelims,
                                website="tabroom"):
