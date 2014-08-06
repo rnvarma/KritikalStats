@@ -125,7 +125,7 @@ function click_handlers() {
 $(document).ready(function () {
     $.ajax({
     	type: 'GET',
-    	url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+    	url: kritstats.urls.tournament_query,
     	contentType: 'application/json',
     	success: function (data) {
     		load_tournaments_in_sidebar(data);

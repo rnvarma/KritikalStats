@@ -50,7 +50,7 @@ function populate_round(t_name, round_data) {
 function get_rounds(t_name) {
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + t_name + '/round/',
+      url: kritstats.urls.base + "1/tournament/" + t_name + '/round/',
       contentType: 'application/json',
       success: function (data) {
         for (var i = 0; i < data.rounds.length; i++) {
@@ -58,7 +58,7 @@ function get_rounds(t_name) {
         }
         $(".mainpage-round").click(function () {
           var id = $(this).attr("id");
-          var url = location.protocol + "//" + location.hostname + ":8000/round/" + id;
+          var url = kritstats.urls.base + "round/" + id;
           window.location.href = url;
         })
         assign_records();
@@ -95,7 +95,7 @@ function populate_entry_column(t_name, entry_data) {
 
   $(".team-code").click(function () {
   	var id = $(this).attr("id");
-  	var url = location.protocol + "//" + location.hostname + ":8000/team/" + id;
+  	var url = kritstats.urls.base + "team/" + id;
   	window.location.href = url;
   })
 }
@@ -111,7 +111,7 @@ function main_page_populate_helper(t_name, prelim) {
 
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + t_name + '/entries/',
+    url: kritstats.urls.base + "1/tournament/" + t_name + '/entries/',
     contentType: 'application/json',
     success: function (data) {
       populate_entry_column(t_name, data);
@@ -128,7 +128,7 @@ $(document).ready(function () {
   var t_name = $("#tournament_hidden").attr("data-tournament");
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+    url: kritstats.urls.tournament_query,
     contentType: 'application/json',
     success: function (data) {
       var prelim;

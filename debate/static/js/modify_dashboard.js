@@ -3,7 +3,7 @@ function add_rounds_buttons(t_data, r_left) {
   var table = document.getElementsByClassName("round-enter-table")[0];
   var num_prelims = t_data.prelims;
   for (var i = 1; i < num_prelims + 1; i ++) {
-    var url = location.protocol + "//" + location.hostname + ":8000/admin/" + t_data.tournament_name + "/round/" + i.toString();
+    var url = kritstats.urls.base + "admin/" + t_data.tournament_name + "/round/" + i.toString();
     var tr = document.createElement("tr");
     tr.className = "admin-round-row";
     tr.setAttribute("data-url", url);
@@ -47,7 +47,7 @@ function modifyPopulate(data, tournament){
   }
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/unentered_rounds/" + tournament,
+    url: kritstats.urls.base + "1/tournament/unentered_rounds/" + tournament,
     contentType: 'application/json',
     success: function (left_data) {
       add_rounds_buttons(t_data, left_data)
@@ -67,7 +67,7 @@ $(document).ready(function () {
   $("#tourn-name").attr("value", tournament);
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+      url: kritstats.urls.tournament_query,
       contentType: 'application/json',
       success: function (data) {
         modifyPopulate(data, tournament)
