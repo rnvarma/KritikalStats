@@ -200,7 +200,7 @@ function enter_rounds(data) {
     var win_id = $(".results-round-" + r_id).attr("winner");
     var lose_id = $(".results-round-" + r_id).attr("loser");
     var post_data = {"update": "round_result", "win_id": win_id, "lose_id": lose_id, "r_id": r_id};
-    var url = kritstats.url.update_round;
+    var url = kritstats.urls.update_round;
 
     function getCookie(name) {
       var cookieValue = null;
