@@ -261,3 +261,7 @@
 .sortable-table-header:hover {
 	color: #AB070F;
 }
+
+.modal-judge {
+	text-align: center;
+}

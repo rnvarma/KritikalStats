@@ -390,6 +390,52 @@ class UpdateRoundResult(APIView):
     the_round.loser = loser
     the_round.save()
 
+  @classmethod
+  def calc_win_from_votes(cls, decisions):
+    t1 = []
+    t2 = []
+    for dec in decisions:
+      if dec in t1:
+        t2.append(dec)
+      else:
+        t1.append(dec)
+    if len(t1) > len(t2):
+      return t1[0]
+    else:
+      return t2[0]
+
+  @classmethod
+  def enter_elim_round_result(cls, r_id, j1,j2,j3,d1,d2,d3):
+    win_id = UpdateRoundResult.calc_win_from_votes([d1,d2,d3])
+    winner = Team.objects.get(id = win_id)
+    the_round = ElimRound.objects.get(id = r_id)
+    aff_id = the_round.aff_team.id
+    neg_id = the_round.neg_team.id
+    if win_id == aff_id:
+      lose_id = neg_id
+    else:
+      lose_id = aff_id
+    loser = Team.objects.get(id = lose_id)
+    the_round.winner = winner
+    the_round.loser = loser
+    ju1 = Judge.objects.get(name = j1)
+    ju2 = Judge.objects.get(name = j2)
+    ju3 = Judge.objects.get(name = j3)
+    if d1 == aff_id:
+      the_round.aff_votes.add(ju1)
+    else:
+      the_round.neg_votes.add(ju1)
+    if d2 == aff_id:
+      the_round.aff_votes.add(ju2)
+    else:
+      the_round.neg_votes.add(ju2)
+    if d3 == aff_id:
+      the_round.aff_votes.add(ju3)
+    else:
+      the_round.neg_votes.add(ju3)
+    the_round.save()
+    return {"r_id": r_id, "winner": win_id, "loser": lose_id}
+
 
   def post(self, request, format = None):
     if request.DATA.get("update", False) == "round_result":
@@ -398,8 +444,16 @@ class UpdateRoundResult(APIView):
       r_id = request.DATA.get("r_id", False)
       UpdateRoundResult.enter_round_result(r_id, win_id, lose_id)
       return Response({"loser": lose_id, "winner": win_id, "r_id": r_id})
-    else:
-      return HTTP_403_FORBIDDEN("didnt give the correct data")
+    elif request.DATA.get("update", False) == "elim_result":
+      j1 = request.DATA.get("judge1")
+      j2 = request.DATA.get("judge2")
+      j3 = request.DATA.get("judge3")
+      d1 = request.DATA.get("1-dec")
+      d2 = request.DATA.get("2-dec")
+      d3 = request.DATA.get("3-dec")
+      r_id = request.DATA.get("r_id")
+      return_data = UpdateRoundResult.enter_elim_round_result(r_id,j1,j2,j3,d1,d2,d3)
+      return Response(return_data)
 
 class TournamentRoundsLeft(APIView):
 
@@ -409,6 +463,19 @@ class TournamentRoundsLeft(APIView):
     for r_num in xrange(1, tourn.prelims + 1):
       unentered_rounds = tourn.rounds.filter(round_num = r_num, winner=None)
       result["round " + str(r_num)] = len(unentered_rounds)
+    print result
+    return Response(result)
+
+class TournamentElimRoundsLeft(APIView):
+
+  def get(self, request, tourn_name, format = None):
+    tourn = Tournament.objects.get(tournament_name = tourn_name)
+    result = {}
+    round_nums = [64,32,16,8,4,2,1]
+    for r_num in round_nums:
+      unentered_rounds = tourn.elim_rounds.filter(round_num = r_num, winner=None)
+      if unentered_rounds:
+        result[r_num] = len(unentered_rounds)
     print result
     return Response(result)
 

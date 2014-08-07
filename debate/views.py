@@ -71,5 +71,11 @@ def modify_dashboard(request, tournament):
 
 @login_required(login_url = '/adminlogin')
 def admin_round(request, tournament, round_num):
-	return render(request, 'admin_round.html', {'tournament': tournament, 'r_num': round_num, 'user': request.user})
+	return render(request, 'admin_round.html', {'tournament': tournament, 'r_num': round_num, 'round_type': "round", 'user': request.user})
+
+@login_required(login_url = '/adminlogin')
+def admin_elim_round(request, tournament, round_num):
+	return render(request, 'admin_round.html', {'tournament': tournament, 'r_num': round_num, 'round_type': "elim_round", 'user': request.user})
+
+
 

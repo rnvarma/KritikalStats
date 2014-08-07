@@ -58,6 +58,8 @@ class ElimRound(models.Model):
   winner = models.ForeignKey(Team, related_name="elim_wins", blank=True, null=True)
   loser = models.ForeignKey(Team, related_name="elim_losses", blank=True, null=True)
   judge = models.ManyToManyField(Judge, related_name="elim_rounds")
+  aff_votes = models.ManyToManyField(Judge, related_name="aff_elim_votes")
+  neg_votes = models.ManyToManyField(Judge, related_name="neg_elim_votes")
   round_num = models.IntegerField()
   one_ac = models.CharField(max_length=200, blank=True, default='')
   one_nc = models.CharField(max_length=200, blank=True, default='')

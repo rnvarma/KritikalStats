@@ -29,7 +29,13 @@
   	  	  	  <th class ="visible-lg">Aff Name</th>
   	  	  	  <th>Neg Code</th>
   	  	  	  <th class ="visible-lg">Neg Name</th>
-  	  	  	  <th>Judge</th>
+  	  	  	  {% if round_type == 'round' %}
+              <th>Judge</th>
+              {% else %}
+              <th class ="visible-lg visible-md">Judge 1</th>
+              <th class ="visible-lg visible-md">Judge 2</th>
+              <th class ="visible-lg visible-md">Judge 3</th>
+              {% endif %}
   	  	  	</tr>
   	  	  </thead>
   	  	  <tbody class = "undecided_table">
@@ -55,7 +61,13 @@
   	  	  	  <th class ="visible-lg">Aff Name</th>
   	  	  	  <th>Neg Code</th>
   	  	  	  <th class ="visible-lg">Neg Name</th>
+              {% if round_type == 'round' %}
   	  	  	  <th>Judge</th>
+              {% else %}
+              <th class ="visible-lg visible-md">Judge 1</th>
+              <th class ="visible-lg visible-md">Judge 2</th>
+              <th class ="visible-lg visible-md">Judge 3</th>
+              {% endif %}
   	  	  	</tr>
   	  	  </thead>
   	  	  <tbody class = "decided_table">
@@ -68,6 +80,7 @@
 
 <div class="t_name_hidden" data-name = "{{tournament}}"></div>
 <div class="r_num_hidden" data-num = "{{r_num}}"></div>
+<div class="r_type_hidden" data-type = "{{ round_type }}"></div>
 
 <script src="{% static 'js/admin_round.js' %}"></script>
 

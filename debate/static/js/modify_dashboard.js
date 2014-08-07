@@ -1,4 +1,21 @@
 
+function calculate_elim_round(round_num) {
+  switch(round_num) { 
+    case 32: 
+      return "Doubles"; 
+    case 16: 
+      return "Octos"; 
+    case 8: 
+      return "Quarters"; 
+    case 4: 
+      return "Sems"; 
+    case 2: 
+      return "Finals"; 
+    default: 
+      return "FAIL"; 
+  } 
+}
+
 function add_rounds_buttons(t_data, r_left) {
   var table = document.getElementsByClassName("round-enter-table")[0];
   var num_prelims = t_data.prelims;
@@ -13,6 +30,34 @@ function add_rounds_buttons(t_data, r_left) {
 
     var r_left_td = document.createElement("td");
     var r_left_text = document.createTextNode(r_left["round " + i.toString()].toString());
+    r_left_td.appendChild(r_left_text);
+
+    tr.appendChild(round_td);
+    tr.appendChild(r_left_td);
+    table.appendChild(tr);
+  }
+
+  $(".admin-round-row").click(function () {
+    window.location.href = $(this).attr("data-url");
+  })
+}
+
+function add_elim_rounds_buttons(t_data, r_left) {
+  console.log(Object.keys(r_left));
+  var table = document.getElementsByClassName("elim-round-enter-table")[0];
+  for (var i = Object.keys(r_left).length - 1; i >= 0; i --) {
+    var r_num = Number(Object.keys(r_left)[i]);
+    var r_name = calculate_elim_round(r_num)
+    var url = kritstats.urls.base + "admin/" + t_data.tournament_name + "/elim_round/" + r_num.toString();
+    var tr = document.createElement("tr");
+    tr.className = "admin-round-row";
+    tr.setAttribute("data-url", url);
+    var round_td = document.createElement("td");
+    var round_text = document.createTextNode(r_name);
+    round_td.appendChild(round_text);
+
+    var r_left_td = document.createElement("td");
+    var r_left_text = document.createTextNode(r_left[r_num.toString()].toString());
     r_left_td.appendChild(r_left_text);
 
     tr.appendChild(round_td);
@@ -51,6 +96,24 @@ function modifyPopulate(data, tournament){
     contentType: 'application/json',
     success: function (left_data) {
       add_rounds_buttons(t_data, left_data)
+    },
+    error: function(a , b, c){
+      console.log('There is an error in retrieving tournament, dashboard.js');
+    },
+    async: true
+  });
+
+  $.ajax({
+    type: 'GET',
+    url: kritstats.urls.base + "1/tournament/unentered_elim_rounds/" + tournament,
+    contentType: 'application/json',
+    success: function (left_data) {
+      if (!jQuery.isEmptyObject(left_data)) {
+        add_elim_rounds_buttons(t_data, left_data)
+      } else {
+        $(".elim-title").hide();
+        $(".elim-table").hide();
+      }
     },
     error: function(a , b, c){
       console.log('There is an error in retrieving tournament, dashboard.js');
