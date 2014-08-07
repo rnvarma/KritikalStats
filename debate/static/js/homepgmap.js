@@ -180,15 +180,6 @@ function setTournament(tournament) {
 	);
 }
 
-/* 
-function openWindow(tournament_name) { 
-	alert("call"); 
-	for (var i = 0; i < tournament_marker_list.length; i++) { 
-		if (tournament_marker_list[i].tournament_name == tournament_name) { 
-			tournament_marker_list[i].tournament_window.open(map); 
-		}
-	}
-}
 
 
 function generateDropdownMenu() { 
@@ -197,65 +188,43 @@ function generateDropdownMenu() {
 	var dropdown_box = document.createElement("form"); 
 	dropdown_box.className = "maps_dropdown_box"; 
 	dropdown_box.action = ""; 
-	var select = document.createElement("select"); 
-	select.className = "maps_select_menu";
-	select.name = "tournaments"; 
+	var select_box = document.createElement("select"); 
+	select_box.className = "maps_select_menu";
+	select_box.id = "tournament_filter"; 
+	var showAllOpt = document.createElement("option"); 
+	showAllOpt.value = "Show All"; 
+	showAllOpt.appendChild(document.createTextNode("Show All")); 
+	select_box.appendChild(showAllOpt); 
 	for (var i = 0; i < tournament_marker_list.length; i++) { 
 		var opt = document.createElement("option"); 
 		opt.value = tournament_marker_list[i].tournament_name;
 		opt.id = "displayed_tournament";
 		opt.appendChild(document.createTextNode(tournament_marker_list[i].tournament_name)); 
-		select.appendChild(opt); 
-		$("#displayed_tournament").click(function() { 
-			alert("xxxxx"); 
-		}); 
+		select_box.appendChild(opt); 
 	}
-	dropdown_box.appendChild(select); 
+	select_box.onclick = function() { openWindow(); };
+	dropdown_box.appendChild(select_box); 
 	dropdownTournamentList.appendChild(dropdown_box); 
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(dropdownTournamentList); 
 }
-*/ 
 
 
-/*
-function filterTournaments(filter_field, requirement) { 
-	if (filter_field == "all") { 
-		for (var i = 0; i < tournament_marker_list.length; i++) { 
-			tournament_marker_list[i].Marker.setMap(map); 
-		}
-	}
-	if (filter_field == "bid_round") { 
-		if (requirement == "bids only") { 
-			filter = "Not Bidded"; 
-		}
-	}
+function openWindow() { 
+	var selected_tournament = document.getElementById("tournament_filter").value; 
+
 	for (var i = 0; i < tournament_marker_list.length; i++) { 
-		if (tournament_marker_list[i].tournament_bid == filter) { 
-			tournament_marker_list[i].Marker.setMap(null); 
+		if (selected_tournament == "Show All") { 
+			tournament_marker_list[i].tournament_window.close(); 
+			tournament_marker_list[i].Marker.setMap(map); 
+		} else if (tournament_marker_list[i].tournament_name == selected_tournament) { 
+			tournament_marker_list[i].Marker.setMap(map); 
+			tournament_marker_list[i].tournament_window.open(map); 
 		} else { 
-			tournament_marker_list[i].Marker.setMap(map); 
-		}
-	}
-}
-
-
-function showBidsOnly() { 
-	for (var i = 0; i < tournament_marker_list.length; i++) { 
-		if (tournament_marker_list[i].tournament_bid == "Not Bidded") { 
+			tournament_marker_list[i].tournament_window.close(); 
 			tournament_marker_list[i].Marker.setMap(null); 
-		} else { 
-			tournament_marker_list[i].Marker.setMap(map); 
 		}
 	}
 }
-
-
-function showAll() { 
-	for (var i = 0; i < tournament_marker_list.length; i++) { 
-		tournament_marker_list[i].Marker.setMap(map); 
-	}
-}
-*/
 
 
 
@@ -276,22 +245,6 @@ function initialize() {
 		mapTypeId: 'cleanMapStyle',
         minZoom: 4
 	}
-
-/* 
-  var filterTournamentBox = document.createElement('div'); 
-  var filterTournamentHTML = document.createElement('div'); 
-  filterTournamentHTML.style.fontSize = '12px';
-  filterTournamentHTML.style.paddingLeft = '4px';
-  filterTournamentHTML.style.paddingRight = '4px';
-  filterTournamentHTML.innerHTML = '<tr> <td> <button style="background-color:blue;" class = "filterButton" data-filter = "bidsOnly">' + 
-                                   'Bid Tournaments </button> </td>' + 
-                                   '<td> <button class = "filterButton" data-filter = "None">' + 
-                                   'All </button> </td>';
-
-  filterTournamentBox.appendChild(filterTournamentHTML);
-*/ 
-
-
 
 
 
@@ -328,42 +281,10 @@ function initialize() {
 	map.mapTypes.set('cleanMapStyle', new google.maps.StyledMapType(cleanMapStyle, { name: 'cleanMapStyle' }));
 
 
-//  map.controls[google.maps.ControlPosition.TOP_CENTER].push(filterTournamentBox);
-//  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(test);
+
 
 	tournamentQueryAndSet(); 
-
-//	setTimeout(function() { generateDropdownMenu(); }, 3000); 
-
-	$(".test_click").click(function() {
-		alert("wrked");
-	})
-	//hardcoded for display
-/* 
-
-  $(".filterButton").click(
-  	function() { 
-  		alert("called");
-  		var filter_crit = $(this).attr("data-filter"); 
-  		if (filter_crit == "bidsOnly") { 
-  			for (var i = 0; i < tournament_marker_list.length; i++) { 
-  				if (tournament_marker_list[i].tournament_bid == "Not Bidded") { 
-  					tournament_marker_list[i].Marker.setMap(null); 
-  				} else { 
-  					tournament_marker_list[i].Marker.setMap(map); 
-  				}
-  			}
-  		} else if (filter_crit == "None") { 
-  			for (var i = 0; i < tournament_marker_list.length; i++) { 
-  				tournament_marker_list[i].Marker.setMap(map); 
-  			}
-  		} else {
-  			alert("error"); 
-  		}
-  	}                                   
-  ); 
-*/ 
-
+	setTimeout(function() { generateDropdownMenu(); }, 5000); 
 }
 
 
