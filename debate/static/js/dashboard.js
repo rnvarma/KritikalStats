@@ -178,5 +178,49 @@ $(document).ready(function () {
       async: true
   });
 
+console.log(tournament)
+//hardcode for UMich
+  if (tournament == "MSI"){
+    //DOM for Administrator Widget
+    var admin_reg = document.getElementById("dashboard-reg-admin");
+    var admin_xs = document.getElementById("dashboard-xs-admin");
+    
+    var emails_reg1 = document.createTextNode('tiffany.s.haas@gmail.com');
+    var breaker1 = document.createElement("br");
+    var emails_reg2 = document.createTextNode('jeri.brand@gmail.com');
+    var breaker2 = document.createElement("br");
+    var emails_reg3 = document.createTextNode('jpeacegirl2457@gmail.com');
+    var breaker3 = document.createElement("br");
+    var emails_reg4 = document.createTextNode('coolia45@gmail.com');
+    var breaker4 = document.createElement("br");
+
+    var emails_xs1 = document.createTextNode('tiffany.s.haas@gmail.com');
+    var breaker_xs_1 = document.createElement("br");
+    var emails_xs2 = document.createTextNode('jeri.brand@gmail.com');
+    var breaker_xs_2 = document.createElement("br");
+    var emails_xs3 = document.createTextNode('jpeacegirl2457@gmail.com');
+    var breaker_xs_3 = document.createElement("br");
+    var emails_xs4 = document.createTextNode('coolia45@gmail.com');
+    var breaker_xs_4 = document.createElement("br");
+
+    admin_reg.appendChild(emails_reg1);
+    admin_reg.appendChild(breaker1);
+    admin_reg.appendChild(emails_reg2);
+    admin_reg.appendChild(breaker2);
+    admin_reg.appendChild(emails_reg3);
+    admin_reg.appendChild(breaker3);
+    admin_reg.appendChild(emails_reg4);
+    admin_reg.appendChild(breaker4);
+
+    admin_xs.appendChild(emails_xs1);
+    admin_xs.appendChild(breaker_xs_1);
+    admin_xs.appendChild(emails_xs2);
+    admin_xs.appendChild(breaker_xs_2);
+    admin_xs.appendChild(emails_xs3);
+    admin_xs.appendChild(breaker_xs_3);
+    admin_xs.appendChild(emails_xs4);
+    admin_xs.appendChild(breaker_xs_4);
+  }
+
 
 })
