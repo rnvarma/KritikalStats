@@ -7,6 +7,18 @@
 	cursor: pointer;
 }
 
+.table {
+	font-size: small;
+}
+
+.team-row{
+	cursor: pointer;
+}
+
+.blue-bg {
+	background-color: #6495ED;
+}
+
 .mainpage-round {
 	cursor: pointer;
 }

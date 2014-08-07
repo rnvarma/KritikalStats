@@ -74,7 +74,8 @@ function make_bracket(){
 
 function make_framework(){
   var panel_body = document.createElement('div');
-  panel_body.className = "panel-body bracket_box";
+  panel_body.className = "panel-body bracket_box tab-pane Bracket-tab";
+  panel_body.id = "#Bracket";
   
   var col0 = document.createElement('div');
   col0.className = "col"
@@ -163,7 +164,7 @@ function add_tab_content() {
 
 function make_tab_page(tab_name, active){
   if (tab_name == 'Bracket'){
-    var tab_head = make_framework()
+    var tab_head = make_framework();
   }
 
   else {
@@ -188,6 +189,7 @@ function make_tab_page(tab_name, active){
     section_scroll.id = "flip-scroll";
     var table = document.createElement("table");
     table.className = "table table-hover general-table"
+    table.id = "table-" + tab_name
     var table_head = document.createElement("thead");
     table_head.className = "cf";
     var tr = document.createElement("tr");
@@ -268,6 +270,85 @@ function load_tabs(tab_list){
   }
 }
 
+function populate_elim(elim_data){
+  if (elim_data.length > 0){
+    if (elim_data.length == 16){
+      var elim_name = "Doubles"
+    }
+    else if (elim_data.length == 8){
+      var elim_name = "Octos"
+    }
+    else if (elim_data.length == 4){
+      var elim_name = "Quarters"
+    }
+    else if (elim_data.length == 2){
+      var elim_name = "Semis"
+    }
+    else if (elim_data.length == 1){
+      var elim_name = "Finals"
+    }
+
+    
+    var table = document.getElementById('table-' + elim_name);
+    //console.log(table)
+    var tbody = fill_elim_page(elim_data);
+    //console.log(elim_data);
+    table.appendChild(tbody);
+  }
+
+}
+
+function fill_elim_page(elim_data){
+  var row_headers = ['Aff', 'Neg', 'Judge1', 'Judge2', 'Judge3', '1AC', '1NC', '2NR']
+  var tbody = document.createElement('tbody');
+  tbody.className = 'elim_page_table'
+  for (i=0; i<elim_data.length; i++){
+    var tr = document.createElement('tr');
+    tr.className = "team-row round-row-" + elim_data[i].round_id
+    tr.id = "row-" + elim_data[i].round_id
+    for (j=0; j<row_headers.length; j++){
+      var td = document.createElement('td');
+      td.className = row_headers[j];
+      if (row_headers[j] == 'Aff'){
+        td.id = elim_data[i].aff_id
+      }
+      if (row_headers[j] == 'Neg'){
+        td.id = elim_data[i].neg_id
+      }
+
+      if (row_headers[j] == 'Aff'){
+        var td_text = document.createTextNode(elim_data[i].aff_code);
+      }
+      else if (row_headers[j] == 'Neg'){
+        var td_text = document.createTextNode(elim_data[i].neg_code);
+      }
+      else if (row_headers[j] == 'Judge1'){
+        var td_text = document.createTextNode(elim_data[i].judge[0]);
+      }
+      else if (row_headers[j] == 'Judge2'){
+        var td_text = document.createTextNode(elim_data[i].judge[1]);
+      }
+      else if (row_headers[j] == 'Judge3'){
+        var td_text = document.createTextNode(elim_data[i].judge[2]);
+      }
+      else if (row_headers[j] == '1AC'){
+        var td_text = document.createTextNode('');
+      }
+      else if (row_headers[j] == '1NC'){
+        var td_text = document.createTextNode('');
+      }
+      else if (row_headers[j] == '2NR'){
+        var td_text = document.createTextNode('');
+      }
+      td.appendChild(td_text);
+      tr.appendChild(td);
+    }
+
+    tbody.appendChild(tr);
+  }
+  return tbody;
+}
+
 function load_elims(data,tournament){
   for (i=0; i<data.length; i++){
     if (data[i].tournament_name == tournament){
@@ -276,6 +357,49 @@ function load_elims(data,tournament){
       load_tabs(tab_list);
     }
   }
+
+  var elim_value = '';
+  for (j=0; j<tab_list.length; j++){
+    if (tab_list[j] == "Doubles"){
+      elim_value = 32
+    }
+    else if (tab_list[j] == "Octos"){
+      elim_value = 16
+    }
+    else if (tab_list[j] == "Quarters"){
+      elim_value = 8
+    }
+    else if (tab_list[j] == "Semis"){
+      elim_value = 4
+    }
+    else if (tab_list[j] == "Finals"){
+      elim_value = 2
+    }
+
+    $.ajax({
+      type: 'GET',
+      url: kritstats.urls.base + "1/tournament/" + tournament + '/elim_round/' + elim_value,
+      contentType: 'application/json',
+      success: function (data) {
+        populate_elim(data.rounds);
+        row_click_handler();
+      },
+      error: function(a , b, c){
+        console.log('There is an error in quering for ' + tournament + 'for ' + elim_value + ' in load elims');
+      },
+      async: true
+    });
+  }
+
+}
+
+function row_click_handler(){
+  $(".team-row").click(function() {
+    var id = this.id
+    id = id.substring(id.length-1)
+    var url = kritstats.urls.base + "elim_round/" + id;
+    window.location = url;
+  })
 }
 
 $(document).ready(function () {
