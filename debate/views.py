@@ -10,7 +10,10 @@ def team_page(request, id):
     return render(request, 'team.html', {'team_id': id, 'user': request.user})
 
 def round_page(request, id):
-	return render(request, 'round.html', {'round_id': id, 'user': request.user})
+	return render(request, 'round.html', {'round_id': id, 'round_type': 'round', 'user': request.user})
+
+def elim_round_page(request, id):
+	return render(request, 'round.html', {'round_id': id, 'round_type': 'elim_round', 'user': request.user})
 
 def archived_tournaments(request, year):
 	return render(request, 'archived_tournaments.html', {'year':year, 'user': request.user})

@@ -27,6 +27,10 @@
 	cursor: pointer;
 }
 
+.team_tourn_elim_round {
+	cursor: pointer;
+}
+
 .about-btn:hover {
 	font-weight: 900;
 	color: #AB070F;
@@ -209,6 +213,31 @@
 	border-width:1px;
 	border-color:black; 
 	position:relative;
+}
+
+.maps_info_window { 
+	height:40px;
+	width:185px;
+}
+
+.maps_info_window_text { 
+	text-align:center;
+}
+
+.maps_info_window_bubble { 
+	float:left;
+	padding-right:2px;
+}
+
+.maps_dropdown_box { 
+	height:100px;
+	width:100px; 
+}
+
+.maps_select_menu { 
+	width:100px; 
+	background-color:white;
+	color:black;
 }
 
 .admin_round_row:hover {
