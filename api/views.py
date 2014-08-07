@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer, ElimRoundSerializer
-from api.models import Team, Tournament, Round, Judge
+from api.models import Team, Tournament, Round, Judge, ElimRound
 from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
 from api.merge_teams import merge_teams
 from django.shortcuts import render, redirect
@@ -191,6 +191,21 @@ class TeamRoundsFetch(APIView):
     data["t_name"] = tourn_name
     return Response(data)
 
+class TeamElimRoundsFetch(APIView):
+
+  def get(self, request, tourn_name, team_id, format = None):
+    team = Team.objects.get(id=team_id)
+    tournament = Tournament.objects.get(tournament_name = tourn_name)
+    aff_rounds = team.aff_elim_rounds.filter(tournament__exact = tournament)
+    neg_rounds = team.neg_elim_rounds.filter(tournament__exact = tournament)
+    aff_serializer = ElimRoundSerializer(aff_rounds, many=True)
+    neg_serializer = ElimRoundSerializer(neg_rounds, many=True)
+    data = {}
+    data["aff"] = TournamentRounds.process_elim_rounds(aff_serializer.data)
+    data["neg"] = TournamentRounds.process_elim_rounds(neg_serializer.data)
+    data["t_name"] = tourn_name
+    return Response(data)
+
 class TournamentCreate(APIView):
 
   @classmethod
@@ -266,6 +281,14 @@ class RoundData(APIView):
     r_data = Round.objects.get(id = r_id)
     serializer = RoundSerializer(r_data)
     processed_data = TournamentRounds.process_rounds([serializer.data])
+    return Response(processed_data)
+
+class ElimRoundData(APIView):
+
+  def get(self, request, r_id, format = None):
+    r_data = ElimRound.objects.get(id = r_id)
+    serializer = ElimRoundSerializer(r_data)
+    processed_data = TournamentRounds.process_elim_rounds([serializer.data])
     return Response(processed_data)
 
 class SimilarTeams(APIView):
