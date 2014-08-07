@@ -345,7 +345,7 @@ $(document).ready(function() {
     //queries for tournaments
     $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+      url: kritstats.urls.tournament_query,
       contentType: 'application/json',
       success: function (data) {
         //console.log(data);

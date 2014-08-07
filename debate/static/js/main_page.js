@@ -1,4 +1,60 @@
 
+function load_click_handlers(entries_data, rounds_data) {
+  $(".main-header").click(function() {
+    $(".main-header").not(this).removeClass("forward").removeClass("backward").addClass("unsorted");
+    if ($(this).hasClass("forward")) {
+      var order = "backward";
+      $(this).removeClass("forward").addClass("backward");
+    } else {
+      var order = "forward";
+      $(this).removeClass("backward").addClass("forward");
+    } 
+    var sort_by = $(this).attr("data-type");
+    var rows = []
+    if (sort_by == "wl") {
+      $(".team-row").each(function() {
+        var row = {}
+        var wins = $(this).attr("data-wins");
+        row["data"] = wins;
+        row["row-class"] = ".team-row-" + $(this).attr("id").toString();
+        rows.push(row);
+      })
+    } else if (sort_by == "team_code") {
+      for (var i = 0; i < entries_data.length; i ++) {
+        var row = {}
+        var team = entries_data[i];
+        row["data"] = team.team_code;
+        row["row-class"] = ".team-row-" + team.team_id.toString();
+        rows.push(row);
+      }
+    } else {
+      var r_num = $(this).attr("data-round-num");
+      $(".team-row").each(function() {
+        var row = {}
+        var t_id = $(this).attr("id").toString();
+        var col = $(this).children(".mainpage-round").get(r_num - 1);
+        var win_or_loss = $(col).hasClass("round-won") ? 1 : 0;
+        row["data"] = win_or_loss;
+        row["row-class"] = ".team-row-" + t_id;
+        rows.push(row);
+      })
+    }
+    if (order == "forward") {
+      rows.sort(function(a,b) {
+        return a.data < b.data ? 1 : -1;
+      })
+    } else {
+      rows.sort(function(a,b) {
+        return a.data > b.data ? 1 : -1;
+      })
+    }
+    for (var j = 0; j < rows.length; j++) {
+      var obj = rows[j];
+      $(obj["row-class"]).appendTo($(".main_page_table"));
+    }
+  })
+}
+
 function assign_records() {
   $(".team-row").each(function() {
   	var wins = $(this).attr("data-wins");
@@ -44,13 +100,16 @@ function populate_round(t_name, round_data) {
   	neg_tr.setAttribute("data-wins", n_wins);
   	var a_losses = (Number(aff_tr.getAttribute("data-losses")) + 1).toString();
   	aff_tr.setAttribute("data-losses", a_losses);
+  } else {
+    aff_td.className = "mainpage-round round-undecided bg-warning";
+    neg_td.className = "mainpage-round round-undecided bg-warning";
   }
 }
 
-function get_rounds(t_name) {
+function get_rounds(t_name, entry_data) {
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + t_name + '/round/',
+      url: kritstats.urls.base + "1/tournament/" + t_name + '/round/',
       contentType: 'application/json',
       success: function (data) {
         for (var i = 0; i < data.rounds.length; i++) {
@@ -58,10 +117,11 @@ function get_rounds(t_name) {
         }
         $(".mainpage-round").click(function () {
           var id = $(this).attr("id");
-          var url = location.protocol + "//" + location.hostname + ":8000/round/" + id;
+          var url = kritstats.urls.base + "round/" + id;
           window.location.href = url;
         })
         assign_records();
+        load_click_handlers(entry_data, data.rounds);
       },
       error: function(a , b, c){
         console.log('There is an error in quering for ' + tournament + ' in roundQuery');
@@ -95,15 +155,17 @@ function populate_entry_column(t_name, entry_data) {
 
   $(".team-code").click(function () {
   	var id = $(this).attr("id");
-  	var url = location.protocol + "//" + location.hostname + ":8000/team/" + id;
+  	var url = kritstats.urls.base + "team/" + id;
   	window.location.href = url;
   })
 }
 
-function main_page_populate_helper(t_name, prelim) {
+function main_page_populate_helper(t_name, round_num) {
   var table_header = document.getElementsByClassName("main_table_header")[0];
-  for (var i = 0; i < prelim; i ++) {
+  for (var i = 0; i < round_num; i ++) {
     var round_head = document.createElement("th");
+    round_head.className = "sortable-table-header main-header unsorted";
+    round_head.setAttribute("data-round-num", (i + 1).toString());
     var round_text = document.createTextNode("Round " + (i + 1).toString());
     round_head.appendChild(round_text);
     table_header.appendChild(round_head);
@@ -111,11 +173,11 @@ function main_page_populate_helper(t_name, prelim) {
 
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + t_name + '/entries/',
+    url: kritstats.urls.base + "1/tournament/" + t_name + '/entries/',
     contentType: 'application/json',
     success: function (data) {
       populate_entry_column(t_name, data);
-      get_rounds(t_name);
+      get_rounds(t_name, data);
     },
     error: function(a , b, c){
       console.log('There is an error in quering for ' + tournament + ' in mainPagePopulateHelper');
@@ -128,16 +190,16 @@ $(document).ready(function () {
   var t_name = $("#tournament_hidden").attr("data-tournament");
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+    url: kritstats.urls.tournament_query,
     contentType: 'application/json',
     success: function (data) {
       var prelim;
       for (i=0;i<data.length;i++){
         if (data[i].tournament_name == t_name){
-          prelim = data[i].prelims
+          round_num = data[i].curr_rounds != 0 ? data[i].curr_rounds : data[i].prelims
         }
       }
-  	  main_page_populate_helper(t_name, prelim)
+  	  main_page_populate_helper(t_name, round_num)
 
     },
     error: function(a , b, c){

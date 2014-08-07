@@ -2,7 +2,7 @@ import urllib2, json
 from bs4 import BeautifulSoup
 from process_names import process_judges_name, proccess_special_case
 
-URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2891&round_id=83641"
+URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2891&round_id=83644"
 
 def is_number(s):
   try:

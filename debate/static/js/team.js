@@ -155,7 +155,7 @@ function create_tournament_rounds(rounds_data, code, team_id) {
   }
   $(".team_tourn_round").click(function () {
     var id = $(this).attr("data-round_id");
-    var url = location.protocol + "//" + location.hostname + ":8000/round/" + id;
+    var url = kritstats.urls.base + "round/" + id;
     window.location.href = url;
   })
 }
@@ -197,8 +197,7 @@ function load_tournament_rounds(data, team_id) {
   	var header = create_rounds_header(t_name, active);
     tab.appendChild(header);
     add_tab_click_handler(t_name);
-  	var url = location.protocol + "//" + location.hostname + ":8000/1/team/rounds/" + t_name + "/" + team_id;
-  	console.log(url);
+  	var url = kritstats.urls.base + "1/team/rounds/" + t_name + "/" + team_id;
     $.ajax({
       type: 'GET',
       url: url,
@@ -231,7 +230,7 @@ $(document).ready(function () {
   var team_id = $(".team_id_hidden").attr("data-id");
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/team/" + team_id,
+      url: kritstats.urls.base + "1/team/" + team_id,
       contentType: 'application/json',
       success: function (data) {
         load_team_info(data, team_id);

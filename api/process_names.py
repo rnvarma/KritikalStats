@@ -26,7 +26,10 @@ def proccess_special_case(code):
   else:
     team_c = first_l + " " + second_l
   if team_c[-1] == " ": team_c = team_c[:-1]
-  return school + " " + team_c
+  final =  school + " " + team_c
+  if final == "Pace And rawls Brand":
+    final = "Pacbr Brand Rawls"
+  return final
 
 def process_judges_name(name):
   if name.find(",") >= 0:
