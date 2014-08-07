@@ -304,16 +304,26 @@ function fill_elim_page(elim_data){
   tbody.className = 'elim_page_table'
   for (i=0; i<elim_data.length; i++){
     var tr = document.createElement('tr');
-    tr.className = "team-row round-row-" + elim_data[i].round_id
-    tr.id = "row-" + elim_data[i].round_id
+    tr.className = "team-row round-row-" + elim_data[i].round_id;
+    tr.id = "row-" + elim_data[i].round_id;
     for (j=0; j<row_headers.length; j++){
       var td = document.createElement('td');
       td.className = row_headers[j];
       if (row_headers[j] == 'Aff'){
-        td.id = elim_data[i].aff_id
+        td.id = elim_data[i].aff_id;
+        if (elim_data[i].winner == elim_data[i].aff_id) {
+          td.className += " bg-success";
+        } else if (elim_data[i].winner == elim_data[i].neg_id) {
+          td.className += " bg-danger";
+        }
       }
       if (row_headers[j] == 'Neg'){
-        td.id = elim_data[i].neg_id
+        td.id = elim_data[i].neg_id;
+        if (elim_data[i].winner == elim_data[i].neg_id) {
+          td.className += " bg-success";
+        } else if (elim_data[i].winner == elim_data[i].aff_id) {
+          td.className += " bg-danger";
+        }
       }
 
       if (row_headers[j] == 'Aff'){
