@@ -1,5 +1,5 @@
 
-sub_pages = ["Dashboard", "Main", "Entries", "Bracket"];
+sub_pages = ["Dashboard", "Main", "Entries", "Elims"];
 
 function create_tournament_div(tourn_data) {
 	var t_name_text = tourn_data["tournament_name"];
