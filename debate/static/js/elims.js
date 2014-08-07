@@ -406,7 +406,7 @@ function load_elims(data,tournament){
 function row_click_handler(){
   $(".team-row").click(function() {
     var id = this.id
-    id = id.substring(id.length-1)
+    id = id.substring(4)
     var url = kritstats.urls.base + "elim_round/" + id;
     window.location = url;
   })
