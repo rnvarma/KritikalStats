@@ -63,11 +63,48 @@ function generateRoundColumn(column, elim_round) {
 	}
 }
 
-
-$(document).ready(function() { 
+function make_bracket(){
 	var elimRounds = ["doubles", "octos", "quarters", "semifinals", "finals", "champion"];
 	var columns = document.getElementsByClassName("col"); 
 	for (var i = 0; i < columns.length; i ++) { 
 		generateRoundColumn(columns[i], elimRounds[i]); 
 	}
+}
+
+function make_framework(){
+	var panel_body = document.createElement('div');
+	panel_body.className = "panel-body bracket_box";
+	
+	var col0 = document.createElement('div');
+	col0.className = "col"
+	var col1 = document.createElement('div');
+	col1.className = "col"
+	var col2 = document.createElement('div');
+	col2.className = "col"
+	var col3 = document.createElement('div');
+	col3.className = "col"
+	var col4 = document.createElement('div');
+	col4.className = "col"
+	var col5 = document.createElement('div');
+	col5.className = "col"
+
+	panel_body.appendChild(col1);
+	panel_body.appendChild(col2);
+	panel_body.appendChild(col3);
+	panel_body.appendChild(col4);
+	panel_body.appendChild(col5);
+	panel_body.appendChild(col6);
+
+	colList = [col0, col1, col2, col3, col4, col5]
+
+	var elimRounds = ["doubles", "octos", "quarters", "semifinals", "finals", "champion"];
+	for (var i = 0; i < elimRounds.length; i ++) { 
+		generateRoundColumn(colList, elimRounds[i]); 
+	}
+
+	return panel_body
+}
+
+$(document).ready(function() { 
+	make_framework();
 }); 

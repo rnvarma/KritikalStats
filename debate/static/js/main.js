@@ -1,7 +1,7 @@
 //fixes the sidebar issue
 var fromSideBar = 0
 //subsidebar elements
-var sidebar = ['Dashboard', 'Main', 'Entries', 'Bracket'];
+var sidebar = ['Dashboard', 'Main', 'Entries', 'Elims'];
 
 function create_spinner_div() {
   var spinner = document.createElement("div");
