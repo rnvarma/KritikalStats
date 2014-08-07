@@ -1,9 +1,9 @@
 import urllib2, json
 from bs4 import BeautifulSoup
 
-from process_names import process_judges_name, process_team_code
+from process_names import process_judges_name, process_team_code, proccess_special_case
 
-URL = "https://www.tabroom.com/index/tourn/fields.mhtml?tourn_id=2686&event_id=26495"
+URL = "https://www.tabroom.com/index/tourn/fields.mhtml?tourn_id=2891"
 
 def is_number(s):
   try:
@@ -43,7 +43,7 @@ def get_info_from_text(text):
     index = 0  
     for i in xrange(len(text)):
         if ((i-3) % 4) == 0:
-            code.append(process_team_code(text[i]))
+            code.append(proccess_special_case(text[i]))
         elif ((i-2) % 4) == 0:
             name.append(text[i])
     return code, name
@@ -55,3 +55,6 @@ def get_team_list(url):
     data = clean_data(data)
     code, name = get_info_from_text(data)
     return zip(code, name)
+
+# for a,b in get_team_list(URL):
+#   print a + " | " + b

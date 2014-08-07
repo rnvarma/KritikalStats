@@ -47,7 +47,7 @@ function archive_table_populate(data, year) {
 
   $(".archive_row").click(function () {
     var id = $(this).attr("tourney-id");
-    var url = location.protocol + "//" + location.hostname + ":8000/" + id + "/Dashboard";
+    var url = kritstats.urls.base + id + "/Dashboard";
     window.location.href = url;
   })
 
@@ -57,7 +57,7 @@ $(document).ready(function () {
   var year = $("#year_hidden").attr("archived-year");
   $.ajax({
     type: 'GET',
-    url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+    url: kritstats.urls.tournament_query,
     contentType: 'application/json',
     success: function (data) {
       archive_table_populate(data, year);

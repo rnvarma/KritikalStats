@@ -51,6 +51,19 @@ class Round(models.Model):
   block = models.CharField(max_length=200, blank=True, default='')
   two_nr = models.CharField(max_length=200, blank=True, default='')
 
+class ElimRound(models.Model):
+  tournament = models.ManyToManyField(Tournament, related_name="elim_rounds")
+  aff_team = models.ForeignKey(Team, related_name="aff_elim_rounds")
+  neg_team = models.ForeignKey(Team, related_name="neg_elim_rounds")
+  winner = models.ForeignKey(Team, related_name="elim_wins", blank=True, null=True)
+  loser = models.ForeignKey(Team, related_name="elim_losses", blank=True, null=True)
+  judge = models.ManyToManyField(Judge, related_name="elim_rounds")
+  round_num = models.IntegerField()
+  one_ac = models.CharField(max_length=200, blank=True, default='')
+  one_nc = models.CharField(max_length=200, blank=True, default='')
+  block = models.CharField(max_length=200, blank=True, default='')
+  two_nr = models.CharField(max_length=200, blank=True, default='')
+
 class Seed(models.Model):
   team = models.ForeignKey(Team, related_name="team")
   tournament = models.ManyToManyField(Tournament, related_name="seeds")

@@ -13,13 +13,13 @@ def round_page(request, id):
 	return render(request, 'round.html', {'round_id': id, 'user': request.user})
 
 def archived_tournaments(request, year):
-	return render(request, 'archived_tournaments.html', {'year':year})
+	return render(request, 'archived_tournaments.html', {'year':year, 'user': request.user})
 
 def archived(request):
-	return render(request, 'archive.html')
+	return render(request, 'archive.html', {'user': request.user})
 
 def udl_main(request):
-	return render(request, 'UDL_main.html')
+	return render(request, 'UDL_main.html', {'user': request.user})
 
 def about_page(request):
 	print request.user
@@ -37,8 +37,8 @@ def entries_page(request, tournament):
 	return render(request, 'entries.html', {'tournament': tournament,
 		'user': request.user})
 
-def bracket_page(request, tournament):
-	return render(request, 'bracket.html', {'tournament': tournament,
+def elims_page(request, tournament):
+	return render(request, 'elims_main.html', {'tournament': tournament,
 		'user': request.user})
 
 ##### ADMIN VIEWS #####

@@ -1,5 +1,6 @@
 <head>
     {% load staticfiles %}
+    <script src="{% static 'js/constants.js' %}"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,9 +50,9 @@
         <!--search & user info goes here-->
         <!-- <ul class = "nav pull-right top-menu"> -->
             <!-- <li> -->
-                <div class = "pull-right top-menu btn-group btn-group-justified" style="width: 15%;">
-                <a class ="btn about-btn" href="/about">About</a>
-                <a class ="btn about-btn" href="/admin">{{user}}</a>
+                <div class = "pull-right top-menu btn-group">
+                <a class ="btn about-btn pull-right" href="/about">About</a>
+                <a class ="btn about-btn pull-right" href="/admin">{{user}}</a>
             </div>
                 <div class = "pull-left" style="width:8%; padding-left: 15px;">
                     <div class = "admin-header">Admin</div>

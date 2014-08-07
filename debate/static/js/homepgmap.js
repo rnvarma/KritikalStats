@@ -8,22 +8,22 @@ var map;
  */ 
 
 function tournamentQueryAndSet() {
-	$.ajax({
-		type: 'GET',
-		url: "http://127.0.0.1:8000/1/tournament/",
-		contentType: 'application/json',
+  $.ajax({
+    type: 'GET',
+    url: kritstats.urls.tournament_query,
+    contentType: 'application/json',
 
-		success: 
-		function (data) {
+    success: 
+    function (data) {
         for (i = 0; i < data.length; i++) {
-        	setTournament(data[i]); 
+          setTournament(data[i]); 
         }
     },
     error: function(a , b, c){
-    	console.log('There is an error in tournamentQuery');
+      console.log('There is an error in tournamentQuery');
     },
     async: true
-	});
+  });
 }
 
 
@@ -33,20 +33,20 @@ function tournamentQueryAndSet() {
  * @param bid_number: the number of teams that receive a bid at the tournament 
  */ 
 function determineBid(bid_number) { 
-	switch(bid_number) { 
-	  case 16: 
-	    return "Octos"; 
-	  case 8: 
-	    return "Quarters"; 
-	  case 4: 
-	    return "Sems"; 
-	  case 2: 
-	    return "Finals"; 
-	  case 0: 
-	    return "Not Bidded"; 
-	  default: 
-	    return "FAIL"; 
-	} 
+  switch(bid_number) { 
+    case 16: 
+      return "Octos"; 
+    case 8: 
+      return "Quarters"; 
+    case 4: 
+      return "Sems"; 
+    case 2: 
+      return "Finals"; 
+    case 0: 
+      return "Not Bidded"; 
+    default: 
+      return "FAIL"; 
+  } 
 }
 
 
@@ -227,24 +227,23 @@ function openWindow() {
 }
 
 
-
 /* initialize will initialize all global fields and generate the map. This map contains a specific 
  * style where no roads, terrain, or places of interest are shown. 
  */ 
 function initialize() { 
-	tournament_marker_list = []; 
-	var center_start = new google.maps.LatLng(38, -96); 
-	var map_options = { 
-		zoom: 4,
-		scrollwheel: false,
-		center: center_start, 
-		mapTypeControl: false,
-		panControl: false, 
-		streetViewControl: false, 
-		zoomControl: false,
-		mapTypeId: 'cleanMapStyle',
+  tournament_marker_list = []; 
+  var center_start = new google.maps.LatLng(38, -96); 
+  var map_options = { 
+    zoom: 4,
+    scrollwheel: false,
+    center: center_start, 
+    mapTypeControl: false,
+    panControl: false, 
+    streetViewControl: false, 
+    zoomControl: false,
+    mapTypeId: 'cleanMapStyle',
         minZoom: 4
-	}
+  }
 
 
 
@@ -279,8 +278,6 @@ function initialize() {
 
 	map = new google.maps.Map(document.getElementById('maps-canvas'), map_options); 
 	map.mapTypes.set('cleanMapStyle', new google.maps.StyledMapType(cleanMapStyle, { name: 'cleanMapStyle' }));
-
-
 
 
 	tournamentQueryAndSet(); 

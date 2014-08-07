@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
-from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer
+from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer, ElimRoundSerializer
 from api.models import Team, Tournament, Round, Judge
 from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
 from api.merge_teams import merge_teams
@@ -117,6 +117,52 @@ class TournamentRounds(APIView):
       new_round["round_num"] = round["round_num"]
       new_round["round_id"] = round["id"]
       new_round["judge"] = judge
+      new_list.append(new_round)
+    return new_list
+
+  @classmethod
+  def process_elim_rounds(cls, rounds_data):
+    new_list = []
+    for round in rounds_data:
+      new_round = {}
+      tourn_id = round["tournament"][0]
+      aff_id = round["aff_team"]
+      neg_id = round["neg_team"]
+      if round["winner"]:
+        win_id = round["winner"]
+        lose_id = round["loser"]
+      else:
+        win_id = "undecided"
+        lose_id = "undecided"
+      tournament = Tournament.objects.get(id = tourn_id).tournament_name
+      aff = Team.objects.get(id = aff_id).team_name
+      neg = Team.objects.get(id = neg_id).team_name
+      aff_code = Team.objects.get(id = aff_id).team_code
+      neg_code = Team.objects.get(id = neg_id).team_code
+      if win_id == aff_id:
+        win = aff_id
+        lose = neg_id
+      elif win_id == neg_id:
+        win = neg_id
+        lose = aff_id
+      else:
+        win, lose = "undecided", "undecided"
+      judges = []
+      for judge_id in round["judge"]:
+        judge = Judge.objects.get(id = judge_id).name
+        judges.append(judge)
+      new_round["tournament"] = tournament
+      new_round["aff_team"] = aff
+      new_round["aff_id"] = aff_id
+      new_round["neg_team"] = neg
+      new_round["neg_id"] = neg_id
+      new_round["aff_code"] = aff_code
+      new_round["neg_code"] = neg_code
+      new_round["winner"] = win
+      new_round["loser"] = lose
+      new_round["round_num"] = round["round_num"]
+      new_round["round_id"] = round["id"]
+      new_round["judge"] = judges
       new_list.append(new_round)
     return new_list
 
@@ -343,5 +389,16 @@ class TournamentRoundsLeft(APIView):
     print result
     return Response(result)
 
+class TournamentSpecificElimRound(APIView):
+
+  def get(self, request, pk, r_num, format = None):
+    tournaments = Tournament.objects.get(tournament_name=pk)
+    rounds = tournaments.elim_rounds.filter(round_num=r_num)
+    serializer = ElimRoundSerializer(rounds, many=True)
+    rounds = TournamentRounds.process_elim_rounds(serializer.data)
+    data = {}
+    data["curr_round"] = tournaments.curr_rounds
+    data["rounds"] = rounds
+    return Response(data)
 
 

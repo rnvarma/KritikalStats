@@ -1,5 +1,36 @@
 
 
+def proccess_special_case(code):
+  parts = code.split()
+  last_names = ""
+  if "&" not in parts:
+    parts = parts[0:2] + ["&"] + parts[2:]
+  for string in parts[1:]:
+    last_names += string + " "
+  last_names.strip()
+  last_names = last_names.split(" & ")
+  new_parts = []
+  new_parts.append(parts[0])
+  new_parts.append(last_names[0])
+  new_parts.append(last_names[1])
+  parts = new_parts
+  if "&" not in parts:
+    parts = parts[0:2] + ["&"] + parts[2:]
+  last_names = (parts[1], parts[3])
+  school = parts[0]
+  school = school[0].upper() + school[1:].lower()
+  first_l = last_names[0][0].upper() + last_names[0][1:].lower()
+  second_l = last_names[1][0].upper() + last_names[1][1:].lower()
+  if first_l > second_l:
+    team_c = second_l + first_l
+  else:
+    team_c = first_l + " " + second_l
+  if team_c[-1] == " ": team_c = team_c[:-1]
+  final =  school + " " + team_c
+  if final == "Pace And rawls Brand":
+    final = "Pacbr Brand Rawls"
+  return final
+
 def process_judges_name(name):
   if name.find(",") >= 0:
   	last, first = name.split(",")

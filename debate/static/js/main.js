@@ -1,7 +1,7 @@
 //fixes the sidebar issue
 var fromSideBar = 0
 //subsidebar elements
-var sidebar = ['Dashboard', 'Main', 'Entries', 'Bracket'];
+var sidebar = ['Dashboard', 'Main', 'Entries', 'Elims'];
 
 function create_spinner_div() {
   var spinner = document.createElement("div");
@@ -345,7 +345,7 @@ $(document).ready(function() {
     //queries for tournaments
     $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+      url: kritstats.urls.tournament_query,
       contentType: 'application/json',
       success: function (data) {
         //console.log(data);

@@ -1,10 +1,10 @@
 import urllib2, json
 from bs4 import BeautifulSoup
 
-from process_names import process_judges_name, process_team_code
+from process_names import process_judges_name, process_team_code, proccess_special_case
 from api.models import Team, Tournament, Round
 
-URL = "https://www.tabroom.com/index/tourn/results/round_results.mhtml?tourn_id=2649&round_id=77671"
+URL = "https://www.tabroom.com/index/tourn/results/round_results.mhtml?tourn_id=2891&round_id=83644"
 
 def is_number(s):
   try:
@@ -57,45 +57,54 @@ def get_info_from_text(text):
 
   for round_list in rounds:
     round_data = {}
-    round_data["aff_code"] = process_team_code(round_list[0])
+    round_data["aff_code"] = proccess_special_case(round_list[0])
     round_data["aff_name"] = round_list[1]
-    round_data["neg_code"] = process_team_code(round_list[2])
+    round_data["neg_code"] = proccess_special_case(round_list[2])
     round_data["neg_name"] = round_list[3]
     # round_data["judge"] = process_judges_name(round_list[4])
     round_data["winner"] = round_list[5]
     all_info.append(round_data)
   return all_info
 
-def enter_win_loss_data(data, tourn_name):
+def enter_win_loss_data(data, tourn_name, dryrun=True):
   for round_data in data:
-    tourn = Tournament.objects.get(tournament_name = tourn_name)
-    aff_team = Team.objects.get(team_code = round_data["aff_code"])
-    neg_team = Team.objects.get(team_code = round_data["neg_code"])
-    round_obj = Round.objects.get(aff_team = aff_team, neg_team = neg_team,
-                                tournament = tourn)
-    if round_data["winner"] == "AFF":
-      round_obj.winner = aff_team
-      round_obj.loser = neg_team
-      round_obj.save()
-    elif round_data["winner"] == "NEG":
-      round_obj.winner = neg_team
-      round_obj.loser = aff_team
-      round_obj.save()
+    try: 
+      tourn = Tournament.objects.get(tournament_name = tourn_name)
+      aff_team = Team.objects.get(team_code = round_data["aff_code"])
+      neg_team = Team.objects.get(team_code = round_data["neg_code"])
+      round_obj = Round.objects.get(aff_team = aff_team, neg_team = neg_team,
+                                  tournament = tourn)
+      if round_data["winner"] == "AFF":
+        round_obj.winner = aff_team
+        round_obj.loser = neg_team
+      elif round_data["winner"] == "NEG":
+        round_obj.winner = neg_team
+        round_obj.loser = aff_team
+      if not dryrun:
+        round_obj.save()
+      if round_obj.winner:
+        print round_obj.winner.team_code
+      else:
+        print "no winner or undecided ********************"
+    except:
+      print round_data
 
-    if round_obj.winner:
-      print round_obj.winner.team_code
-    else:
-      print "no winner or undecided ********************"
-
-def input_win_loss(url, tourn_name):
+def input_win_loss(url, tourn_name, dryrun=True):
   response = urllib2.urlopen(url)
   html = BeautifulSoup(response.read())
   data = html.find('tbody').getText().split("\n")
   data = clean_data(data)
   data = get_info_from_text(data)
-  enter_win_loss_data(data, tourn_name)
+  if dryrun:
+    for r_data in data:
+      print r_data
+  enter_win_loss_data(data, tourn_name, dryrun)
 
-def process_complete_prelims(first_round_url, tourn_name, num_prelims):
+def process_complete_prelims(first_round_url, tourn_name, num_prelims, dryrun=True):
   for i in xrange(0, num_prelims):
     url = first_round_url[:-5] + str(int(first_round_url[-5:]) + i)
-    input_win_loss(url, tourn_name)
+    input_win_loss(url, tourn_name, dryrun)
+
+# input_win_loss(URL, "MSI")
+
+# process_complete_prelims(URL, "MSI", 4)

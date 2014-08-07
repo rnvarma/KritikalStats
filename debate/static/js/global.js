@@ -1,5 +1,5 @@
 
-sub_pages = ["Dashboard", "Main", "Entries", "Bracket"];
+sub_pages = ["Dashboard", "Main", "Entries", "Elims"];
 
 function create_tournament_div(tourn_data) {
 	var t_name_text = tourn_data["tournament_name"];
@@ -125,7 +125,7 @@ function click_handlers() {
 $(document).ready(function () {
     $.ajax({
     	type: 'GET',
-    	url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+    	url: kritstats.urls.tournament_query,
     	contentType: 'application/json',
     	success: function (data) {
     		load_tournaments_in_sidebar(data);

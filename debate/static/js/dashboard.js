@@ -152,7 +152,7 @@ $(document).ready(function () {
 
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+      url: kritstats.urls.tournament_query,
       contentType: 'application/json',
       success: function (data) {
         widgetPopulate(data, tournament)
@@ -165,7 +165,7 @@ $(document).ready(function () {
 
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/" + tournament + '/entries',
+      url: kritstats.urls.base + "1/tournament/" + tournament + '/entries',
       contentType: 'application/json',
       success: function (data) {
         scrollBidPopulate(data);

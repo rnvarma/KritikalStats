@@ -20,6 +20,10 @@
 	color: #AB070F;
 }
 
+.archive_row_year {
+	font-size: 200%;
+}
+
 .archive_row:hover{
 	cursor:pointer;
 }
@@ -244,4 +248,12 @@
 
 .admin-round-row {
 	cursor: pointer;
+}
+
+.sortable-table-header {
+	cursor: pointer;
+}
+
+.sortable-table-header:hover {
+	color: #AB070F;
 }
