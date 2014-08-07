@@ -282,7 +282,7 @@ $(document).ready(function () {
   var tournament = $(".elims_hidden").attr("data-tournament");
   $.ajax({
       type: 'GET',
-      url: location.protocol + "//" + location.hostname + ":8000/1/tournament/",
+      url: kritstats.urls.base + "1/tournament/",
       contentType: 'application/json',
       success: function (data) {
         load_elims(data, tournament);
