@@ -2,7 +2,7 @@ import urllib2, json
 from bs4 import BeautifulSoup
 from process_names import process_judges_name, proccess_special_case
 
-URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2891&round_id=83644"
+URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2891&round_id=83735"
 
 def is_number(s):
   try:
@@ -20,7 +20,8 @@ def clean_data(data):
         if char != "\n" and char != "\t":
           string += char
       if string and not is_number(string):
-        clean_data.append(string)
+        if string.lower() != "aff" and string.lower() != "neg":
+          clean_data.append(string)
   return clean_data
 
 def remove_space(text):
@@ -42,6 +43,7 @@ def remove_space(text):
     return final
 
 def get_info_from_text(text):
+    print text
     all_info = []
     aff = []
     neg = []
@@ -63,9 +65,6 @@ def get_info_from_text(text):
 
 
 def get_round_list(url):
-    global aff, neg, judges
-    if url == "xx":
-        return zip(aff, neg, judges)
     response = urllib2.urlopen(url)
     html = BeautifulSoup(response.read())
     data = html.find('tbody').getText().split("\n")
@@ -75,3 +74,44 @@ def get_round_list(url):
 
 # for a, b, c in get_round_list(URL):
 #   print a + " | " + b + " | " + c
+
+
+def get_elim_info_from_text(text):
+    print text
+    all_info = []
+    aff = []
+    neg = []
+    judge1 = []
+    judge2 = []
+    judge3 = []
+    i = 0  
+    while(i < len(text)):
+        if ((i-1) % 6) == 0:
+            aff.append(proccess_special_case(text[i]))
+            i += 1
+        elif ((i-2) % 6) == 0:
+            neg.append(proccess_special_case(text[i]))
+            i += 1
+        elif ((i-3) % 6) == 0:
+            judge1.append(process_judges_name(text[i]))
+            i += 1
+        elif ((i-4) % 6) == 0:
+            judge2.append(process_judges_name(text[i]))
+            i += 1
+        elif ((i-5) % 6) == 0:
+            judge3.append(process_judges_name(text[i]))
+            i += 1
+        else:
+            i += 1
+    return aff, neg, judge1, judge2, judge3
+
+def get_elim_round_list(url):
+    response = urllib2.urlopen(url)
+    html = BeautifulSoup(response.read())
+    data = html.find('tbody').getText().split("\n")
+    data = clean_data(data)
+    aff, neg, judge1, judge2, judge3 = get_elim_info_from_text(data)
+    return zip(aff, neg, judge1, judge2, judge3)
+
+# for a, b, c, d, e in get_elim_round_list(URL):
+#   print a + " | " + b + " | " + c + " | " + d + " | " + e

@@ -1,6 +1,6 @@
 from api.retrieve_team_list import get_team_list
 from api import retrieve_round_list
-from api.models import Tournament, Team, Round, Judge
+from api.models import Tournament, Team, Round, Judge, ElimRound
 from api.process_names import process_team_code, proccess_special_case
 
 """
@@ -70,6 +70,31 @@ def enter_tournament_round(url, tournament, round_num, dryrun=True):
         round_obj.save()
         round_obj.tournament.add(tourny)
         round_obj.judge.add(judge_obj)
+        print "round made"
+
+def enter_tournament_elim_round(url, tournament, round_num, dryrun=True):
+  tourny = Tournament.objects.get(tournament_name = tournament)
+  round_list = retrieve_round_list.get_elim_round_list(url)
+  for (aff, neg, judge1_name, judge2_name, judge3_name) in round_list: 
+    aff_team = check_team_existence_or_create(aff, tourny, dryrun)
+    neg_team = check_team_existence_or_create(neg, tourny, dryrun)
+    judge1_obj = check_judge_existence_or_create(judge1_name, dryrun)
+    judge2_obj = check_judge_existence_or_create(judge2_name, dryrun)
+    judge3_obj = check_judge_existence_or_create(judge3_name, dryrun)
+    try:
+      round = ElimRound.objects.get(aff_team=aff_team, neg_team=neg_team,
+                               tournament=tourny)
+      print "already made round"
+    except:
+      print aff + " v. " + neg
+      round_obj = ElimRound(aff_team=aff_team, neg_team=neg_team, 
+                        round_num=round_num)
+      if not dryrun:
+        round_obj.save()
+        round_obj.tournament.add(tourny)
+        round_obj.judge.add(judge1_obj)
+        round_obj.judge.add(judge2_obj)
+        round_obj.judge.add(judge3_obj)
         print "round made"
 
 def enter_completed_tournament(first_round_url, tournament, num_prelims,
