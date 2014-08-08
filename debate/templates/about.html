@@ -1,5 +1,7 @@
 {% extends 'new_base.html' %}
 
+{% load staticfiles %}
+
 {% block content %}
 
 <div class = "row">
@@ -38,32 +40,77 @@
   <div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
   	<section class = "panel">
   	  <div class = "panel-body">
-  	  	<img src="http://puu.sh/avdQF/c23384c337.png" alt="gary" class = "img-responsive img-rounded" style="width:100%">
+  	  	<img src="{% static 'images/gary.png' %}" alt="gary" class = "img-responsive img-rounded" style="width:100%">
   	  	<h1>Gary Lin</h1>
   	  	<span class = "text-muted">Founder & CEO</span>
   	  	<span class = "pull-right text-muted">gary@kritikalstats.com</span>
+        <br>
+        <span class = "text-muted">Leland '13</span>
   	  </div>
   	</section>
   </div>
   <div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
   	<section class = "panel">
   	  <div class = "panel-body">
-  	  	<img src="http://puu.sh/avdU3/b141d3d2b0.png" alt="rohan" class = "img-responsive img-rounded" style = "width:100%">
+  	  	<img src="{% static 'images/rohan.png' %}" alt="rohan" class = "img-responsive img-rounded" style = "width:100%">
   	  	<h1>Rohan Varma</h1>
   	  	<span class = "text-muted">Founder & CTO</span>
   	  	<span class = "pull-right text-muted">rohan@kritikalstats.com</span>
+        <br>
+        <span class = "text-muted">Leland '13</span>
   	  </div>
   	</section>
   </div>
   <div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
   	<section class = "panel">
   	  <div class = "panel-body">
-  	  	<img src="http://puu.sh/avdXD/8e671e7ec0.jpg" alt="sunny" class = "img-responsive img-rounded" style = "width: 100%">
+  	  	<img src="{% static 'images/sunny.png' %}" alt="sunny" class = "img-responsive img-rounded" style = "width: 100%">
   	  	<h1>Sunny Advani</h1>
-  	  	<span class = "text-muted">Third Person to Join</span>
+  	  	<span class = "text-muted">Head Developer</span>
   	  	<span class = "pull-right text-muted">sunny@kritikalstats.com</span>
+        <br>
+        <span class = "text-muted">Leland '13</span>
   	  </div>
   	</section>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
+    <section class = "panel">
+      <div class = "panel-body">
+        <img src="{% static 'images/katie.png' %}" alt="katie" class = "img-responsive img-rounded" style="width:100%">
+        <h1>Katie Duval</h1>
+        <span class = "text-muted">Administrator</span>
+        <span class = "pull-right text-muted">mangofrog7@gmail.com</span>
+        <br>
+        <span class = "text-muted">Pace '14</span>
+      </div>
+    </section>
+  </div>
+  <div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
+    <section class = "panel">
+      <div class = "panel-body">
+        <img src="{% static 'images/erin.png' %}" alt="erin" class = "img-responsive img-rounded" style = "width:100%">
+        <h1>Erin Rawls</h1>
+        <span class = "text-muted">Administrator</span>
+        <span class = "pull-right text-muted">peacegirl2457@gmail.com</span>
+        <br>
+        <span class = "text-muted">Pace '15</span>
+      </div>
+    </section>
+  </div>
+  <div class = "col-xs-12 col-sm-12 col-md-4 col-lg-4">
+   <section class = "panel">
+      <div class = "panel-body">
+        <img src="{% static 'images/gene.png' %}" alt="gene" class = "img-responsive img-rounded" style = "width:100%">
+        <h1>Gene Chien</h1>
+        <span class = "text-muted">Fearless Leader</span>
+        <span class = "pull-right text-muted">gwchien@gmail.com</span>
+        <br>
+        <span class = "text-muted">Leland '02</span>
+      </div>
+    </section>
   </div>
 </div>
 {% endblock %}
