@@ -298,6 +298,31 @@ function populate_elim(elim_data){
 
 }
 
+function is_in(item, list) {
+  for (var i = 0; i < list.length; i ++) {
+    if (item == list[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function add_judge_background(elim_data, td, j_num) {
+  if (is_in(elim_data.judge[j_num], elim_data.aff_votes)) {
+    if (elim_data.aff_id == elim_data.winner){
+      td.className += " bg-success";
+    } else {
+      td.className += " bg-danger";
+    }
+  } else if (is_in(elim_data.judge[j_num], elim_data.neg_votes)) {
+    if (elim_data.aff_id == elim_data.winner){
+      td.className += " bg-danger";
+    } else {
+      td.className += " bg-success";
+    }
+  }
+}
+
 function fill_elim_page(elim_data){
   var row_headers = ['Aff', 'Neg', 'Judge1', 'Judge2', 'Judge3', '1AC', '1NC', '2NR']
   var tbody = document.createElement('tbody');
@@ -312,17 +337,17 @@ function fill_elim_page(elim_data){
       if (row_headers[j] == 'Aff'){
         td.id = elim_data[i].aff_id;
         if (elim_data[i].winner == elim_data[i].aff_id) {
-          td.className += " bg-success";
+          td.className += " bg-bright-win";
         } else if (elim_data[i].winner == elim_data[i].neg_id) {
-          td.className += " bg-danger";
+          td.className += " bg-bright-loss";
         }
       }
       if (row_headers[j] == 'Neg'){
         td.id = elim_data[i].neg_id;
         if (elim_data[i].winner == elim_data[i].neg_id) {
-          td.className += " bg-success";
+          td.className += " bg-bright-win";
         } else if (elim_data[i].winner == elim_data[i].aff_id) {
-          td.className += " bg-danger";
+          td.className += " bg-bright-loss";
         }
       }
 
@@ -333,13 +358,18 @@ function fill_elim_page(elim_data){
         var td_text = document.createTextNode(elim_data[i].neg_code);
       }
       else if (row_headers[j] == 'Judge1'){
+        console.log(elim_data[i].judge[0]);
+        console.log(elim_data[i].neg_votes)
         var td_text = document.createTextNode(elim_data[i].judge[0]);
+        add_judge_background(elim_data[i], td, 0);
       }
       else if (row_headers[j] == 'Judge2'){
         var td_text = document.createTextNode(elim_data[i].judge[1]);
+        add_judge_background(elim_data[i], td, 1);
       }
       else if (row_headers[j] == 'Judge3'){
         var td_text = document.createTextNode(elim_data[i].judge[2]);
+        add_judge_background(elim_data[i], td, 2);
       }
       else if (row_headers[j] == '1AC'){
         var td_text = document.createTextNode('');
@@ -406,7 +436,6 @@ function load_elims(data,tournament){
 function row_click_handler(){
   $(".team-row").click(function() {
     var id = this.id
-    console.log(id)
     id = id.substring(4)
     var url = kritstats.urls.base + "elim_round/" + id;
     window.location = url;

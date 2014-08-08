@@ -77,5 +77,7 @@ def admin_round(request, tournament, round_num):
 def admin_elim_round(request, tournament, round_num):
 	return render(request, 'admin_round.html', {'tournament': tournament, 'r_num': round_num, 'round_type': "elim_round", 'user': request.user})
 
-
+@login_required(login_url = '/adminlogin')
+def updatewinloss(request):
+	return render(request, 'updatewinloss.html', {'user': request.user})
 
