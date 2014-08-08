@@ -185,9 +185,9 @@ function create_round(round_data, round_type, team_code, last, team_id, tbody) {
   tr.appendChild(judge_div);
 
   if (decision == "WON") {
-    tr.className += " won_round bg-success";
+    tr.className += " won_round bg-bright-win";
   } else if (decision == "LOST") {
-    tr.className += " lost_round bg-danger";
+    tr.className += " lost_round bg-bright-loss";
   }
 
   tbody.appendChild(tr);
@@ -263,9 +263,9 @@ function create_elim_round(round_data, round_type, team_code, last, team_id, tbo
   tr.appendChild(judge3_div);
 
   if (decision == "WON") {
-    tr.className += " won_round bg-success";
+    tr.className += " won_round bg-bright-win";
   } else if (decision == "LOST") {
-    tr.className += " lost_round bg-danger";
+    tr.className += " lost_round bg-bright-loss";
   }
 
   tbody.appendChild(tr);

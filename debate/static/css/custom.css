@@ -13,6 +13,8 @@
 
 .team-row{
 	cursor: pointer;
+	color: black;
+	font-weight: 700;
 }
 
 .blue-bg {
@@ -276,4 +278,40 @@
 
 .modal-judge {
 	text-align: center;
+}
+
+.bg-bright-win {
+	background-color: #5CB85C;
+	color: black;
+	font-weight: 700;
+}
+
+.bg-bright-loss {
+	background-color: #D54937;
+	color: black;
+	font-weight: 700;
+}
+
+.update-win-button {
+	background-color: #D54937;
+	width: 300px;
+	height: 300px;
+	border-radius: 400px;
+	margin: 0 auto;
+	display: table;
+}
+
+.update-win-button:hover {
+	background-color: #FF3030;
+}
+
+.update-win-button:active {
+	background-color: #B20000;
+}
+
+.updatewinloss-text {
+	color: black;
+	font-size: 200%;
+	text-align: center;
+	font-weight: 700;
 }

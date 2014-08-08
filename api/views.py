@@ -7,6 +7,7 @@ from api.serializers import TeamSerializer, TournamentSerializer, RoundSerialize
 from api.models import Team, Tournament, Round, Judge, ElimRound
 from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
 from api.merge_teams import merge_teams
+from api.update_win_percents import update_win_percents
 from django.shortcuts import render, redirect
 
 import Levenshtein
@@ -124,6 +125,7 @@ class TournamentRounds(APIView):
   def process_elim_rounds(cls, rounds_data):
     new_list = []
     for round in rounds_data:
+      round_model = ElimRound.objects.get(id = round["id"])
       new_round = {}
       tourn_id = round["tournament"][0]
       aff_id = round["aff_team"]
@@ -151,6 +153,12 @@ class TournamentRounds(APIView):
       for judge_id in round["judge"]:
         judge = Judge.objects.get(id = judge_id).name
         judges.append(judge)
+      aff_votes = []
+      neg_votes = []
+      for vote in round_model.aff_votes.all():
+        aff_votes.append(vote.name)
+      for vote in round_model.neg_votes.all():
+        neg_votes.append(vote.name)
       new_round["tournament"] = tournament
       new_round["aff_team"] = aff
       new_round["aff_id"] = aff_id
@@ -163,6 +171,8 @@ class TournamentRounds(APIView):
       new_round["round_num"] = round["round_num"]
       new_round["round_id"] = round["id"]
       new_round["judge"] = judges
+      new_round["aff_votes"] = aff_votes
+      new_round["neg_votes"] = neg_votes
       new_list.append(new_round)
     return new_list
 
@@ -421,15 +431,15 @@ class UpdateRoundResult(APIView):
     ju1 = Judge.objects.get(name = j1)
     ju2 = Judge.objects.get(name = j2)
     ju3 = Judge.objects.get(name = j3)
-    if d1 == aff_id:
+    if int(d1) == int(aff_id):
       the_round.aff_votes.add(ju1)
     else:
       the_round.neg_votes.add(ju1)
-    if d2 == aff_id:
+    if int(d2) == int(aff_id):
       the_round.aff_votes.add(ju2)
     else:
       the_round.neg_votes.add(ju2)
-    if d3 == aff_id:
+    if int(d3) == int(aff_id):
       the_round.aff_votes.add(ju3)
     else:
       the_round.neg_votes.add(ju3)
@@ -491,4 +501,11 @@ class TournamentSpecificElimRound(APIView):
     data["rounds"] = rounds
     return Response(data)
 
+class UpdateWinLoss(APIView):
 
+  def post(self, request, format = None):
+    if request.DATA.get("update", False) == "winloss":
+      update_win_percents()
+      return Response({"yay": "you did it!"})
+    else:
+      return Response({"dont": "mess with us"})
