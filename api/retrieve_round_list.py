@@ -1,6 +1,6 @@
 import urllib2, json
 from bs4 import BeautifulSoup
-from process_names import process_judges_name, proccess_special_case
+from process_names import process_judges_name, proccess_special_case, process_team_code
 
 URL = "https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2891&round_id=83735"
 
@@ -51,10 +51,10 @@ def get_info_from_text(text):
     i = 0  
     while(i < len(text)):
         if ((i-1) % 4) == 0:
-            aff.append(proccess_special_case(text[i]))
+            aff.append(process_team_code(text[i]))
             i += 1
         elif ((i-2) % 4) == 0:
-            neg.append(proccess_special_case(text[i]))
+            neg.append(process_team_code(text[i]))
             i += 1
         elif ((i-3) % 4) == 0:
             judge.append(process_judges_name(text[i]))
@@ -87,19 +87,19 @@ def get_elim_info_from_text(text):
     i = 0  
     while(i < len(text)):
         if ((i-1) % 6) == 0:
-            aff.append(proccess_special_case(text[i]))
+            aff.append(process_team_code(text[i]))
             i += 1
         elif ((i-2) % 6) == 0:
-            neg.append(proccess_special_case(text[i]))
+            neg.append(process_team_code(text[i]))
             i += 1
         elif ((i-3) % 6) == 0:
-            judge1.append(process_judges_name(text[i]))
+            judge1.append(process_team_code(text[i]))
             i += 1
         elif ((i-4) % 6) == 0:
-            judge2.append(process_judges_name(text[i]))
+            judge2.append(process_team_code(text[i]))
             i += 1
         elif ((i-5) % 6) == 0:
-            judge3.append(process_judges_name(text[i]))
+            judge3.append(process_team_code(text[i]))
             i += 1
         else:
             i += 1
