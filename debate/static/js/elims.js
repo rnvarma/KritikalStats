@@ -1,4 +1,21 @@
-//sunnys bracket code
+/* 
+var theTOC = {
+        "tournament_name": "TOC", 
+        "num_entries": 85, 
+        "start_date": 20140426, 
+        "end_date": 20140428, 
+        "bid_round": 0, 
+        "prelims": 7, 
+        "breaks_to": 16, 
+        "curr_rounds": 0, 
+        "loc": "Lexington, Kentucky", 
+        "bracket": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 16, 8, 9, 4, 
+        13, 5, 12, 2, 15, 7, 10, 3, 14, 6, 11, 1, 'XX', 16, 'XX', 8, 'XX', 9, 'XX', 
+        4, 'XX', 13, 'XX', 5, 'XX', 12, 'XX', 2, 'XX', 15, 'XX', 7, 'XX', 10, 'XX', 
+        3, 'XX', 14, 'XX', 6, 'XX', 11, 'XX'], 
+        "registration_date": ""
+    }
+*/ 
 
 function createOneRound(rd_type, divNum, divHeight) { 
   var rd = document.createElement("div"); 
@@ -22,88 +39,78 @@ function createOneRound(rd_type, divNum, divHeight) {
 }
 
 
-function createRounds(column, round_type, rounds_to_make, divNum, divHeight) { 
-    column.appendChild(createOneRound(round_type, divNum, divHeight));  
-}
-
-
-
 function generateRoundColumn(column, elim_round) { 
   var rounds_to_create = 0; 
   var height = 0; 
   switch(elim_round) { 
-    case "doubles": 
+    case "Doubles": 
       rounds_to_create = 32; 
-      height = 32; 
+      divHeight = 32; 
       break; 
-    case "octos": 
+    case "Octos": 
       rounds_to_create = 16; 
-      height = 64; 
+      divHeight = 64; 
       break; 
-    case "quarters": 
+    case "Quarters": 
       rounds_to_create = 8; 
-      height = 128; 
+      divHeight = 128; 
       break; 
-    case "semifinals": 
+    case "Semifinals": 
       rounds_to_create = 4; 
-      height = 256; 
+      divHeight = 256; 
       break;
-    case "finals": 
+    case "Finals": 
       rounds_to_create = 2; 
-      height = 512; 
+      divHeight = 512; 
       break;
-    case "champion": 
+    case "Champion": 
       rounds_to_create = 1; 
-      height = 1024; 
+      divHeight = 1024; 
       break; 
     default: 
       return; 
     }
-  for (var i = 0; i < rounds_to_create; i++) { 
-      createRounds(column, elim_round, rounds_to_create, i, height); 
+  for (var divNum = 0; divNum < rounds_to_create; divNum++) { 
+      column.appendChild(createOneRound(elim_round, divNum, divHeight)); 
   }
 }
 
-function make_bracket(){
-  var elimRounds = ["doubles", "octos", "quarters", "semifinals", "finals", "champion"];
-  var columns = document.getElementsByClassName("col"); 
-  for (var i = 0; i < columns.length; i ++) { 
-    generateRoundColumn(columns[i], elimRounds[i]); 
-  }
-}
 
-function make_framework(){
+function make_framework(tournament){
+  var allElims = ["Triples", "Doubles", "Octos", "Quarters", "Semifinals", "Finals", "Champion"];
   var panel_body = document.createElement('div');
+  var elims = []; 
+  var columns = []; 
+  var tournament_bracket = []; //to be dynamic tournament["bracket"]; 
+  var cleared_teams = 32; //to be dynamic tournament_bracket.seed_array.length; 
   panel_body.className = "panel-body bracket_box tab-pane Bracket-tab";
   panel_body.id = "#Bracket";
-  
-  var col0 = document.createElement('div');
-  col0.className = "col"
-  var col1 = document.createElement('div');
-  col1.className = "col"
-  var col2 = document.createElement('div');
-  col2.className = "col"
-  var col3 = document.createElement('div');
-  col3.className = "col"
-  var col4 = document.createElement('div');
-  col4.className = "col"
-  var col5 = document.createElement('div');
-  col5.className = "col"
 
-  panel_body.appendChild(col0);
-  panel_body.appendChild(col1);
-  panel_body.appendChild(col2);
-  panel_body.appendChild(col3);
-  panel_body.appendChild(col4);
-  panel_body.appendChild(col5);
+  if (cleared_teams <= Math.pow(2, 1)) { 
+    restrict = 5; 
+  } else if (cleared_teams <= Math.pow(2, 2)) { 
+    restrict = 4; 
+  } else if (cleared_teams <= Math.pow(2, 3)) { 
+    restrict = 3; 
+  } else if (cleared_teams <= Math.pow(2, 4)) {
+    restrict = 2;   
+  } else if (cleared_teams <= Math.pow(2, 5)) { 
+    restrict = 1; 
+  } else { 
+    elims = allElims; 
+  } 
 
-  colList = [col0, col1, col2, col3, col4, col5]
-
-  var elimRounds = ["doubles", "octos", "quarters", "semifinals", "finals", "champion"];
-  for (var i = 0; i < elimRounds.length; i ++) { 
-    generateRoundColumn(colList[i], elimRounds[i]); 
+  for (var i = 0; i < (allElims.length - restrict); i++) {
+    elims[i] = allElims[restrict + i]; 
+    var elim_col = document.createElement("div"); 
+    elim_col.className = "col"; 
+    panel_body.appendChild(elim_col); 
+    columns[i] = elim_col; 
   }
 
+  for (var i = 0; i < columns.length; i++) { 
+    generateRoundColumn(columns[i], elims[i]); 
+  }
   return panel_body
 }
 
@@ -151,8 +158,10 @@ function create_elim_tabs(tournament_data){
 
 }
 
+
 function add_tab_content() {
   var panel = document.getElementById("elims_panel");
+  console.log(panel); 
   var panel_body = document.createElement("div");
   panel_body.className = "panel-body";
 
@@ -162,9 +171,10 @@ function add_tab_content() {
   panel.appendChild(panel_body);
 }
 
+
 function make_tab_page(tab_name, active){
   if (tab_name == 'Bracket'){
-    var tab_head = make_framework();
+    var tab_head = make_framework("aTOC"); //to be dynamic soon
   }
 
   else {
