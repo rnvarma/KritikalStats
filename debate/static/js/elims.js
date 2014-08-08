@@ -161,7 +161,6 @@ function create_elim_tabs(tournament_data){
 
 function add_tab_content() {
   var panel = document.getElementById("elims_panel");
-  console.log(panel); 
   var panel_body = document.createElement("div");
   panel_body.className = "panel-body";
 
@@ -400,7 +399,7 @@ function fill_elim_page(elim_data){
 }
 
 function load_elims(data,tournament){
-  for (i=0; i<data.length; i++){
+  for (var i = 0; i<data.length; i++){
     if (data[i].tournament_name == tournament){
       tab_list = create_elim_tabs(data[i]);
       add_tab_content();
@@ -424,6 +423,9 @@ function load_elims(data,tournament){
     }
     else if (tab_list[j] == "Finals"){
       elim_value = 2
+    }
+    else {
+      elim_value = 0
     }
 
     $.ajax({
