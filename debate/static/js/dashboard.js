@@ -198,7 +198,7 @@ console.log(tournament)
     var breaker_xs_1 = document.createElement("br");
     var emails_xs2 = document.createTextNode('jeri.brand@gmail.com');
     var breaker_xs_2 = document.createElement("br");
-    var emails_xs3 = document.createTextNode('jpeacegirl2457@gmail.com');
+    var emails_xs3 = document.createTextNode('peacegirl2457@gmail.com');
     var breaker_xs_3 = document.createElement("br");
     var emails_xs4 = document.createTextNode('coolia45@gmail.com');
     var breaker_xs_4 = document.createElement("br");

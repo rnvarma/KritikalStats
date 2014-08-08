@@ -85,17 +85,17 @@ function populate_round(t_name, round_data) {
   }
 
   if (round_data.winner == round_data.aff_id) {
-  	aff_td.className = "mainpage-round round-won bg-success";
+  	aff_td.className = "mainpage-round round-won bg-bright-win";
   	var a_wins = (Number(aff_tr.getAttribute("data-wins")) + 1).toString();
   	aff_tr.setAttribute("data-wins", a_wins);
     if (round_data.neg_code != "BYE"){
-      neg_td.className = "mainpage-round round-loss bg-danger";
+      neg_td.className = "mainpage-round round-loss bg-bright-loss";
   	  var n_losses = (Number(neg_tr.getAttribute("data-losses")) + 1).toString();
   	  neg_tr.setAttribute("data-losses", n_losses);
     }
   } else if (round_data.winner == round_data.neg_id){
-  	neg_td.className = "mainpage-round round-won bg-success";
-  	aff_td.className = "mainpage-round round-loss bg-danger";
+  	neg_td.className = "mainpage-round round-won bg-bright-win";
+  	aff_td.className = "mainpage-round round-loss bg-bright-loss";
   	var n_wins = (Number(neg_tr.getAttribute("data-wins")) + 1).toString();
   	neg_tr.setAttribute("data-wins", n_wins);
   	var a_losses = (Number(aff_tr.getAttribute("data-losses")) + 1).toString();
