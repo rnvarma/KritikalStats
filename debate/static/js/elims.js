@@ -425,6 +425,9 @@ function load_elims(data,tournament){
     else if (tab_list[j] == "Finals"){
       elim_value = 2
     }
+    else {
+      elim_value = 0
+    }
 
     $.ajax({
       type: 'GET',
