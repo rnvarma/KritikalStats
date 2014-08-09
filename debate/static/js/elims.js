@@ -23,6 +23,8 @@ var allTabs = ["Triples", "Doubles", "Octos", "Quarters", "Semifinals", "Finals"
 var elimTeamsDict = {"Triples": 64, "Doubles": 32, "Octos": 16, "Quarters": 8, "Semifinals": 4,
 "Finals": 2, "Champion": 1, "Bracket": 0}; 
 var elimRoundsDict = {32: "Triples", 16: "Doubles", 8: "Octos", 4: "Quarters", 2: "Semifinals", 1: "Finals"}; 
+var col_sizes = {64: "14%", 32: "17%", 16: "20%", 8: "25%", 4: "25%", 2: "25%"};
+var col_width;
 var elimRounds = []; 
 var tabList = []; 
 var cleared_teams = 0; 
@@ -60,9 +62,9 @@ function createOneRound(tournament, rd_type, divNum, divHeight, div_to_fill) {
 
 
 function generateRoundColumn(tournament, column, elim_round, div_to_fill) { 
-  var rounds_to_create = elimTeamsDict[elim_round]; 
+  var rounds_to_create = elimTeamsDict[elim_round];
   var height = 0; 
-  switch(elim_round) { 
+  switch(elim_round) {
     case "Doubles": 
       divHeight = 32; 
       break; 
@@ -102,6 +104,7 @@ function make_bracket_framework(tournament){
     elimRounds[i] = allElims[restrict + i]; 
     var elim_col = document.createElement("div"); 
     elim_col.className = "col"; 
+    elim_col.setAttribute("style", "width: " + col_width);
     panel_body.appendChild(elim_col); 
     generateRoundColumn(tournament, elim_col, elimRounds[i], filled_divs); 
     filled_divs--; 
@@ -354,6 +357,8 @@ function determineElims(num_clear) {
     elimRounds.push(allElims[restrict + i]); 
     tabList.push(allTabs[restrict + i]); 
   }
+
+  col_width = col_sizes[num_clear];
 }
 
 
