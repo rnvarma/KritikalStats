@@ -184,7 +184,7 @@ function add_tab_click_handler(tab_name){
       $(".tab-pane").removeClass("active");
       $(tab_id).addClass("active");
     }
-  })
+  });
 }
 
 

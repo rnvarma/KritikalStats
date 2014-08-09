@@ -72,7 +72,7 @@ function load_tournaments_in_sidebar(tourns_data) {
 		var timeDiff = this_date_final.getTime() - start_date_final.getTime();
 		var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-		if ((diffDays > -8) && (diffDays <15) ){
+		if ((diffDays > -8) && (diffDays <22) ){
 			var t_div = create_tournament_div(tourns_data[i]);
 			sidebar.appendChild(t_div);
 		}
