@@ -160,8 +160,13 @@ function createOneRound(tournament, rd_type, divNum, divHeight, div_to_fill) {
   var label = document.createElement("div"); 
   label.className = "bracket_text";
   console.log("dtf: " + div_to_fill); 
-  var seed = tournament["bracket_list"][div_to_fill]; 
-  var some_label = document.createTextNode("Team " + tournament["seeds"][seed]); 
+  var seed = tournament["bracket_list"][div_to_fill];
+  if (tournament["seeds"][seed]) {
+    var team_name = tournament["seeds"][seed];
+  } else {
+    var team_name = "";
+  }
+  var some_label = document.createTextNode(team_name); 
   label.appendChild(some_label); 
   rd.appendChild(label); 
   return rd; 
