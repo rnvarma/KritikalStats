@@ -3,6 +3,8 @@ var allTabs = ["Triples", "Doubles", "Octos", "Quarters", "Semifinals", "Finals"
 var elimTeamsDict = {"Triples": 64, "Doubles": 32, "Octos": 16, "Quarters": 8, "Semifinals": 4,
 "Finals": 2, "Champion": 1, "Bracket": 0}; 
 var elimRoundsDict = {32: "Triples", 16: "Doubles", 8: "Octos", 4: "Quarters", 2: "Semifinals", 1: "Finals"}; 
+var col_sizes = {64: "14%", 32: "17%", 16: "20%", 8: "25%", 4: "25%", 2: "25%"};
+var col_width;
 var elimRounds = []; 
 var tabList = []; 
 var cleared_teams = 0; 
@@ -345,6 +347,8 @@ function determineElims(num_clear) {
     elimRounds.push(allElims[restrict + i]); 
     tabList.push(allTabs[restrict + i]); 
   }
+
+  col_width = col_sizes[num_clear];
 }
 
 
