@@ -295,12 +295,8 @@ class BracketList:
 
 """ Testing """ 
 
-test = BracketList(8)
-
-test.processValidWin(7)
-
-print(test.generateBracketView(test.tournament_array))
-print(test.tournament_array)
+# test = BracketList(8)
+# test.tournament_array
 
 
 

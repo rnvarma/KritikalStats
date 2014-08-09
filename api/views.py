@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer, ElimRoundSerializer
-from api.models import Team, Tournament, Round, Judge, ElimRound
+from api.models import Team, Tournament, Round, Judge, ElimRound, Seed
 from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
 from api.merge_teams import merge_teams
 from api.update_win_percents import update_win_percents
 from django.shortcuts import render, redirect
+from django.db.models import Q
 
 import Levenshtein
 
@@ -509,3 +510,49 @@ class UpdateWinLoss(APIView):
       return Response({"yay": "you did it!"})
     else:
       return Response({"dont": "mess with us"})
+
+class SeedView(APIView):
+
+  @classmethod
+  def process_seed_list(cls, s_list):
+    seeds_result_list = {}
+    for seed in s_list:
+      team_code = seed.team.team_code
+      num = seed.number
+      seeds_result_list[num] = team_code
+    return seeds_result_list
+
+  @classmethod
+  def get_teams_that_broke(cls, tournament):
+    tourny = Tournament.objects.get(tournament_name = tournament)
+    if len(tourny.elim_rounds.all()):
+      aff_teams = tourny.entries.filter(~Q(aff_elim_rounds=None))
+      neg_teams = tourny.entries.filter(~Q(neg_elim_rounds=None))
+      team_code_list = set()
+      for team in aff_teams:
+        team_code_list.add(team.team_code)
+      for team in neg_teams:
+        team_code_list.add(team.team_code)
+      return list(team_code_list)
+    else:
+      return {"data": "no_breaks_yet"}
+
+  def get(self, request, pk, format=None):
+    return Response(SeedView.get_teams_that_broke(pk))
+      
+
+class TournamentBracket(APIView):
+
+  def get(self, request, pk, format=None):
+    result_data = {}
+    tourny = Tournament.objects.get(tournament_name=pk)
+    bracket_list = eval(tourny.bracket_list)
+    seeds = tourny.seeds.all()
+    seed_list = SeedView.process_seed_list(seeds)
+    result_data["tournament"] = pk
+    result_data["seeds"] = seed_list
+    result_data["bracket_list"] = bracket_list
+    return Response(result_data)
+
+
+
