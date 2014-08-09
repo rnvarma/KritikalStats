@@ -202,7 +202,7 @@ function generateDropdownMenu() {
 		opt.appendChild(document.createTextNode(tournament_marker_list[i].tournament_name)); 
 		select_box.appendChild(opt); 
 	}
-	select_box.onclick = function() { openWindow(); };
+	select_box.onchange = function() { openWindow(); };
 	dropdown_box.appendChild(select_box); 
 	dropdownTournamentList.appendChild(dropdown_box); 
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(dropdownTournamentList); 

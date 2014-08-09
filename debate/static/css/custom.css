@@ -3,6 +3,14 @@
 	cursor: pointer;
 }
 
+.aff_team_code:hover {
+	cursor: pointer;
+}
+
+.neg_team_code:hover {
+	cursor: pointer;
+}
+
 .team-code {
 	cursor: pointer;
 }

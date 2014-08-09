@@ -1,7 +1,8 @@
 from api.retrieve_team_list import get_team_list
 from api import retrieve_round_list
-from api.models import Tournament, Team, Round, Judge, ElimRound
+from api.models import Tournament, Team, Round, Judge, ElimRound, Seed
 from api.process_names import process_team_code, proccess_special_case
+from api.bracket import BracketList
 
 """
 TODO: create tool to remove duplicate rounds (requires a little thinking)
@@ -118,4 +119,21 @@ def enter_bye_round(team_code, tournament, round_num, dryrun=True):
     return round_obj
   else:
     print "success creating bye for %s in round %d" % (team_code, round_num)
+
+def make_team_seed(team_code, seed, tournament):
+  tourny = Tournament.objects.get(tournament_name = tournament)
+  team = Team.objects.get(team_code = team_code)
+  seed_obj = Seed(team = team, number = seed)
+  seed_obj.save()
+  seed_obj.tournament.add(tourny)
+
+def initialize_bracket(tournament):
+  tourny = Tournament.objects.get(tournament_name = tournament)
+  depth = tourny.breaks_to
+  bracket = BracketList(depth)
+  b_list = bracket.tournament_array
+  tourny.bracket_list = str(b_list)
+  tourny.save()
+
+
 
