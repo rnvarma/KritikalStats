@@ -1,23 +1,3 @@
-
-var theTOC = {
-        "tournament_name": "TOC", 
-        "num_entries": 85, 
-        "start_date": 20140426, 
-        "end_date": 20140428, 
-        "bid_round": 0, 
-        "prelims": 7, 
-        "breaks_to": 16, 
-        "curr_rounds": 0, 
-        "loc": "Lexington, Kentucky", 
-        "bracket": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 16, 8, 9, 4, 
-        13, 5, 12, 2, 15, 7, 10, 3, 14, 6, 11, 1, 'XX', 16, 'XX', 8, 'XX', 9, 'XX', 
-        4, 'XX', 13, 'XX', 5, 'XX', 12, 'XX', 2, 'XX', 15, 'XX', 7, 'XX', 10, 'XX', 
-        3, 'XX', 14, 'XX', 6, 'XX', 11, 'XX'], 
-        "registration_date": "", 
-        "seed_team_data": gen32Names()
-
-    }
-
 var allElims = ["Triples", "Doubles", "Octos", "Quarters", "Semifinals", "Finals", "Champion"]
 var allTabs = ["Triples", "Doubles", "Octos", "Quarters", "Semifinals", "Finals", "Bracket"]
 var elimTeamsDict = {"Triples": 64, "Doubles": 32, "Octos": 16, "Quarters": 8, "Semifinals": 4,
@@ -29,88 +9,6 @@ var elimRounds = [];
 var tabList = []; 
 var cleared_teams = 0; 
 
-//Remove this function once integration complete 
-function gen32Names() { 
-  team_names = {}; 
-  for (var i = 1; i < 33; i++) { 
-    team_names[i] = "name_" + i;
-  }
-  console.log(team_names); 
-  return team_names; 
-}
-
-function createOneRound(tournament, rd_type, divNum, divHeight, div_to_fill) { 
-  var rd = document.createElement("div"); 
-  if (divNum == 0) { 
-    var rest = document.createElement("div"); 
-    rd.className = "top_elim_round"; 
-    rest.className = rd_type; 
-    rd.style.height = (divHeight / 2); 
-  } else if (divNum % 2 == 1) { 
-    rd.className = rd_type; 
-    rd.style.borderRight = "thin solid black"
-  } else { 
-    rd.className = rd_type; 
-  }
-  var label = document.createElement("div"); 
-  label.className = "bracket_text";
-  var some_label = document.createTextNode("Team " + tournament["seed_team_data"][tournament["bracket"][div_to_fill]]); 
-  label.appendChild(some_label); 
-  rd.appendChild(label); 
-  return rd; 
-}
-
-
-function generateRoundColumn(tournament, column, elim_round, div_to_fill) { 
-  var rounds_to_create = elimTeamsDict[elim_round];
-  var height = 0; 
-  switch(elim_round) {
-    case "Doubles": 
-      divHeight = 32; 
-      break; 
-    case "Octos": 
-      divHeight = 64; 
-      break; 
-    case "Quarters": 
-      divHeight = 128; 
-      break; 
-    case "Semifinals": 
-      divHeight = 256; 
-      break;
-    case "Finals": 
-      divHeight = 512; 
-      break;
-    case "Champion": 
-      divHeight = 1024; 
-      break; 
-    default: 
-      return; 
-    }
-  for (var divNum = 0; divNum < rounds_to_create; divNum++) { 
-      column.appendChild(createOneRound(tournament, elim_round, divNum, divHeight, div_to_fill)); 
-      div_to_fill--; 
-  }
-}
-
-
-function make_bracket_framework(tournament){
-  var panel_body = document.createElement('div');
-  var tournament_bracket = tournament["bracket"]; //to be dynamic tournament["bracket"]; 
-  var filled_divs = tournament_bracket.length - 1; 
-  panel_body.className = "panel-body bracket_box tab-pane Bracket-tab";
-  panel_body.id = "#Bracket";
-
-  for (var i = 0; i < (allElims.length - restrict); i++) {
-    elimRounds[i] = allElims[restrict + i]; 
-    var elim_col = document.createElement("div"); 
-    elim_col.className = "col"; 
-    elim_col.setAttribute("style", "width: " + col_width);
-    panel_body.appendChild(elim_col); 
-    generateRoundColumn(tournament, elim_col, elimRounds[i], filled_divs); 
-    filled_divs--; 
-  }
-  return panel_body
-}
 
 //tab generation code
 function add_tab_content() {
@@ -124,9 +22,9 @@ function add_tab_content() {
 }
 
 
-function make_tab_page(tab_name, active, tournament){
+function make_tab_page(tab_name, active, tournament, tab){
   if (tab_name == 'Bracket'){
-    var tab_head = make_bracket_framework(theTOC); //should be tournament not theTOC
+    return make_bracket(tab_name, active, tournament, tab); 
   } else {
     var tab_head = document.createElement("div");
     tab_head.id = "#" + tab_name;
@@ -176,6 +74,99 @@ function make_tab_page(tab_name, active, tournament){
   return tab_head
 }
 
+
+function make_bracket(tab_name, active, tournament, tab) { 
+    $.ajax({
+      type: 'GET',
+      url: kritstats.urls.base + "1/tournament/" + tournament["tournament_name"] + '/bracket/',
+      contentType: 'application/json',
+      success: function (data) {
+        tab_head = generateBracket(data); 
+        tab.appendChild(tab_head)
+        add_tab_click_handler(tab_name);
+      },
+      error: function(a , b, c){
+        console.log('There is an error in quering for ' + tournament["tournament_name"] + 'for the bracket');
+      },
+      async: true
+    });
+}
+
+function generateBracket(tournament_data) { 
+  var panel_body = document.createElement('div');
+  var tournament_bracket = tournament_data["bracket_list"]; 
+  var filled_divs = Math.pow(2, elimRounds.length) - 1; 
+  panel_body.className = "panel-body bracket_box tab-pane Bracket-tab";
+  panel_body.id = "#Bracket";
+
+  for (var i = 0; i < (allElims.length - restrict); i++) {
+    elimRounds[i] = allElims[restrict + i]; 
+    var elim_col = document.createElement("div"); 
+    elim_col.className = "col"; 
+    panel_body.appendChild(elim_col); 
+    generateRoundColumn(tournament_data, elim_col, elimRounds[i], filled_divs); 
+    filled_divs = filled_divs - elimTeamsDict[elimRounds[i]]; 
+  }
+  return panel_body
+}
+
+
+function generateRoundColumn(tournament, column, elim_round, div_to_fill) { 
+  var rounds_to_create = elimTeamsDict[elim_round]; 
+  var height = 0; 
+  switch(elim_round) { 
+    case "Doubles": 
+      divHeight = 32; 
+      break; 
+    case "Octos": 
+      divHeight = 64; 
+      break; 
+    case "Quarters": 
+      divHeight = 128; 
+      break; 
+    case "Semifinals": 
+      divHeight = 256; 
+      break;
+    case "Finals": 
+      divHeight = 512; 
+      break;
+    case "Champion": 
+      divHeight = 1024; 
+      break; 
+    default: 
+      return; 
+    }
+  for (var divNum = 0; divNum < rounds_to_create; divNum++) { 
+    column.appendChild(createOneRound(tournament, elim_round, divNum, divHeight, div_to_fill)); 
+    div_to_fill--; 
+  }
+}
+
+
+function createOneRound(tournament, rd_type, divNum, divHeight, div_to_fill) { 
+  var rd = document.createElement("div"); 
+  if (divNum == 0) { 
+    var rest = document.createElement("div"); 
+    rd.className = "top_elim_round"; 
+    rest.className = rd_type; 
+    rd.style.height = (divHeight / 2); 
+  } else if (divNum % 2 == 1) { 
+    rd.className = rd_type; 
+    rd.style.borderRight = "thin solid black"
+  } else { 
+    rd.className = rd_type; 
+  }
+  var label = document.createElement("div"); 
+  label.className = "bracket_text";
+  console.log("dtf: " + div_to_fill); 
+  var seed = tournament["bracket_list"][div_to_fill]; 
+  var some_label = document.createTextNode("Team " + tournament["seeds"][seed]); 
+  label.appendChild(some_label); 
+  rd.appendChild(label); 
+  return rd; 
+}
+
+
 function add_tab_click_handler(tab_name){
   $(".tourn-tab-" + tab_name).click(function() {
     var tab_id = $(this).attr("href");
@@ -199,9 +190,11 @@ function load_tabs(tab_list, tournament){
 
     var tab_name = tab_list[i];
     var tab = document.getElementsByClassName("tournament_panel_tab")[0];
-    var tab_page = make_tab_page(tab_name, active, tournament);
-    tab.appendChild(tab_page);
-    add_tab_click_handler(tab_name);
+    var tab_page = make_tab_page(tab_name, active, tournament, tab);
+    if (!(tab_name == "Bracket")) {
+      tab.appendChild(tab_page);
+      add_tab_click_handler(tab_name);
+    }
     //call function and make query to populate the page
     //similar to team.js load_tournament_rounds
   }
@@ -280,8 +273,6 @@ function fill_elim_page(elim_data){
         var td_text = document.createTextNode(elim_data[i].neg_code);
       }
       else if (row_headers[j] == 'Judge1'){
-        console.log(elim_data[i].judge[0]);
-        console.log(elim_data[i].neg_votes)
         var td_text = document.createTextNode(elim_data[i].judge[0]);
         add_judge_background(elim_data[i], td, 0);
       }
@@ -320,7 +311,6 @@ function load_elims(tournament){
 
   for (var i = 0; i < tabList.length; i++) { 
     var elim_value = elimTeamsDict[tabList[i]]; 
-    console.log("kritstats.urls.base" + "1/tournament/" + tournament["tournament_name"] + '/elim_round/' + elim_value);
     $.ajax({
       type: 'GET',
       url: kritstats.urls.base + "1/tournament/" + tournament["tournament_name"] + '/elim_round/' + elim_value,
