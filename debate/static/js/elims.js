@@ -103,6 +103,7 @@ function generateBracket(tournament_data) {
     elimRounds[i] = allElims[restrict + i]; 
     var elim_col = document.createElement("div"); 
     elim_col.className = "col"; 
+    elim_col.setAttribute("style", "width:" + col_width);
     panel_body.appendChild(elim_col); 
     generateRoundColumn(tournament_data, elim_col, elimRounds[i], filled_divs); 
     filled_divs = filled_divs - elimTeamsDict[elimRounds[i]]; 
