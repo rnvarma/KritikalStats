@@ -13,12 +13,10 @@ function create_archive(school_year) {
   return year_row;
 }
 
-function archive_table_populate(data, year) {
+function archive_table_populate(data) {
   var table = document.getElementsByClassName("archives_table_year")[0]; 
   earliest_year = '3000'
   for (i=0; i<data.length; i++){
-    //if (data[i].start_date
-
     var start_date = String(data[i].start_date)
     var start_year = start_date.substring(0,4);
     if(start_year < earliest_year) {
@@ -31,19 +29,17 @@ function archive_table_populate(data, year) {
   var this_year = this_today.getFullYear();
   this_year = String(this_year)
 
-  while (parseInt(earliest_year) < parseInt(this_year)-1){
+  while (parseInt(earliest_year) < parseInt(this_year)){
     var year_row_real = create_archive(earliest_year + ' - ' + String(parseInt(earliest_year)+1))
     table.appendChild(year_row_real)
     earliest_year = String(parseInt(earliest_year)+1)
   }
 
-//If it is july/past july then the current year
-//is in archives for the school year ending in the
-//current year --> 2014, then 2013-2014 goes to archive
-  var this_month = this_today.getMonth() + 1
-  if (this_month >= 7) {
-    var year_row_next = create_archive(earliest_year + ' - ' + this_year)
-    table.appendChild(year_row_next)
+  var this_month = this_today.getMonth() + 1;
+  if (this_month >= 7){
+    this_year_plusone = String(parseInt(this_year) + 1);
+    var year_row_next = create_archive(this_year + ' - ' + this_year_plusone);
+    table.appendChild(year_row_next);
   }
 
   $(".archive_row_year").click(function () {

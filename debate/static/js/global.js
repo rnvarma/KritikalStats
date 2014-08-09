@@ -57,35 +57,26 @@ function load_tournaments_in_sidebar(tourns_data) {
 		var this_today = new Date();
 		var this_year = this_today.getFullYear();
 		var this_month = this_today.getMonth() + 1
+		var this_day = this_today.getDate();
+		var this_date = this_month + '/' + this_day + '/' + this_year
+		var this_date_final = new Date(this_date);
+
 
 		var start_date = String(tourns_data[i].start_date);
     	var start_year = parseInt(start_date.substring(0,4));
     	var start_month = parseInt(start_date.substring(4,6));
+    	var start_day = parseInt(start_date.substring(6));
+    	var start_date = start_month + '/' + start_day + '/' + start_year
+    	var start_date_final = new Date(start_date);
 
+		var timeDiff = this_date_final.getTime() - start_date_final.getTime();
+		var diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
 
-		if (this_year == start_year){
-			if ((this_month >= 7) && (start_month >= 7)){
-				var t_div = create_tournament_div(tourns_data[i]);
-				sidebar.appendChild(t_div);
-			}
-
-			if ((this_month <7) && (start_month<7)){
-				var t_div = create_tournament_div(tourns_data[i]);
-				sidebar.appendChild(t_div);
-			}
-
+		if ((diffDays > -8) && (diffDays <15) ){
+			var t_div = create_tournament_div(tourns_data[i]);
+			sidebar.appendChild(t_div);
 		}
 
-		if ((this_year - 1 == start_year) && (this_month < 7) ) {
-			if (start_month >= 7) {
-				var t_div = create_tournament_div(tourns_data[i]);
-				sidebar.appendChild(t_div);
-			}
-
-		}
-
-		// var t_div = create_tournament_div(tourns_data[i]);
-		// sidebar.appendChild(t_div);
 	}
 }
 
