@@ -5,7 +5,6 @@ TODO: add "judge" and "round_num" fields to Round model and update DB
            (remember to rebase the database)
 """
 
-# Create your models here.
 class Tournament(models.Model):
   tournament_name = models.CharField(max_length=50, blank=True, default='')
   num_entries = models.IntegerField(default=0)
