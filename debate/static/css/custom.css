@@ -250,6 +250,31 @@
 	color:black;
 }
 
+.tourn_list_box { 
+	float:left;
+
+}
+
+.tournament_list_row:hover {
+	cursor: pointer;
+}
+
+.tournament_list_row:hover h6{
+	color: #AB070F !important;
+	font-weight: 700;
+}
+
+.tourn_list_text {
+	text-align:left;
+
+}
+
+.tourn_list_bubble { 
+	float:left;
+	padding-top:2px;
+	padding-right:4px;
+}
+
 .admin_round_row:hover {
 	cursor: pointer;
 }

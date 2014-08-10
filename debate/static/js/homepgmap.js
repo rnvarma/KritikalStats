@@ -1,3 +1,5 @@
+/* Map Module */ 
+
 var tournament_marker_list; 
 var dropdownTournamentList; 
 var map; 
@@ -13,11 +15,15 @@ function tournamentQueryAndSet() {
     url: kritstats.urls.tournament_query,
     contentType: 'application/json',
 
-    success: 
-    function (data) {
-        for (i = 0; i < data.length; i++) {
-          setTournament(data[i]); 
-        }
+    success: function (data) {
+    	data.sort(function (tournA, tournB) { 
+    		return tournA["start_date"] > tournB["start_date"] ? -1 : 1; 
+    	}); 
+    	addToTournamentList(null); 
+      for (i = 0; i < data.length; i++) {
+        setTournament(data[i]); 
+        addToTournamentList(data[i]); 
+      }
     },
     error: function(a , b, c){
       console.log('There is an error in tournamentQuery');
@@ -75,6 +81,7 @@ function TournamentMarker(tournamentLatLng, tournament) {
 	}); 
 
 	this.tournament_name = tournament["tournament_name"]
+	this.tournament_dates = [tournament["start_date"], tournament["end_date"]]; 
 	this.tournament_window = new google.maps.InfoWindow(); 
 	this.tournament_bid = determineBid(tournament["bid_round"]); 
 	this.tournament_info = generateTournamentInfo(this.tournament_name, 
@@ -93,7 +100,7 @@ function generateTournamentInfo(name, bid, start_date, end_date){
 	link.href = '/' + name + '/Dashboard'; 
 	var display = document.createElement("h4"); 
 	var status = document.createElement("img"); 
-	var today = parseInt(constructDateString()); 
+	var today = parseInt(constructDateString(new Date())); 
 	var start = parseInt(start_date); 
 	var end = parseInt(end_date); 
 
@@ -114,12 +121,13 @@ function generateTournamentInfo(name, bid, start_date, end_date){
 	return window_box; 
 }
 
+
+
 	
-function constructDateString() { 
-	var today = new Date(); 
-	var year = today.getFullYear(); 
-	var month = today.getMonth() + 1; //starts at 0 
-	var day = today.getDate(); 
+function constructDateString(date) { 
+	var year = date.getFullYear(); 
+	var month = date.getMonth() + 1; //starts at 0 
+	var day = date.getDate(); 
 
 	if (month < 10) { 
 		month = "0" + month; 
@@ -142,8 +150,6 @@ function constructDateString() {
  * 
  * @param tournament is the tournament object passed from the *** 
  */ 
-
-
 function setTournament(tournament) {  
 	var address_geocoder = new google.maps.Geocoder(); 
 	address_geocoder.geocode({'address': tournament["loc"]}, 
@@ -151,6 +157,10 @@ function setTournament(tournament) {
 			if (status == google.maps.GeocoderStatus.OK) { 
 				var addedTournament = new TournamentMarker(results[0].geometry.location, tournament); 
 				tournament_marker_list.push(addedTournament);
+				if (!isRecent(addedTournament)) { 
+					addedTournament.Marker.setMap(null); 
+				}
+
 
 				google.maps.event.addListener(addedTournament.Marker, 'click', 
 					function(evt) { 
@@ -180,49 +190,22 @@ function setTournament(tournament) {
 	);
 }
 
+// Recent: - 3 weeks + 1 week of current date.
+function isRecent(tournament) { 
+	var today = new Date();
+	var one_week_ahead = new Date();
+	var three_weeks_back = new Date(); 
+	one_week_ahead.setDate(today.getDate() + 7); 
+	three_weeks_back.setDate(today.getDate() - 21); 
+	one_week_ahead = constructDateString(one_week_ahead); 
+	three_weeks_back = constructDateString(three_weeks_back); 
+	today = constructDateString(today); 
 
-
-function generateDropdownMenu() { 
-	dropdownTournamentList = document.createElement("div"); 
-	dropdownTournamentList.className = "maps_dropdown_box"; 
-	var dropdown_box = document.createElement("form"); 
-	dropdown_box.className = "maps_dropdown_box"; 
-	dropdown_box.action = ""; 
-	var select_box = document.createElement("select"); 
-	select_box.className = "maps_select_menu";
-	select_box.id = "tournament_filter"; 
-	var showAllOpt = document.createElement("option"); 
-	showAllOpt.value = "Show All"; 
-	showAllOpt.appendChild(document.createTextNode("Show All")); 
-	select_box.appendChild(showAllOpt); 
-	for (var i = 0; i < tournament_marker_list.length; i++) { 
-		var opt = document.createElement("option"); 
-		opt.value = tournament_marker_list[i].tournament_name;
-		opt.id = "displayed_tournament";
-		opt.appendChild(document.createTextNode(tournament_marker_list[i].tournament_name)); 
-		select_box.appendChild(opt); 
-	}
-	select_box.onchange = function() { openWindow(); };
-	dropdown_box.appendChild(select_box); 
-	dropdownTournamentList.appendChild(dropdown_box); 
-	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(dropdownTournamentList); 
-}
-
-
-function openWindow() { 
-	var selected_tournament = document.getElementById("tournament_filter").value; 
-
-	for (var i = 0; i < tournament_marker_list.length; i++) { 
-		if (selected_tournament == "Show All") { 
-			tournament_marker_list[i].tournament_window.close(); 
-			tournament_marker_list[i].Marker.setMap(map); 
-		} else if (tournament_marker_list[i].tournament_name == selected_tournament) { 
-			tournament_marker_list[i].Marker.setMap(map); 
-			tournament_marker_list[i].tournament_window.open(map); 
-		} else { 
-			tournament_marker_list[i].tournament_window.close(); 
-			tournament_marker_list[i].Marker.setMap(null); 
-		}
+	if ((parseInt(tournament.tournament_dates[0]) < one_week_ahead) 
+		&& (parseInt(tournament.tournament_dates[1])> three_weeks_back)) { 
+		return true; 
+	} else { 
+		return false; 
 	}
 }
 
@@ -242,10 +225,8 @@ function initialize() {
     streetViewControl: false, 
     zoomControl: false,
     mapTypeId: 'cleanMapStyle',
-        minZoom: 4
+    minZoom: 4
   }
-
-
 
 	var cleanMapStyle = [
 	{
@@ -279,10 +260,89 @@ function initialize() {
 	map = new google.maps.Map(document.getElementById('maps-canvas'), map_options); 
 	map.mapTypes.set('cleanMapStyle', new google.maps.StyledMapType(cleanMapStyle, { name: 'cleanMapStyle' }));
 
-
 	tournamentQueryAndSet(); 
-	setTimeout(function() { generateDropdownMenu(); }, 5000); 
+}
+
+
+/* Tournaments List Module */ 
+function addToTournamentList(tournament_data) { 
+	var listSpace = document.getElementById("all-tournaments"); 
+	if (tournament_data == null) { 
+		listSpace.appendChild(document.createElement("h3").appendChild(document.createTextNode("All Tournaments"))); 
+		var tournament_list = document.createElement("table"); 
+		tournament_list.id = "tournament-list"
+		listSpace.appendChild(tournament_list); 
+	} else { 
+		var tournament_list = document.getElementById("tournament-list"); 
+		var tournament_row = document.createElement("tr"); 
+		tournament_row.className = "tournament_list_row";
+		tournament_row.appendChild(generateTournamentListBox(tournament_data)); 
+		tournament_row.onmouseover = function () { openHoverWindow(tournament_data["tournament_name"]); }; 
+		tournament_row.onmouseout = function () { closeHoverWindow(tournament_data["tournament_name"]); }; 
+		tournament_list.appendChild(tournament_row); 
+	}
+
+
+}
+
+function generateTournamentListBox(tournament_data) { 
+	var tournament_box = document.createElement("div"); 
+	tournament_box.className = "tourn_list_box"; 
+	var link = document.createElement("a"); 
+	link.className = "tourn_list_text"; 
+	link.href = '/' + tournament_data["tournament_name"] + '/Dashboard'; 
+	var display = document.createElement("h6"); 
+	var status = document.createElement("img"); 
+	var today = parseInt(constructDateString(new Date())); 
+	var start = parseInt(tournament_data["start_date"]); 
+	var end = parseInt(tournament_data["end_date"]); 
+
+	if (today > end) { 
+		status.src = "/debate/static/images/red-circle-sidebar.png"; 
+	} else if (today < start) { 
+		status.src = "/debate/static/images/blue-circle-sidebar.png";
+	} else { 
+		status.src = "/debate/static/images/green-circle-sidebar.png";
+	}
+
+	status.className = "tourn_list_bubble"; 
+	display.appendChild(status); 
+	display.appendChild(document.createTextNode(tournament_data["tournament_name"] + 
+		' (' + determineBid(tournament_data["bid_round"]) + ')')); 
+	link.appendChild(display); 
+	tournament_box.appendChild(link); 
+
+	return tournament_box; 
+}
+
+
+function openHoverWindow(tournament_name) { 
+	for (var i = 0; i < tournament_marker_list.length; i++) { 
+		if (tournament_marker_list[i].tournament_name == tournament_name) { 
+			tournament_marker_list[i].Marker.setMap(map); 
+				if (tournament_marker_list[i].tournament_window.getMap() == null) { 
+					console.log(tournament_name + ": opened"); 
+					tournament_marker_list[i].tournament_window.open(map); 
+				}
+		}
+	}
+}
+
+
+function closeHoverWindow(tournament_name) { 
+	for (var i = 0; i < tournament_marker_list.length; i++) { 
+		if (tournament_marker_list[i].tournament_name == tournament_name) { 
+			if (!isRecent(tournament_marker_list[i])) { 
+				tournament_marker_list[i].Marker.setMap(null); 
+			}
+			console.log(tournament_name + ": closed"); 
+			setTimeout(tournament_marker_list[i].tournament_window.close(), 3000); 
+		}
+	}
 }
 
 
 $(document).ready(initialize)
+
+
+
