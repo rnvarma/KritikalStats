@@ -222,5 +222,4 @@ console.log(tournament)
     admin_xs.appendChild(breaker_xs_4);
   }
 
-
 })
