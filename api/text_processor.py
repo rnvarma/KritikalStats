@@ -9,7 +9,7 @@ class TextProcessor:
     # if the name is an empty string, return back that emptry string
     # this is for the case of a a bye
     if not name:return ""
-    #if there are multiple commans, making the assumption that there are
+    # if there are multiple commans, making the assumption that there are
     # multiple judges in the form: "last, first last, first last, first"
     # and so assuming that is an elim round
     if name.count(",") > 1: return self.elim_judges(name)
@@ -46,7 +46,8 @@ class TextProcessor:
       	curr_judge += part
       i += 1
     return map(self.judge, judge_list)
-  
+
+  # def team_code
 
 
 
