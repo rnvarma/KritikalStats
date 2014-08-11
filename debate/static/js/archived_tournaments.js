@@ -60,7 +60,13 @@ $(document).ready(function () {
     url: kritstats.urls.tournament_query,
     contentType: 'application/json',
     success: function (data) {
-      archive_table_populate(data, year);
+      real_data = [];
+      for (var i = 0; i<data.length; i++){
+        if (data[i].association != 'udl'){
+          real_data.push(data[i])
+        }
+      }
+      archive_table_populate(real_data, year);
     },
     error: function(a , b, c){
       console.log('There is an error in quering for ' + tournament + ' in archive_tournament.js');
