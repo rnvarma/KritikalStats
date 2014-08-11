@@ -121,7 +121,7 @@ $(document).ready(function () {
     	success: function (data) {
     		real_data = [];
             for (var i = 0; i<data.length; i++){
-        		if (data[i].association != 'udl'){
+        		if (data[i].association != 'UDL'){
           			real_data.push(data[i])
         		}
       		}

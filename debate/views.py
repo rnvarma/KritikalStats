@@ -54,8 +54,12 @@ def load_tourncreate(request):
 	return render(request, 'create_tournament.html', {'user': request.user})
 
 @login_required(login_url = '/adminlogin')
-def load_roundcreate(request):
-	return render(request, 'create_round.html', {'user': request.user})
+def load_roundcreate(request, tournament):
+	return render(request, 'create_round.html', {'tournament': tournament, 'round_type': 'prelim', 'user': request.user})
+
+@login_required(login_url = '/adminlogin')
+def load_elimroundcreate(request, tournament):
+	return render(request, 'create_round.html', {'tournament': tournament, 'round_type': 'elim', 'user': request.user})
 
 @login_required(login_url = '/adminlogin')
 def merge_teams(request):

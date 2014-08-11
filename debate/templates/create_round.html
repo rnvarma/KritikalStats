@@ -2,12 +2,18 @@
 
 {% block content %}
 {% load staticfiles %}
+<script src="{% static 'js/vendor/jquery-ui.js' %}"></script>
+<div class='create-round-type' data-round-type = "{{ round_type }}"></div>
 
 <div class="row">
   <div class = "col-md-12 col-xs-12">
     <div class = "panel">
       <div class = "panel-heading">
-        <h1>Create Round</h1>
+        {% if round_type == 'prelim' %}
+        <h1>Create Prelim Round</h1>
+        {% else %}
+        <h1>Create Elim Round</h1>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -17,14 +23,13 @@
   <section class="panel">
     <div class="panel-body">
       <div class="position-center">
-        <form id="tournament-form" class= "form" method="POST" action ="/1/create/round">
-          {% csrf_token %}
+        <div id="tournament-form">
 
           <div class= "form-group">
             <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Tournament</label>
             <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Tournament</label>
             <div class="col-lg-9">
-              <input type="text" id = "input_tname" class="form-control" name = "tname" placeholder="What is the tournament name?">
+              <input type="text" id = "input_tname" class="kritstats-form-input form-control" value = "{{tournament}}"name = "tname" placeholder="Ex: Wake, Berkeley, Stanford, GBN, etc." readonly>
               <p></p>
             </div>
           </div>
@@ -32,7 +37,7 @@
             <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Round URL</label>
             <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Round URL</label>
             <div class="col-lg-9">
-              <input type="text" id = "input_url" class="form-control" name = "round_url" placeholder="Provide a url to the round pairings">
+              <input type="text" id = "input_url" class="kritstats-form-input form-control" name = "round_url" placeholder="Provide a link to Tabroom for the pairing">
               <p></p>
             </div>
           </div>
@@ -40,29 +45,48 @@
             <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Round Number</label>
             <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Round Number</label>
             <div class="col-lg-9">
-              <input type="text" id = "input_round_num" class="form-control" name = "round_num" placeholder="What is the round number?">
-              <p></p>
-            </div>
-          </div>
-          <div class= "form-group">
-            <label class = "col-lg-3 col-sm-2 hidden-xs admin-form-label">Tournament Status</label>
-            <label class = "hidden-lg hidden-sm hidden-md admin-form-label-xs col-xs-12">Tournament Status</label>
-            <div class="col-lg-9">
-              <input type="text" id = "input_status" class="form-control" name = "status" placeholder="What is the tournament status?">
+              <input type="text" id = "input_round_num" class="kritstats-form-input form-control" name = "round_num" placeholder="Ex: 1, 2, 3, 4..">
               <p></p>
             </div>
           </div>
           <div class ="form-group">
             <div class="col-lg-offset-4 col-lg-8 col-xs-offset-2 col-xs-8">
-              <button type="submit" class="btn btn-danger">Submit!</button>
+              <button class="btn btn-danger createround-submit">Submit!</button>
             </div>
           </div>
 
-        </form>
+        </div>
       </div>
     </div>
   </section>
 </div>
 
-<script src="{% static 'js/tourn_entry.js' %}"></script>
+<div class= "col-lg-12 col-sm-12 col-xs-12 col-md-12 choosecol-row" style="display: none">
+  <div class = "choosecol-status" data-status = "nodata">
+  <section class="panel">
+    <div class="panel-heading">
+      <h3 class = "choosecol-msg">Click on the column with the Aff team!</h3>
+    </div>
+    <div class="panel-body">
+        <table class = "table general-table choosecol-table" data-cur-selection="teama">
+          <thead>
+            <tr class = "choosecol-th">
+            </tr>
+          </thead>
+          <tbody>
+            <tr class = "choosecol-body">
+            </tr>
+            <div class = "choosecol-store" data-teama ="" data-teamb = "" data-judge = ""></div>
+          </tbody>
+        </table>
+        <div class="position-center">
+          <div class="col-lg-offset-4 col-lg-8 col-xs-offset-2 col-xs-8">
+              <button class="btn btn-danger choosecol-submit">Submit!</button>
+          </div>
+        </div>
+    </div>
+  </section>
+</div>
+
+<script src="{% static 'js/create_round.js' %}"></script>
 {% endblock %}
