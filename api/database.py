@@ -122,8 +122,8 @@ def enter_individual_round(tournament, association, round_num, aff_code, neg_cod
 
 def enter_individual_elim_round(tournament, association, round_num, aff_code, neg_code, j1, j2, j3, winloss, aff_name="enter_names", neg_name="enter_names", dryrun=True):
   tourny = Tournament.objects.get(tournament_name = tournament)
-  aff = tp.team_code(aff)
-  neg = tp.team_code(neg)
+  aff = tp.team_code(aff_code)
+  neg = tp.team_code(neg_code)
   if (j1 == j2) and (j2 == j3) and (j1 == j3):
     j1_obj = Judge.objects.get(name = "unknown")
     j2_obj = Judge.objects.get(name = "unknown1")
@@ -136,8 +136,8 @@ def enter_individual_elim_round(tournament, association, round_num, aff_code, ne
     j2_obj = check_judge_existence_or_create(j2, dryrun)
     j3_obj = check_judge_existence_or_create(j3, dryrun)
   print aff + " | " + neg + " | " + elim
-  aff_team = check_team_existence_or_create(aff, aff_name, tourny, dryrun)
-  neg_team = check_team_existence_or_create(neg, neg_name, tourny, dryrun)
+  aff_team = check_team_existence_or_create(aff, tourny, aff_name, dryrun)
+  neg_team = check_team_existence_or_create(neg, tourny, neg_name, dryrun)
   try:
     round = ElimRound.objects.get(aff_team=aff_team, neg_team=neg_team,
                              tournament=tourny)
