@@ -17,14 +17,18 @@ class TextProcessor:
     name = " ".join(name.split()) # remove runs of whitespace
     # when there is a comma, assuming that it is "last, first"
     # otherwise we assume it is in "first last"
-    if name.find(",") >= 0: last, first = name.split(",")
-    else: first, last = name.split()
+    if name.find(",") >= 0:
+      parts = name.split(",")
+      parts[0], parts[1] = parts[1], parts[0]
+    else:
+      parts = name.split()
     # format names into title case, Ex: Gary Lin, Sunny Advani
-    last = last.strip().lower()
-    first = first.strip().lower()
-    last = last[0].upper() + last[1:]
-    first = first[0].upper() + first[1:]
-    final_name = first + " " + last
+    full_name = []
+    for part in parts:
+      part = part.strip()
+      clean_name = part[0].upper() + part[1:].lower()
+      full_name.append(clean_name);
+    final_name = " ".join(full_name)
     return final_name
 
   def elim_judges(self, judges):
@@ -70,7 +74,7 @@ class TextProcessor:
 
 tp = TextProcessor()
 
-print tp.team_code("BEFJR Dastjerdi & Walter")
+print tp.judge(" Ayannna T.    Crocket")
 
 
 
