@@ -47,8 +47,10 @@ function create_tournament_button(data) {
 function load_tournaments_in_sidebar(data) {
   var tourn_panel = document.getElementsByClassName("admin-tournament-sub")[0];
   for (var i = 0; i < data.length; i ++) {
-  	var tournament = create_tournament_button(data[i]);
-  	tourn_panel.appendChild(tournament);
+    if (data[i].association != "UDL"){
+  	  var tournament = create_tournament_button(data[i]);
+  	  tourn_panel.appendChild(tournament);
+    }
   }
 }
 
