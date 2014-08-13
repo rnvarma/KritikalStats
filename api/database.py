@@ -71,7 +71,7 @@ def enter_bye_round(team_code, tournament, round_num, dryrun=True):
   else:
     print "success creating bye for %s in round %d" % (team_code, round_num)
 
-def enter_individual_round(tournament, association, round_num, aff_code, neg_code, judge_name, aff_name="enter_names", neg_name="enter_names", dryrun=True):
+def enter_individual_round(tournament, association, round_num, aff_code, neg_code, judge_name, winloss, aff_name="enter_names", neg_name="enter_names", dryrun=True):
   tourny = Tournament.objects.get(tournament_name = tournament)
   aff = tp.team_code(aff_code)
   neg = tp.team_code(neg_code)
@@ -90,6 +90,12 @@ def enter_individual_round(tournament, association, round_num, aff_code, neg_cod
     round_obj = Round(aff_team=aff_team, neg_team=neg_team, 
                       round_num=round_num)
     round_obj.association = association
+    if winloss == "Aff":
+      round_obj.winner = aff_team
+      round_obj.loser = neg_team
+    elif winloss == "Neg":
+      round_obj.winner = neg_team
+      round_obj.loser = aff_team
     if not dryrun:
       if tourny.curr_rounds < round_num:
         tourny.curr_rounds = round_num
