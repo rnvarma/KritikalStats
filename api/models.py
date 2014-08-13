@@ -5,7 +5,6 @@ TODO: add "judge" and "round_num" fields to Round model and update DB
            (remember to rebase the database)
 """
 
-# Create your models here.
 class Tournament(models.Model):
   tournament_name = models.CharField(max_length=50, blank=True, default='')
   num_entries = models.IntegerField(default=0)
@@ -19,6 +18,7 @@ class Tournament(models.Model):
   registration_date = models.CharField(max_length=100, blank=True, default='')
   loc = models.CharField(max_length=100, blank=True, default='')
   bracket_list = models.CharField(max_length=300, blank=True, default='')
+  association = models.CharField(max_length=100, blank=True, default='')
 
 class Team(models.Model):
   team_name = models.CharField(max_length=100, blank=True, default='') #Leland AV
@@ -26,6 +26,7 @@ class Team(models.Model):
   tournaments = models.ManyToManyField(Tournament, related_name="entries")
   bids = models.ManyToManyField(Tournament, related_name="bids")
   win_percent = models.IntegerField(default = 0)
+  association = models.CharField(max_length=100, blank=True, default='')
 
   class Meta:
   	ordering = ('team_code',)
@@ -36,6 +37,11 @@ class Judge(models.Model):
   school = models.CharField(max_length=50, blank=True, default='')
   aff_percent = models.IntegerField(default = 0)
   neg_percent = models.IntegerField(default = 0)
+
+# class School(models.Model):
+#   school_name = models.CharField(max_length=100, blank=True, default='')
+#   teams = models.ManyToManyField(Team, related_name = "school")
+#   judges = models.ManyToManyField(Judge, related_name = "school_asc")
 
 class Round(models.Model):
   tournament = models.ManyToManyField(Tournament, related_name="rounds")
@@ -50,6 +56,7 @@ class Round(models.Model):
   one_nc = models.CharField(max_length=200, blank=True, default='')
   block = models.CharField(max_length=200, blank=True, default='')
   two_nr = models.CharField(max_length=200, blank=True, default='')
+  association = models.CharField(max_length=100, blank=True, default='')
 
 class ElimRound(models.Model):
   tournament = models.ManyToManyField(Tournament, related_name="elim_rounds")
@@ -65,6 +72,7 @@ class ElimRound(models.Model):
   one_nc = models.CharField(max_length=200, blank=True, default='')
   block = models.CharField(max_length=200, blank=True, default='')
   two_nr = models.CharField(max_length=200, blank=True, default='')
+  association = models.CharField(max_length=100, blank=True, default='')
 
 class Seed(models.Model):
   team = models.ForeignKey(Team, related_name="team")

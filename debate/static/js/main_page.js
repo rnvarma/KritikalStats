@@ -53,6 +53,7 @@ function load_click_handlers(entries_data, rounds_data) {
       $(obj["row-class"]).appendTo($(".main_page_table"));
     }
   })
+  $(".main-header[data-type='wl']").trigger("click");
 }
 
 function assign_records() {

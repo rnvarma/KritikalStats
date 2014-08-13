@@ -21,30 +21,12 @@ function create_archive(tournament_data) {
   return tourney_row;
 }
 
-function archive_table_populate(data, year) {
-  var table = document.getElementsByClassName("archives_table")[0]; 
-  first_year = year.substring(0,4)
-  second_year = year.substring(5)
-  for (i=0; i<data.length; i++){
-    //if (data[i].start_date
-    var start_date = String(data[i].start_date)
-    var start_year = start_date.substring(0,4);
-    if (start_year == first_year){
-      var month = parseInt(start_date.substring(4,6));
-      if (month>=7){
-        var archived_tourney = create_archive(data[i]);
-        table.appendChild(archived_tourney);
-      }
-    }
-    else if (start_year == second_year){
-      var month = parseInt(start_date.substring(4,6));
-      if (month<=6){
-        var archived_tourney = create_archive(data[i]);
-        table.appendChild(archived_tourney);
-      }
-    }
+function archive_table_populate(data) {
+  var table = document.getElementsByClassName("udl_table_body")[0];
+  for (var i = 0; i < data.length; i ++) {
+    var archived_tourney = create_archive(data[i]);
+    table.appendChild(archived_tourney);
   }
-
   $(".archive_row").click(function () {
     var id = $(this).attr("tourney-id");
     var url = kritstats.urls.base + id + "/Dashboard";
@@ -54,7 +36,6 @@ function archive_table_populate(data, year) {
 }
 
 $(document).ready(function () {
-  var year = $("#year_hidden").attr("archived-year");
   $.ajax({
     type: 'GET',
     url: kritstats.urls.tournament_query,
@@ -62,11 +43,11 @@ $(document).ready(function () {
     success: function (data) {
       real_data = [];
       for (var i = 0; i<data.length; i++){
-        if (data[i].association != 'UDL'){
+        if (data[i].association == 'UDL'){
           real_data.push(data[i])
         }
       }
-      archive_table_populate(real_data, year);
+      archive_table_populate(real_data);
     },
     error: function(a , b, c){
       console.log('There is an error in quering for ' + tournament + ' in archive_tournament.js');
