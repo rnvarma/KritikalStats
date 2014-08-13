@@ -4,6 +4,7 @@ from api.models import Tournament, Team, Round, Judge, ElimRound, Seed
 from api.text_processor import TextProcessor
 from api.bracket import BracketList
 from api.scraper import TabroomScraper, EntryScraper, PairingScraper, PrelimResultScraper
+import csv
 
 """
 TODO: create tool to remove duplicate rounds (requires a little thinking)
@@ -29,7 +30,7 @@ def enter_team_list(url, tournament, dryrun=True):
         team.tournaments.add(tourny)
       print "made team %s" % code
 
-def check_team_existence_or_create(name, tourny, dryrun, team_name="enter_names"):
+def check_team_existence_or_create(name, tourny, team_name="enter_names", dryrun=True):
   try:
     team = Team.objects.get(team_code = name)
     # check to make sure that the team is actually entered
@@ -72,12 +73,12 @@ def enter_bye_round(team_code, tournament, round_num, dryrun=True):
 
 def enter_individual_round(tournament, association, round_num, aff_code, neg_code, judge_name, aff_name="enter_names", neg_name="enter_names", dryrun=True):
   tourny = Tournament.objects.get(tournament_name = tournament)
-  aff = tp.team_code(aff)
-  neg = tp.team_code(neg)
+  aff = tp.team_code(aff_code)
+  neg = tp.team_code(neg_code)
   judge_name = tp.judge(judge_name)
   print aff + " | " + neg + " | " + judge_name
-  aff_team = check_team_existence_or_create(aff, aff_name, tourny, dryrun)
-  neg_team = check_team_existence_or_create(neg, neg_name, tourny, dryrun)
+  aff_team = check_team_existence_or_create(aff, tourny, aff_name, dryrun)
+  neg_team = check_team_existence_or_create(neg, tourny, neg_name, dryrun)
   judge_obj = check_judge_existence_or_create(judge_name, dryrun)
   try:
     print aff + " v. " + neg
@@ -228,4 +229,3 @@ def enter_UDL_tournaments(t_list):
       end_date = str(int(start_date) + 3)
       tourny = Tournament(tournament_name=name, start_date=start_date, end_date=end_date, prelims = int(num_prelims), association = "UDL")
       tourny.save()
-
