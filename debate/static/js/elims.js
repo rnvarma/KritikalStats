@@ -9,6 +9,85 @@ var elimRounds = [];
 var tabList = []; 
 var cleared_teams = 0; 
 
+// for search
+function contains(original, filter) { 
+  var check = original.toLowerCase(); 
+  return check.indexOf(filter) != -1; 
+}
+
+
+function load_elims(tournament, first, filter){
+  if (first) { 
+    determineElims(tournament["breaks_to"]); 
+    create_elim_tabs(tabList);
+    add_tab_content();
+    load_tabs(tabList, tournament);
+  }
+
+  for (var i = 0; i < tabList.length; i++) { 
+    var elim_value = elimTeamsDict[tabList[i]]; 
+    $.ajax({
+      type: 'GET',
+      url: kritstats.urls.base + "1/tournament/" + tournament["tournament_name"] + '/elim_round/' + elim_value,
+      contentType: 'application/json',
+      success: function (data) {
+        populate_elim(data.rounds, first, filter);
+        row_click_handler();
+      },
+      error: function(a , b, c){
+        console.log('There is an error in quering for ' + tournament["tournament_name"] + 'for ' + elim_value + ' in load elims');
+      },
+      async: true
+    });
+  }
+}
+
+
+function determineElims(num_clear) { 
+  cleared_teams = num_clear; 
+  if (cleared_teams <= 2) { 
+    restrict = 5; 
+  } else if (cleared_teams <= 4) { 
+    restrict = 4; 
+  } else if (cleared_teams <= 8) { 
+    restrict = 3; 
+  } else if (cleared_teams <= 16) {
+    restrict = 2;   
+  } else if (cleared_teams <= 32) { 
+    restrict = 1; 
+  } else { 
+    elimRounds = allElims; 
+  }   
+
+  for (var i = 0; i < (allElims.length - restrict); i++) {
+    elimRounds.push(allElims[restrict + i]); 
+    tabList.push(allTabs[restrict + i]); 
+  }
+
+  col_width = col_sizes[num_clear];
+}
+
+
+function create_elim_tabs(tabList){
+  var table = document.getElementsByClassName("tournament_nav")[0];
+  var elim_size = cleared_teams; 
+
+  for (var i = 0; i < tabList.length; i ++ ) {
+    var tab_name = tabList[i];
+    var li = document.createElement("li");
+    if (i == 0) {
+      li.className = "active";
+    }
+    var a = document.createElement("a");
+    var tab_text = document.createTextNode(tab_name);
+    a.setAttribute("data-toggle", "tab");
+    a.appendChild(tab_text);
+    a.href = "#" + tab_name;
+    a.className = "tourn-tab-" + tab_name;
+    li.appendChild(a);
+    table.appendChild(li);
+  }
+}
 
 //tab generation code
 function add_tab_content() {
@@ -19,6 +98,28 @@ function add_tab_content() {
   tab_content.className = "tab-content tasi-tab tournament_panel_tab";
   panel_body.appendChild(tab_content);
   panel.appendChild(panel_body);
+}
+
+
+function load_tabs(tab_list, tournament){
+  for (var i = 0; i<tab_list.length; i++){
+    if (i == 0) {
+      var active = true;
+    }
+    else{
+      var active = false;
+    }
+
+    var tab_name = tab_list[i];
+    var tab = document.getElementsByClassName("tournament_panel_tab")[0];
+    var tab_page = make_tab_page(tab_name, active, tournament, tab);
+    if (!(tab_name == "Bracket")) {
+      tab.appendChild(tab_page);
+      add_tab_click_handler(tab_name);
+    }
+    //call function and make query to populate the page
+    //similar to team.js load_tournament_rounds
+  }
 }
 
 
@@ -75,6 +176,152 @@ function make_tab_page(tab_name, active, tournament, tab){
 }
 
 
+
+
+function add_tab_click_handler(tab_name){
+  $(".tourn-tab-" + tab_name).click(function() {
+    var tab_id = $(this).attr("href");
+    tab_id = "." + tab_id.slice(1, tab_id.length) + "-tab";
+    if (!$(this).hasClass("active")) {
+      $(".tab-pane").removeClass("active");
+      $(tab_id).addClass("active");
+    }
+  });
+}
+
+
+function populate_elim(elim_data, first, filter){
+  if (elim_data.length > 0){
+    var elim_name = elimRoundsDict[elim_data.length]     
+    var table = document.getElementById('table-' + elim_name);
+    if (!first) { 
+      $('#' + table.id).empty();
+    }
+    var tbody = fill_elim_page(elim_data, filter);
+    table.appendChild(tbody);
+  }
+}
+
+
+function fill_elim_page(elim_data, filter){
+  var include = false; 
+  var row_headers = ['Aff', 'Neg', 'Judge1', 'Judge2', 'Judge3', '1AC', '1NC', '2NR']
+  var tbody = document.createElement('tbody');
+  tbody.className = 'elim_page_table'
+
+  for (var i = 0; i<elim_data.length; i++) {
+    if (filter == "") { 
+      include = true; 
+    } 
+    if (!include) { 
+      if (contains(elim_data[i].aff_code, filter) ||
+          contains(elim_data[i].neg_code, filter) ||
+          contains(elim_data[i].judge[0], filter) ||
+          contains(elim_data[i].judge[1], filter) ||
+          contains(elim_data[i].judge[2], filter)) { 
+
+        include = true; 
+      }
+    }      
+
+    if (include) { 
+      var tr = document.createElement('tr');
+      tr.className = "team-row round-row-" + elim_data[i].round_id;
+      tr.id = "row-" + elim_data[i].round_id;
+      for (j=0; j<row_headers.length; j++){
+        var td = document.createElement('td');
+        td.className = row_headers[j];
+        if (row_headers[j] == 'Aff'){
+          td.id = elim_data[i].aff_id;
+          if (elim_data[i].winner == elim_data[i].aff_id) {
+            td.className += " bg-bright-win";
+          } else if (elim_data[i].winner == elim_data[i].neg_id) {
+            td.className += " bg-bright-loss";
+          }
+        }
+        if (row_headers[j] == 'Neg'){
+          td.id = elim_data[i].neg_id;
+          if (elim_data[i].winner == elim_data[i].neg_id) {
+            td.className += " bg-bright-win";
+          } else if (elim_data[i].winner == elim_data[i].aff_id) {
+            td.className += " bg-bright-loss";
+          }
+        }
+
+        if (row_headers[j] == 'Aff'){
+          var td_text = document.createTextNode(elim_data[i].aff_code);
+        }
+        else if (row_headers[j] == 'Neg'){
+          var td_text = document.createTextNode(elim_data[i].neg_code);
+        }
+        else if (row_headers[j] == 'Judge1'){
+          var td_text = document.createTextNode(elim_data[i].judge[0]);
+          add_judge_background(elim_data[i], td, 0);
+        }
+        else if (row_headers[j] == 'Judge2'){
+          var td_text = document.createTextNode(elim_data[i].judge[1]);
+          add_judge_background(elim_data[i], td, 1);
+        }
+        else if (row_headers[j] == 'Judge3'){
+          var td_text = document.createTextNode(elim_data[i].judge[2]);
+          add_judge_background(elim_data[i], td, 2);
+        }
+        else if (row_headers[j] == '1AC'){
+          var td_text = document.createTextNode('');
+        }
+        else if (row_headers[j] == '1NC'){
+          var td_text = document.createTextNode('');
+        }
+        else if (row_headers[j] == '2NR'){
+          var td_text = document.createTextNode('');
+        }
+        td.appendChild(td_text);
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    }
+    include = false; 
+  }
+  return tbody;
+}
+
+
+function is_in(item, list) {
+  for (var i = 0; i < list.length; i ++) {
+    if (item == list[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+function add_judge_background(elim_data, td, j_num) {
+  if (is_in(elim_data.judge[j_num], elim_data.aff_votes)) {
+    if (elim_data.aff_id == elim_data.winner){
+      td.className += " bg-success";
+    } else {
+      td.className += " bg-danger";
+    }
+  } else if (is_in(elim_data.judge[j_num], elim_data.neg_votes)) {
+    if (elim_data.aff_id == elim_data.winner){
+      td.className += " bg-danger";
+    } else {
+      td.className += " bg-success";
+    }
+  }
+}
+
+
+function row_click_handler(){
+  $(".team-row").click(function() {
+    var id = this.id
+    id = id.substring(4)
+    var url = kritstats.urls.base + "elim_round/" + id;
+    window.location = url;
+  })
+}
+
 function make_bracket(tab_name, active, tournament, tab) { 
     $.ajax({
       type: 'GET',
@@ -91,6 +338,7 @@ function make_bracket(tab_name, active, tournament, tab) {
       async: true
     });
 }
+
 
 function generateBracket(tournament_data) { 
   var panel_body = document.createElement('div');
@@ -159,7 +407,6 @@ function createOneRound(tournament, rd_type, divNum, divHeight, div_to_fill) {
   }
   var label = document.createElement("div"); 
   label.className = "bracket_text";
-  console.log("dtf: " + div_to_fill); 
   var seed = tournament["bracket_list"][div_to_fill];
   if (tournament["seeds"][seed]) {
     var team_name = tournament["seeds"][seed];
@@ -173,223 +420,10 @@ function createOneRound(tournament, rd_type, divNum, divHeight, div_to_fill) {
 }
 
 
-function add_tab_click_handler(tab_name){
-  $(".tourn-tab-" + tab_name).click(function() {
-    var tab_id = $(this).attr("href");
-    tab_id = "." + tab_id.slice(1, tab_id.length) + "-tab";
-    if (!$(this).hasClass("active")) {
-      $(".tab-pane").removeClass("active");
-      $(tab_id).addClass("active");
-    }
-  });
-}
 
-
-function load_tabs(tab_list, tournament){
-  for (var i = 0; i<tab_list.length; i++){
-    if (i == 0) {
-      var active = true;
-    }
-    else{
-      var active = false;
-    }
-
-    var tab_name = tab_list[i];
-    var tab = document.getElementsByClassName("tournament_panel_tab")[0];
-    var tab_page = make_tab_page(tab_name, active, tournament, tab);
-    if (!(tab_name == "Bracket")) {
-      tab.appendChild(tab_page);
-      add_tab_click_handler(tab_name);
-    }
-    //call function and make query to populate the page
-    //similar to team.js load_tournament_rounds
-  }
-}
-
-
-function populate_elim(elim_data){
-  if (elim_data.length > 0){
-    var elim_name = elimRoundsDict[elim_data.length]     
-    var table = document.getElementById('table-' + elim_name);
-    var tbody = fill_elim_page(elim_data);
-    table.appendChild(tbody);
-  }
-}
-
-
-function is_in(item, list) {
-  for (var i = 0; i < list.length; i ++) {
-    if (item == list[i]) {
-      return true;
-    }
-  }
-  return false;
-}
-
-
-function add_judge_background(elim_data, td, j_num) {
-  if (is_in(elim_data.judge[j_num], elim_data.aff_votes)) {
-    if (elim_data.aff_id == elim_data.winner){
-      td.className += " bg-success";
-    } else {
-      td.className += " bg-danger";
-    }
-  } else if (is_in(elim_data.judge[j_num], elim_data.neg_votes)) {
-    if (elim_data.aff_id == elim_data.winner){
-      td.className += " bg-danger";
-    } else {
-      td.className += " bg-success";
-    }
-  }
-}
-
-
-function fill_elim_page(elim_data){
-  var row_headers = ['Aff', 'Neg', 'Judge1', 'Judge2', 'Judge3', '1AC', '1NC', '2NR']
-  var tbody = document.createElement('tbody');
-  tbody.className = 'elim_page_table'
-  for (i=0; i<elim_data.length; i++){
-    var tr = document.createElement('tr');
-    tr.className = "team-row round-row-" + elim_data[i].round_id;
-    tr.id = "row-" + elim_data[i].round_id;
-    for (j=0; j<row_headers.length; j++){
-      var td = document.createElement('td');
-      td.className = row_headers[j];
-      if (row_headers[j] == 'Aff'){
-        td.id = elim_data[i].aff_id;
-        if (elim_data[i].winner == elim_data[i].aff_id) {
-          td.className += " bg-bright-win";
-        } else if (elim_data[i].winner == elim_data[i].neg_id) {
-          td.className += " bg-bright-loss";
-        }
-      }
-      if (row_headers[j] == 'Neg'){
-        td.id = elim_data[i].neg_id;
-        if (elim_data[i].winner == elim_data[i].neg_id) {
-          td.className += " bg-bright-win";
-        } else if (elim_data[i].winner == elim_data[i].aff_id) {
-          td.className += " bg-bright-loss";
-        }
-      }
-
-      if (row_headers[j] == 'Aff'){
-        var td_text = document.createTextNode(elim_data[i].aff_code);
-      }
-      else if (row_headers[j] == 'Neg'){
-        var td_text = document.createTextNode(elim_data[i].neg_code);
-      }
-      else if (row_headers[j] == 'Judge1'){
-        var td_text = document.createTextNode(elim_data[i].judge[0]);
-        add_judge_background(elim_data[i], td, 0);
-      }
-      else if (row_headers[j] == 'Judge2'){
-        var td_text = document.createTextNode(elim_data[i].judge[1]);
-        add_judge_background(elim_data[i], td, 1);
-      }
-      else if (row_headers[j] == 'Judge3'){
-        var td_text = document.createTextNode(elim_data[i].judge[2]);
-        add_judge_background(elim_data[i], td, 2);
-      }
-      else if (row_headers[j] == '1AC'){
-        var td_text = document.createTextNode('');
-      }
-      else if (row_headers[j] == '1NC'){
-        var td_text = document.createTextNode('');
-      }
-      else if (row_headers[j] == '2NR'){
-        var td_text = document.createTextNode('');
-      }
-      td.appendChild(td_text);
-      tr.appendChild(td);
-    }
-
-    tbody.appendChild(tr);
-  }
-  return tbody;
-}
-
-
-function load_elims(tournament){
-  determineElims(tournament["breaks_to"]); 
-  create_elim_tabs(tabList);
-  add_tab_content();
-  load_tabs(tabList, tournament);
-
-  for (var i = 0; i < tabList.length; i++) { 
-    var elim_value = elimTeamsDict[tabList[i]]; 
-    $.ajax({
-      type: 'GET',
-      url: kritstats.urls.base + "1/tournament/" + tournament["tournament_name"] + '/elim_round/' + elim_value,
-      contentType: 'application/json',
-      success: function (data) {
-        populate_elim(data.rounds);
-        row_click_handler();
-      },
-      error: function(a , b, c){
-        console.log('There is an error in quering for ' + tournament["tournament_name"] + 'for ' + elim_value + ' in load elims');
-      },
-      async: true
-    });
-  }
-}
-
-function determineElims(num_clear) { 
-  cleared_teams = num_clear; 
-  if (cleared_teams <= 2) { 
-    restrict = 5; 
-  } else if (cleared_teams <= 4) { 
-    restrict = 4; 
-  } else if (cleared_teams <= 8) { 
-    restrict = 3; 
-  } else if (cleared_teams <= 16) {
-    restrict = 2;   
-  } else if (cleared_teams <= 32) { 
-    restrict = 1; 
-  } else { 
-    elimRounds = allElims; 
-  }   
-
-  for (var i = 0; i < (allElims.length - restrict); i++) {
-    elimRounds.push(allElims[restrict + i]); 
-    tabList.push(allTabs[restrict + i]); 
-  }
-
-  col_width = col_sizes[num_clear];
-}
-
-
-function create_elim_tabs(tabList){
-  var table = document.getElementsByClassName("tournament_nav")[0];
-  var elim_size = cleared_teams; 
-
-  for (var i = 0; i < tabList.length; i ++ ) {
-    var tab_name = tabList[i];
-    var li = document.createElement("li");
-    if (i == 0) {
-      li.className = "active";
-    }
-    var a = document.createElement("a");
-    var tab_text = document.createTextNode(tab_name);
-    a.setAttribute("data-toggle", "tab");
-    a.appendChild(tab_text);
-    a.href = "#" + tab_name;
-    a.className = "tourn-tab-" + tab_name;
-    li.appendChild(a);
-    table.appendChild(li);
-  }
-}
-
-function row_click_handler(){
-  $(".team-row").click(function() {
-    var id = this.id
-    id = id.substring(4)
-    var url = kritstats.urls.base + "elim_round/" + id;
-    window.location = url;
-  })
-}
-
-$(document).ready(function () {
+function generateElims(first, filter_val) { 
   var tournament = $(".elims_hidden").attr("data-tournament");
+  var filter = filter_val.toLowerCase(); 
   $.ajax({
       type: 'GET',
       url: kritstats.urls.base + "1/tournament/",
@@ -397,7 +431,7 @@ $(document).ready(function () {
       success: function (data) {
         for (var i = 0; i < data.length; i++) {
           if (data[i].tournament_name == tournament){
-            load_elims(data[i]); 
+            load_elims(data[i], first, filter); 
           }
         }
       },
@@ -406,4 +440,11 @@ $(document).ready(function () {
       },
       async: true
   });
+}
+
+
+$(document).ready(function () {
+  var searchInput = document.getElementById("elims-search"); 
+  searchInput.oninput = function (event) { generateElims(false, event.target.value);}; 
+  generateElims(true, ""); 
 });
