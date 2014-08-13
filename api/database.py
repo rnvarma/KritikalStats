@@ -120,14 +120,14 @@ def enter_individual_round(tournament, association, round_num, aff_code, neg_cod
     print count_failed, tournament, association, round_num, aff_code, neg_code, judge_name, winloss
     print count_failed, type(tournament), type(association), type(round_num), type(aff_code), type(neg_code), type(judge_name), type(winloss)
 
-def enter_individual_elim_round(tournament, round_num, aff_code, neg_code, j1, j2, j3, aff_name="enter_names", neg_name="enter_names", dryrun=True):
+def enter_individual_elim_round(tournament, association, round_num, aff_code, neg_code, j1, j2, j3, winloss, aff_name="enter_names", neg_name="enter_names", dryrun=True):
   tourny = Tournament.objects.get(tournament_name = tournament)
   aff = tp.team_code(aff)
   neg = tp.team_code(neg)
   if (j1 == j2) and (j2 == j3) and (j1 == j3):
     j1_obj = Judge.objects.get(name = "unknown")
-    j2_obj = Judge.objects.get(name = "unknown")
-    j3_obj = Judge.objects.get(name = "unknown")
+    j2_obj = Judge.objects.get(name = "unknown1")
+    j3_obj = Judge.objects.get(name = "unknown2")
   else:
     j1 = tp.judge(j1)
     j2 = tp.judge(j2)
@@ -146,7 +146,23 @@ def enter_individual_elim_round(tournament, round_num, aff_code, neg_code, j1, j
     print aff + " v. " + neg
     round_obj = ElimRound(aff_team=aff_team, neg_team=neg_team, 
                       round_num=round_num)
+    round_obj.association = association
+    if winloss == "Aff":
+      round_obj.winner = aff_team
+      round_obj.loser = neg_team
+      round_obj.aff_votes.add(j1_obj)
+      round_obj.aff_votes.add(j2_obj)
+      round_obj.aff_votes.add(j3_obj)
+    elif winloss == "Neg":
+      round_obj.winner = neg_team
+      round_obj.loser = aff_team
+      round_obj.neg_votes.add(j1_obj)
+      round_obj.neg_votes.add(j2_obj)
+      round_obj.neg_votes.add(j3_obj)
     if not dryrun:
+      if round_num > tourny.breaks_to:
+        tourny.breaks_to = round_num
+        tourn.save()
       round_obj.save()
       round_obj.tournament.add(tourny)
       round_obj.judge.add(j1_obj)
