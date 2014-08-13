@@ -29,8 +29,12 @@ def readBase(inputFile):
             filter = 1
         association = 'UDL'
         round_num = base_list[k]['Round']
+        if round_num == 'F' or round_num =='O' or round_num == 'Q' or round_num == 'S':
+            filter = 1
         aff_code = base_list[k]['Aff Team Code']
         neg_code = base_list[k]['Neg Team Code']
+        if aff_code == 'Houston Academy for International Studies MV' or neg_code == 'Houston Academy for International Studies MV':
+            print base_list[k]
         if not aff_code or not neg_code:
             filter = 1
         judge_name = base_list[k]['Judge']
@@ -42,6 +46,7 @@ def readBase(inputFile):
         neg_name = " & ".join(neg_name.split())
         event = base_list[k]['Event Name']
         HS = base_list[k]['Team Level']
+        winner = base_list[k]['Winner']
         if event != '2-Person Policy Debate' and event != 'Policy Debate':
             filter = 1
 
@@ -49,14 +54,15 @@ def readBase(inputFile):
             filter = 1
 
         if filter == 0:
-            print HS
-            print tournament,round_num,aff_code,neg_code,judge_name
+            # print HS
+            # print tournament,round_num,aff_code,neg_code,judge_name
             count += 1
-            print 'count' , count
-            print 'len(base_list' , len(base_list)
-            enter_individual_round(tournament, association,round_num,unicode(aff_code),unicode(neg_code),unicode(judge_name),unicode(aff_name),unicode(neg_name), False)
+            # print 'count' , count
+            # print 'len(base_list' , len(base_list)
+            enter_individual_round(tournament, association,round_num,aff_code,neg_code,judge_name,winner, aff_name,neg_name, False)
 
 
         # this is the dictionary go through it and get the shit
 
+# x = readBase('New_newer_newest_file.csv')
 # x = readBase('api/New_newer_newest_file.csv')
