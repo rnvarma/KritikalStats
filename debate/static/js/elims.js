@@ -2,7 +2,7 @@ var allElims = ["Triples", "Doubles", "Octos", "Quarters", "Semifinals", "Finals
 var allTabs = ["Triples", "Doubles", "Octos", "Quarters", "Semifinals", "Finals", "Bracket"]
 var elimTeamsDict = {"Triples": 64, "Doubles": 32, "Octos": 16, "Quarters": 8, "Semifinals": 4,
 "Finals": 2, "Champion": 1, "Bracket": 0}; 
-var elimRoundsDict = {32: "Triples", 16: "Doubles", 8: "Octos", 4: "Quarters", 2: "Semifinals", 1: "Finals"}; 
+var elimRoundsDict = {64: "Triples", 32: "Doubles", 16: "Octos", 8: "Quarters", 4: "Semifinals", 2: "Finals"}; 
 var col_sizes = {64: "14%", 32: "17%", 16: "20%", 8: "25%", 4: "25%", 2: "25%"};
 var col_width;
 var elimRounds = []; 
@@ -15,6 +15,21 @@ function contains(original, filter) {
   return check.indexOf(filter) != -1; 
 }
 
+function retrieve_load_elims(tournament, first, filter, elim_value) {
+  $.ajax({
+    type: 'GET',
+    url: kritstats.urls.base + "1/tournament/" + tournament["tournament_name"] + '/elim_round/' + elim_value,
+    contentType: 'application/json',
+    success: function (data) {
+      populate_elim(data.rounds, first, filter, elim_value);
+      row_click_handler();
+    },
+    error: function(a , b, c){
+      console.log('There is an error in quering for ' + tournament["tournament_name"] + 'for ' + elim_value + ' in load elims');
+    },
+    async: true
+  });
+}
 
 function load_elims(tournament, first, filter){
   if (first) { 
@@ -24,21 +39,9 @@ function load_elims(tournament, first, filter){
     load_tabs(tabList, tournament);
   }
 
-  for (var i = 0; i < tabList.length; i++) { 
-    var elim_value = elimTeamsDict[tabList[i]]; 
-    $.ajax({
-      type: 'GET',
-      url: kritstats.urls.base + "1/tournament/" + tournament["tournament_name"] + '/elim_round/' + elim_value,
-      contentType: 'application/json',
-      success: function (data) {
-        populate_elim(data.rounds, first, filter);
-        row_click_handler();
-      },
-      error: function(a , b, c){
-        console.log('There is an error in quering for ' + tournament["tournament_name"] + 'for ' + elim_value + ' in load elims');
-      },
-      async: true
-    });
+  for (var i = 0; i < tabList.length; i++) {
+    var elim_value = elimTeamsDict[tabList[i]];
+    retrieve_load_elims(tournament, first, filter, elim_value);
   }
 }
 
@@ -190,10 +193,10 @@ function add_tab_click_handler(tab_name){
 }
 
 
-function populate_elim(elim_data, first, filter){
+function populate_elim(elim_data, first, filter, elim_value){
   if (elim_data.length > 0){
-    var elim_name = elimRoundsDict[elim_data.length]     
-    var table = document.getElementById('table-' + elim_name);
+    console.log(elimRoundsDict[elim_value]);
+    var table = document.getElementById('table-' + elimRoundsDict[elim_value]);
     if (!first) { 
       $('#' + table.id).empty();
     }

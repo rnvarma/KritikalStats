@@ -42,7 +42,9 @@ def check_team_existence_or_create(name, tourny, team_name="enter_names", dryrun
         break
     if not team:
       team = Team(team_code = name, team_name= team_name)
-      team.tournaments.add(tourny)
+      if not dryrun:
+        team.save()
+        team.tournaments.add(tourny)
     if tourny not in Tournament.objects.filter(entries__id=team.id):
       team.tournaments.add(tourny)
     return team
@@ -121,54 +123,60 @@ def enter_individual_round(tournament, association, round_num, aff_code, neg_cod
     print count_failed, type(tournament), type(association), type(round_num), type(aff_code), type(neg_code), type(judge_name), type(winloss)
 
 def enter_individual_elim_round(tournament, association, round_num, aff_code, neg_code, j1, j2, j3, winloss, aff_name="enter_names", neg_name="enter_names", dryrun=True):
-  tourny = Tournament.objects.get(tournament_name = tournament)
-  aff = tp.team_code(aff_code)
-  neg = tp.team_code(neg_code)
-  if (j1 == j2) and (j2 == j3) and (j1 == j3):
-    j1_obj = Judge.objects.get(name = "unknown")
-    j2_obj = Judge.objects.get(name = "unknown1")
-    j3_obj = Judge.objects.get(name = "unknown2")
-  else:
-    j1 = tp.judge(j1)
-    j2 = tp.judge(j2)
-    j3 = tp.judge(j3)
-    j1_obj = check_judge_existence_or_create(j1, dryrun)
-    j2_obj = check_judge_existence_or_create(j2, dryrun)
-    j3_obj = check_judge_existence_or_create(j3, dryrun)
-  print aff + " | " + neg + " | " + elim
-  aff_team = check_team_existence_or_create(aff, tourny, aff_name, dryrun)
-  neg_team = check_team_existence_or_create(neg, tourny, neg_name, dryrun)
   try:
-    round = ElimRound.objects.get(aff_team=aff_team, neg_team=neg_team,
-                             tournament=tourny)
-    print "already made round"
+    tourny = Tournament.objects.get(tournament_name = tournament)
+    aff = tp.team_code(aff_code)
+    neg = tp.team_code(neg_code)
+    if (j1 == j2) and (j2 == j3) and (j1 == j3):
+      j1_obj = Judge.objects.get(name = "unknown")
+      j2_obj = Judge.objects.get(name = "unknown1")
+      j3_obj = Judge.objects.get(name = "unknown2")
+    else:
+      j1 = tp.judge(j1)
+      j2 = tp.judge(j2)
+      j3 = tp.judge(j3)
+      j1_obj = check_judge_existence_or_create(j1, dryrun)
+      j2_obj = check_judge_existence_or_create(j2, dryrun)
+      j3_obj = check_judge_existence_or_create(j3, dryrun)
+    aff_team = check_team_existence_or_create(aff, tourny, aff_name, dryrun)
+    neg_team = check_team_existence_or_create(neg, tourny, neg_name, dryrun)
+    try:
+      round = ElimRound.objects.get(aff_team=aff_team, neg_team=neg_team,
+                               tournament=tourny)
+      print "already made round"
+    except:
+      print aff + " v. " + neg
+      round_obj = ElimRound(aff_team=aff_team, neg_team=neg_team, 
+                        round_num=round_num)
+      round_obj.association = association
+      if not dryrun:
+        if round_num >= tourny.breaks_to:
+          print "********************************", round_num
+          tourny.breaks_to = round_num
+          tourny.save()
+        round_obj.save()
+
+        if winloss == "Aff":
+          round_obj.winner = aff_team
+          round_obj.loser = neg_team
+          round_obj.aff_votes.add(j1_obj)
+          round_obj.aff_votes.add(j2_obj)
+          round_obj.aff_votes.add(j3_obj)
+        elif winloss == "Neg":
+          round_obj.winner = neg_team
+          round_obj.loser = aff_team
+          round_obj.neg_votes.add(j1_obj)
+          round_obj.neg_votes.add(j2_obj)
+          round_obj.neg_votes.add(j3_obj)
+
+        round_obj.tournament.add(tourny)
+        round_obj.judge.add(j1_obj)
+        round_obj.judge.add(j2_obj)
+        round_obj.judge.add(j3_obj)
+        round_obj.save()
+        print "round made"
   except:
-    print aff + " v. " + neg
-    round_obj = ElimRound(aff_team=aff_team, neg_team=neg_team, 
-                      round_num=round_num)
-    round_obj.association = association
-    if winloss == "Aff":
-      round_obj.winner = aff_team
-      round_obj.loser = neg_team
-      round_obj.aff_votes.add(j1_obj)
-      round_obj.aff_votes.add(j2_obj)
-      round_obj.aff_votes.add(j3_obj)
-    elif winloss == "Neg":
-      round_obj.winner = neg_team
-      round_obj.loser = aff_team
-      round_obj.neg_votes.add(j1_obj)
-      round_obj.neg_votes.add(j2_obj)
-      round_obj.neg_votes.add(j3_obj)
-    if not dryrun:
-      if round_num > tourny.breaks_to:
-        tourny.breaks_to = round_num
-        tourn.save()
-      round_obj.save()
-      round_obj.tournament.add(tourny)
-      round_obj.judge.add(j1_obj)
-      round_obj.judge.add(j2_obj)
-      round_obj.judge.add(j3_obj)
-      print "round made"
+    "there was an error"
 
 def enter_tournament_round(url, tournament, round_num, indexes, dryrun=True):
   round_num = int(round_num)

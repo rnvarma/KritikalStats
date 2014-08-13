@@ -5,7 +5,7 @@ from rest_framework import status
 from django.http import Http404
 from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer, ElimRoundSerializer
 from api.models import Team, Tournament, Round, Judge, ElimRound, Seed
-from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
+from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round, initialize_bracket
 from api.scraper import TabroomScraper, EntryScraper, PairingScraper, PrelimResultScraper
 from api.merge_teams import merge_teams
 from api.update_win_percents import update_win_percents
@@ -547,6 +547,9 @@ class TournamentBracket(APIView):
   def get(self, request, pk, format=None):
     result_data = {}
     tourny = Tournament.objects.get(tournament_name=pk)
+    if not tourny.bracket_list:
+      initialize_bracket(pk)
+    print tourny.bracket_list
     bracket_list = eval(tourny.bracket_list)
     seeds = tourny.seeds.all()
     seed_list = SeedView.process_seed_list(seeds)
