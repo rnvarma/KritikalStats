@@ -1,5 +1,5 @@
 
-sub_pages = ["Dashboard", "Main", "Entries", "Elims"];
+sub_pages = ["Dashboard", "Prelims", "Entries", "Elims"];
 
 function create_tournament_div(tourn_data) {
 	var t_name_text = tourn_data["tournament_name"];
@@ -119,7 +119,13 @@ $(document).ready(function () {
     	url: kritstats.urls.tournament_query,
     	contentType: 'application/json',
     	success: function (data) {
-    		load_tournaments_in_sidebar(data);
+    		real_data = [];
+            for (var i = 0; i<data.length; i++){
+        		if (data[i].association != 'UDL'){
+          			real_data.push(data[i])
+        		}
+      		}
+    		load_tournaments_in_sidebar(real_data);
     		click_handlers();
     	}
     })

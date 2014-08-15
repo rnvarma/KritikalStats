@@ -21,8 +21,10 @@ function tournamentQueryAndSet() {
     	}); 
     	addToTournamentList(null); 
       for (i = 0; i < data.length; i++) {
-        setTournament(data[i]); 
-        addToTournamentList(data[i]); 
+      	if (data[i].association != "UDL") {
+          setTournament(data[i]); 
+          addToTournamentList(data[i]); 
+        }
       }
     },
     error: function(a , b, c){

@@ -66,7 +66,7 @@ class PairingScraper(TabroomScraper):
     table_data = self.table_data
     self.aff_list = [row[aff_index] for row in table_data]
     self.neg_list = [row[neg_index] for row in table_data]
-    self.judge_list = [tp.judge(row[judge_index]) for row in table_data]
+    self.judge_list = [row[judge_index] for row in table_data]
     self.processed_data = zip(self.aff_list, self.neg_list, self.judge_list)
     return self.processed_data
 
@@ -92,8 +92,8 @@ class PrelimResultScraper(TabroomScraper):
     for aff, neg, decision in self.processed_data:
       print aff + " | " + neg + " | " + decision
 
-a = PairingScraper("https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2891&round_id=83645", "GDI")
+# a = PairingScraper("https://www.tabroom.com/index/tourn/postings/round.mhtml?tourn_id=2891&round_id=83645", "GDI")
 
-tp = TextProcessor()
-a.process_pairings(2,3,4)
-a.print_processed_data()
+# tp = TextProcessor()
+# a.process_pairings(2,3,4)
+# a.print_processed_data()

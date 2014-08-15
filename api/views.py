@@ -5,7 +5,8 @@ from rest_framework import status
 from django.http import Http404
 from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer, ElimRoundSerializer
 from api.models import Team, Tournament, Round, Judge, ElimRound, Seed
-from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round
+from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round, initialize_bracket
+from api.scraper import TabroomScraper, EntryScraper, PairingScraper, PrelimResultScraper
 from api.merge_teams import merge_teams
 from api.update_win_percents import update_win_percents
 from django.shortcuts import render, redirect
@@ -251,10 +252,11 @@ class RoundCreate(APIView):
 
   @classmethod
   def enter_round(cls, data):
-    tname = data['tname'][0]
-    round_url = data['round_url'][0]
-    round_num = data['round_num'][0]
-    enter_tournament_round(round_url, tname, round_num)
+    tname = data['tname[]'][0]
+    round_url = data['round_url[]'][0]
+    round_num = data['round_num[]'][0]
+    indexes = data['indexes[]']
+    enter_tournament_round(round_url, tname, round_num, indexes)
 
   @classmethod
   def entre_complete_tourn_rounds(cls, data):
@@ -269,15 +271,14 @@ class RoundCreate(APIView):
     enter_completed_tournament(round_one_url, tname, num_prelims)
 
   def post(self, request, format = None):
-    if not request.DATA.get("status", False):
-      return Response("No tournament status inputed",
-                status=status.HTTP_403_FORBIDDEN)
     req_data = dict(request.DATA)
-    if req_data['status'][0] != 'complete':
-      RoundCreate.enter_round(req_data)
+    if req_data["status"][0] == "first":
+      TS = TabroomScraper(req_data["round_url"][0], req_data["tname"][0])
+      top_row = TS.table_data[0]
+      return Response({"top_row": top_row, "round_url": req_data["round_url"], "t_name": req_data["tname"], "r_num": req_data["round_num"]})
     else:
-      RoundCreate.entre_complete_tourn_rounds(req_data)
-    return render(request, 'homepage.html')
+      RoundCreate.enter_round(req_data)
+      return Response({"processed": "success"})
 
 class JudgeList(APIView):
 
@@ -546,6 +547,9 @@ class TournamentBracket(APIView):
   def get(self, request, pk, format=None):
     result_data = {}
     tourny = Tournament.objects.get(tournament_name=pk)
+    if not tourny.bracket_list:
+      initialize_bracket(pk)
+    print tourny.bracket_list
     bracket_list = eval(tourny.bracket_list)
     seeds = tourny.seeds.all()
     seed_list = SeedView.process_seed_list(seeds)

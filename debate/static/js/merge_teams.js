@@ -28,8 +28,8 @@ function load_click_handlers(team1, team2) {
 	        }
 	    }
 	    return cookieValue;
-	}
-	var csrftoken = getCookie('csrftoken');
+	  }
+	  var csrftoken = getCookie('csrftoken');
   	$.ajax({
       type: 'POST',
       url: kritstats.urls.similarteams,
