@@ -8,7 +8,10 @@
   	  <div class = "panel-body">
         <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
           <h1>{{ tournament }} Prelims</h1>
-        </div>
+          <div id = "prelims-search" class = "col-xs-12 col-md-5 col-lg-4 col-sm-6 pull-right"> 
+            <input type = "text" id = "prelims-search-box"> </input > 
+            <input type = "button" id = "submit-prelims-search" value = "Search"> </input> 
+          </div>
       </div>
   	</section>
   </div>
@@ -19,8 +22,8 @@
   	<section class = "panel">
   	  <div class = "panel-body" style="height:70%; overflow: scroll;">
   	  	<section id = "flip-scroll">
-  	  	<table class = "table table-bordered table-condensed cf">
-  	  	  <thead class = "cf">
+  	  	<table class = "table table-bordered table-condensed cf" id = "prelims-table">
+          <thead class = "cf">
   	  	  	<tr class = "main_table_header">
   	  	  	  <th data-type = "team_code" class = "sortable-table-header main-header unsorted">Team Code</th>
   	  	  	  <th data-type = "wl" class = "sortable-table-header main-header unsorted" style="white-space: nowrap;">W - L</th>
