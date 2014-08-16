@@ -1,8 +1,14 @@
 
 selection_attributes = {"teama": "teamb", "teamb": "judge", "judge": "finished"};
-selection_msgs = {"teamb": "Click on the column with the Neg team!",
+prelim_selection_msgs = {"teamb": "Click on the column with the Neg team!",
                   "judge": "Click on the column with the judge!",
                   "finished": "Click on the button below to submit!"};
+elim_selection_msgs = {"teamb": "Click on the column with the second team!",
+                  "judge": "Click on the column with the judges!",
+                  "finished": "Click on the button below to submit!"};
+
+
+var selection_msgs, r_type;
 
 elim_round_choices = [{"label": "Double-Octofinals", "value": 32},
                       {"label": "Octofinals", "value": 16},
@@ -67,43 +73,74 @@ function create_submit_handler(data) {
   	if ($(".choosecol-table").attr("data-cur-selection") != "finished") {
   	  $(".choosecol-msg").text($(".choosecol-msg").text() + "!");
   	} else {
-  	  var aff = Number($(".choosecol-store").attr("data-teama"));
-  	  var neg = Number($(".choosecol-store").attr("data-teamb"));
-  	  var judge = Number($(".choosecol-store").attr("data-judge"));
-  	  var indexes = [aff, neg, judge];
-  	  p_data = {"tname": data["t_name"],
-                "round_num": data["r_num"],
-                "round_url": data["round_url"],
-                "status": "second",
-                "indexes": indexes}
-      var csrftoken = getCookie('csrftoken');
-      $.ajax({
-        type: 'POST',
-        url: kritstats.urls.base + "1/create/round",
-        data: p_data,
-        beforeSend: function (xhr) {
-          xhr.withCredentials = true;
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        },
-        success: function (response_data) {
-          window.location.href = kritstats.urls.base + "admin/modifydashboard/" + data["t_name"];
-        },
-        error: function(a , b, c){
-          console.log('There is an error in create round api');
-        },
-        async: true
-      });
+      if (r_type == "prelim") {
+    	  var aff = Number($(".choosecol-store").attr("data-teama"));
+    	  var neg = Number($(".choosecol-store").attr("data-teamb"));
+    	  var judge = Number($(".choosecol-store").attr("data-judge"));
+    	  var indexes = [aff, neg, judge];
+    	  p_data = {"tname": data["t_name"],
+                  "round_num": data["r_num"],
+                  "round_url": data["round_url"],
+                  "status": "second",
+                  "indexes": indexes,
+                  "r_type": r_type}
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+          type: 'POST',
+          url: kritstats.urls.base + "1/create/round",
+          data: p_data,
+          beforeSend: function (xhr) {
+            xhr.withCredentials = true;
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          },
+          success: function (response_data) {
+            window.location.href = kritstats.urls.base + "admin/modifydashboard/" + data["t_name"];
+          },
+          error: function(a , b, c){
+            console.log('There is an error in create round api');
+          },
+          async: true
+        });
+      } else {
+        var aff = Number($(".choosecol-store").attr("data-teama"));
+        var neg = Number($(".choosecol-store").attr("data-teamb"));
+        var judge = Number($(".choosecol-store").attr("data-judge"));
+        var indexes = [aff, neg, judge];
+        p_data = {"tname": data["t_name"],
+                  "round_num": data["r_num"],
+                  "round_url": data["round_url"],
+                  "status": "second",
+                  "indexes": indexes,
+                  "r_type": r_type}
+        var csrftoken = getCookie('csrftoken');
+        $.ajax({
+          type: 'POST',
+          url: kritstats.urls.base + "1/create/round",
+          data: p_data,
+          beforeSend: function (xhr) {
+            xhr.withCredentials = true;
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+          },
+          success: function (response_data) {
+            window.location.href = kritstats.urls.base + "admin/modifydashboard/" + data["t_name"];
+          },
+          error: function(a , b, c){
+            console.log('There is an error in create round api');
+          },
+          async: true
+        });
+      }
     }
   })
 }
 
 $(document).ready(function() {
-  var r_type = $(".create-round-type").attr("data-round-type");
-  // if (r_type == "elim") {
-  //   $("#input_round_num").autocomplete({
-  //     source: elim_round_choices
-  //   });
-  // }
+  r_type = $(".create-round-type").attr("data-round-type");
+  if (r_type == "prelim")  {
+    selection_msgs = prelim_selection_msgs;
+  }  else {
+    selection_msgs = elim_selection_msgs;
+  }
   $(".createround-submit").click(function() {
   	var t_name = $("#input_tname").val();
   	var url = $("#input_url").val();

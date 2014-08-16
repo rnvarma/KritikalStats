@@ -65,7 +65,11 @@
   <div class = "choosecol-status" data-status = "nodata">
   <section class="panel">
     <div class="panel-heading">
-      <h3 class = "choosecol-msg">Click on the column with the Aff team!</h3>
+      {% if round_type == 'prelim' %}
+        <h3 class = "choosecol-msg">Click on the column with the Aff team!</h3>
+      {% else %}
+        <h3 class = "choosecol-msg">Click on the column with the first team!</h3>
+      {% endif %}
     </div>
     <div class="panel-body">
         <table class = "table general-table choosecol-table" data-cur-selection="teama">
