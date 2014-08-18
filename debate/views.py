@@ -44,6 +44,10 @@ def elims_page(request, tournament):
 	return render(request, 'elims_main.html', {'tournament': tournament,
 		'user': request.user})
 
+def judge_page(request, id):
+    return render(request, 'judge.html', {'judge_id': id, 'user': request.user})
+
+
 ##### ADMIN VIEWS #####
 
 def admin_login_page(request):

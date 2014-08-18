@@ -6,6 +6,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^', include('api.urls')),
     url(r'^team/(?P<id>[A-Za-z0-9-_]+)/*$', 'debate.views.team_page'),
+    url(r'^judge/(?P<id>[A-Za-z0-9-_]+)/*$', 'debate.views.judge_page'),
     url(r'^round/(?P<id>[A-Za-z0-9-_]+/*$)', 'debate.views.round_page'),
     url(r'^elim_round/(?P<id>[A-Za-z0-9-_]+/*$)', 'debate.views.elim_round_page'),
     url(r'^(?P<tournament>[A-Za-z0-9-_]+)/Dashboard/?$', 'debate.views.dashboard_page'),

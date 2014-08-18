@@ -19,15 +19,21 @@ function calculate_elim_round(round_num) {
 function load_round_page(data, round_id, round_type) {
   if (round_type == "elim_round") {
     var r_num = " " + calculate_elim_round(data.round_num);
+    for (var i = 0; i < data.judge.length; i ++) {
+      var judge = data.judge[i];
+      $(".judge_name-" + (i + 1)).text(judge.judge_name);
+      $(".judge-link-" + (i + 1)).attr("href", "/judge/" + judge.judge_id);
+    }
   } else {
     var r_num = " Round " + data.round_num;
+    $(".judge_name").text("Judge: " + data.judge);
+    $(".judge-link").attr("href", "/judge/" + data.judge_id);
   }
   $(".round_header").text(data.tournament + r_num);
   $(".aff_team_code").text(data.aff_code);
   $('.aff_team_code').attr('id', data.aff_id);
   $(".neg_team_code").text(data.neg_code);
   $('.neg_team_code').attr('id', data.neg_id);
-  $(".judge_name").text("Judge: " + data.judge);
   if (data.winner == data.aff_id) {
   	$(".aff-panel").addClass("bg-success");
   	$(".neg-panel").addClass("bg-danger");

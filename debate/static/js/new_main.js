@@ -4,7 +4,7 @@ var data_keys = []
 // for search 
 function contains(original, filter) { 
   var check = original.toLowerCase(); 
-  return check.indexOf(filter) != -1; 
+  return check.indexOf(filter.toLowerCase()) != -1; 
 }
 
 function load_click_handlers(data) {

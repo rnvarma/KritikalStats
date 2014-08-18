@@ -26,6 +26,7 @@
 .team-row{
 	color: black;
 	font-weight: 700;
+	cursor: pointer;
 }
 
 .blue-bg {

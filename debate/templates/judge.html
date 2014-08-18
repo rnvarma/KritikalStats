@@ -1,0 +1,25 @@
+{% extends 'new_base.html' %}
+
+{% block content %}
+
+{% load staticfiles %}
+
+<div class = "row">
+  <div class = "col-sm-12 col-xs-12">
+  	<section class = "panel">
+  	  <div class = "panel-body profile-information">
+  	  	<div class = "col-xs-12 col-sm-8 col-md-8 col-lg-8">
+  	  	  <div class = "profile-desk">
+  	  	    <h1 class = "judge_name"></h1>
+  	  	  </div>
+  	  	</div>
+  	  </div>
+  	</section>
+  </div>
+</div>
+
+<div class = "judge_id_hidden" data-id = "{{ judge_id }}"></div>
+
+<script src="{% static 'js/judge.js' %}"></script>
+
+{% endblock %}

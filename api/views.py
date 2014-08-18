@@ -120,6 +120,7 @@ class TournamentRounds(APIView):
       new_round["round_num"] = round["round_num"]
       new_round["round_id"] = round["id"]
       new_round["judge"] = judge
+      new_round["judge_id"] = round["judge"][0]
       new_list.append(new_round)
     return new_list
 
@@ -153,8 +154,11 @@ class TournamentRounds(APIView):
         win, lose = "undecided", "undecided"
       judges = []
       for judge_id in round["judge"]:
-        judge = Judge.objects.get(id = judge_id).name
-        judges.append(judge)
+        judge = Judge.objects.get(id = judge_id)
+        judge_obj = {}
+        judge_obj["judge_name"] = judge.name 
+        judge_obj["judge_id"] = judge_id
+        judges.append(judge_obj)
       aff_votes = []
       neg_votes = []
       for vote in round_model.aff_votes.all():
@@ -330,6 +334,27 @@ class JudgeList(APIView):
     judges = Judge.objects.all()
     serializer = JudgeSerializer(judges, many=True)
     return Response(serializer.data)
+
+class JudgeView(APIView):
+
+  @classmethod
+  def process_judge(cls, judge_data):
+    result = {}
+    result["name"] = judge_data["name"]
+    return result
+
+  def get(self, request, pk, format=None):
+    judge = Judge.objects.get(id=pk)
+    return_data = {}
+    judge_serialize = JudgeSerializer(judge)
+    prelims = RoundSerializer(judge.rounds.all())
+    elims = ElimRoundSerializer(judge.elim_rounds.all())
+    return_data["judge_data"] = JudgeView.process_judge(judge_serialize.data)
+    return_data["prelim_rounds"] = TournamentRounds.process_rounds(prelims.data)
+    return_data["elim_rounds"] = TournamentRounds.process_elim_rounds(elims.data)
+    return Response(return_data)
+
+
 
 class RoundData(APIView):
 
