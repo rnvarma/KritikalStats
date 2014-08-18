@@ -225,7 +225,11 @@ class TournamentPrelims(APIView):
         result[round['aff_code']]['prelims'].append(round)
       if round['neg_code'] != "BYE":
         result[round['neg_code']]['prelims'].append(round)
-    return result
+    real_result = {}
+    real_result["data"] = result
+    real_result["curr_rounds"] = tourny.curr_rounds
+    real_result["prelims"] = tourny.prelims
+    return real_result
 
   def get(self, request, pk, format=None):
     tourny = Tournament.objects.get(tournament_name=pk)
@@ -574,7 +578,15 @@ class SeedView(APIView):
         team_code_list.add(team.team_code)
       for team in neg_teams:
         team_code_list.add(team.team_code)
-      return list(team_code_list)
+      final_list = []
+      for team in team_code_list:
+        team = Team.objects.get(team_code = team)
+        if team.team.all():
+          seed = team.team.all()[0].number
+        else:
+          seed = "unknown"
+        final_list.append({"code": team.team_code, "id": team.id, "seed": seed})
+      return final_list
     else:
       return {"data": "no_breaks_yet"}
 

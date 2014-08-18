@@ -85,3 +85,7 @@ def admin_elim_round(request, tournament, round_num):
 def updatewinloss(request):
 	return render(request, 'updatewinloss.html', {'user': request.user})
 
+@login_required(login_url = '/adminlogin')
+def load_assignseeds(request, tournament):
+	return render(request, 'assignseeds.html', {'tournament': tournament, 'user': request.user})
+

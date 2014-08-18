@@ -308,7 +308,7 @@ function generateMain(first, filter_val) {
 
 
 $(document).ready(function () {
-  var searchButton = document.getElementById("submit-prelims-search"); 
-  searchButton.onclick = function (event) { generateMain(false, document.getElementById("prelims-search-box").value);};
+  var searchInput = document.getElementById("prelims-search-box"); 
+  searchInput.onclick = function (event) { generateMain(false, document.searchInput.value);};
   generateMain(true, ""); 
 }); 

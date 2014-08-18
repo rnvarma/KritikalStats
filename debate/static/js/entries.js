@@ -127,10 +127,6 @@ function generateEntries(first, filter_val) {
     },
     async: true
   });
-
-
-
-
 }
 
 

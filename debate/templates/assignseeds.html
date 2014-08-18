@@ -1,0 +1,44 @@
+{% extends 'admin_base.html' %}
+
+{% block content %}
+{% load staticfiles %}
+
+<div class="row">
+  <div class = "col-md-12 col-xs-12">
+    <div class = "panel">
+      <div class = "panel-heading">
+        <h1>Assign {{ tournament }} Seeds</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class = "col-md-offset-3 col-lg-offset-3 col-sm-offset-2 col-sm-8 col-md-6 col-xs-12">
+    <div class = "panel">
+      <div class = "panel-body">
+        <table class = "seed-table table table-hover general-table">
+          <thead>
+          	<tr>
+          	  <th>Team Code</th>
+          	  <th>Seed</th>
+          	</tr>
+          </thead>
+          <tbody class ="seed-table-body">
+          </tbody>
+        </table>
+        <div class ="form-group">
+        <div class="">
+          <button class="col-md-6 col-md-offset-3 col-xs-12 btn btn-danger assignseeds-submit">Submit!</button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class = "hidden_tournament" data-tournament = "{{tournament}}"></div>
+
+<script src="{% static 'js/assign_seeds.js' %}"></script>
+
+{% endblock %}
