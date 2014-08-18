@@ -51,10 +51,22 @@ class TextProcessor:
       i += 1
     return map(self.judge, judge_list)
 
+  @classmethod
+  def remove_aff_neg_from_code(cls, name):
+    parts = name.split()
+    if "aff" in parts:
+      del parts[parts.index("aff")]
+    if "neg" in parts:
+      del parts[parts.index("neg")]
+    return " ".join(parts)
+
+
   def team_code(self, name):
+    name = name.lower()
     if name.find("&") > 1:
       first_names, last_names = name.split()[:-3], name.split()[-3:]
       name = " ".join(first_names) + " " + last_names[0][0] + last_names[2][0]
+    name = TextProcessor.remove_aff_neg_from_code(name)
     parts = name.split()
     last_names = parts[-1]
     school = parts[:-1]

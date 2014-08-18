@@ -5,7 +5,7 @@ from rest_framework import status
 from django.http import Http404
 from api.serializers import TeamSerializer, TournamentSerializer, RoundSerializer, JudgeSerializer, ElimRoundSerializer
 from api.models import Team, Tournament, Round, Judge, ElimRound, Seed
-from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round, initialize_bracket
+from api.database import enter_team_list, enter_completed_tournament, enter_tournament_round, initialize_bracket, enter_tournament_elim_round
 from api.scraper import TabroomScraper, EntryScraper, PairingScraper, PrelimResultScraper
 from api.merge_teams import merge_teams
 from api.update_win_percents import update_win_percents
@@ -121,6 +121,7 @@ class TournamentRounds(APIView):
       new_round["round_num"] = round["round_num"]
       new_round["round_id"] = round["id"]
       new_round["judge"] = judge
+      new_round["judge_id"] = round["judge"][0]
       new_list.append(new_round)
     return new_list
 
@@ -154,8 +155,11 @@ class TournamentRounds(APIView):
         win, lose = "undecided", "undecided"
       judges = []
       for judge_id in round["judge"]:
-        judge = Judge.objects.get(id = judge_id).name
-        judges.append(judge)
+        judge = Judge.objects.get(id = judge_id)
+        judge_obj = {}
+        judge_obj["judge_name"] = judge.name 
+        judge_obj["judge_id"] = judge_id
+        judges.append(judge_obj)
       aff_votes = []
       neg_votes = []
       for vote in round_model.aff_votes.all():
@@ -203,6 +207,39 @@ class TeamRoundsFetch(APIView):
     data["neg"] = TournamentRounds.process_rounds(neg_serializer.data)
     data["t_name"] = tourn_name
     return Response(data)
+
+class TournamentPrelims(APIView):
+
+  @classmethod
+  def get_entries(cls, entries, tourny):
+    result = {}
+    for entry in entries:
+      team_data = {}
+      team_data["code"] = entry.team_code
+      team_data["t_id"] = entry.id
+      # aff_rounds = RoundSerializer(entry.aff_rounds.filter(tournament = tourny))
+      # neg_rounds = RoundSerializer(entry.neg_rounds.filter(tournament = tourny))
+      # aff_rounds.data.extend(neg_rounds.data)
+      team_data["prelims"] = [] # TournamentRounds.process_rounds(aff_rounds.data)
+      # result.append(team_data)
+      result[entry.team_code] = team_data
+    rounds = RoundSerializer(tourny.rounds.all())
+    rounds = TournamentRounds.process_rounds(rounds.data)
+    for round in rounds:
+      if round['aff_code'] != "BYE":
+        result[round['aff_code']]['prelims'].append(round)
+      if round['neg_code'] != "BYE":
+        result[round['neg_code']]['prelims'].append(round)
+    real_result = {}
+    real_result["data"] = result
+    real_result["curr_rounds"] = tourny.curr_rounds
+    real_result["prelims"] = tourny.prelims
+    return real_result
+
+  def get(self, request, pk, format=None):
+    tourny = Tournament.objects.get(tournament_name=pk)
+    result_data = TournamentPrelims.get_entries(tourny.entries.all(), tourny)
+    return Response(result_data)
 
 class TeamElimRoundsFetch(APIView):
 
@@ -266,6 +303,14 @@ class RoundCreate(APIView):
     make_tweet(tname + ' Round ' + round_num)
 
   @classmethod
+  def enter_elim_round(cls, data):
+    tname = data['tname[]'][0]
+    round_url = data['round_url[]'][0]
+    round_num = data['round_num[]'][0]
+    indexes = data['indexes[]']
+    enter_tournament_elim_round(round_url, tname, round_num, indexes)
+
+  @classmethod
   def entre_complete_tourn_rounds(cls, data):
     tname = data['tname'][0]
     tourn_obj = Tournament.objects.get(tournament_name=tname)
@@ -284,7 +329,10 @@ class RoundCreate(APIView):
       top_row = TS.table_data[0]
       return Response({"top_row": top_row, "round_url": req_data["round_url"], "t_name": req_data["tname"], "r_num": req_data["round_num"]})
     else:
-      RoundCreate.enter_round(req_data)
+      if req_data["r_type"][0] == "prelim":
+        RoundCreate.enter_round(req_data)
+      else:
+        RoundCreate.enter_elim_round(req_data)
       return Response({"processed": "success"})
 
 class JudgeList(APIView):
@@ -293,6 +341,27 @@ class JudgeList(APIView):
     judges = Judge.objects.all()
     serializer = JudgeSerializer(judges, many=True)
     return Response(serializer.data)
+
+class JudgeView(APIView):
+
+  @classmethod
+  def process_judge(cls, judge_data):
+    result = {}
+    result["name"] = judge_data["name"]
+    return result
+
+  def get(self, request, pk, format=None):
+    judge = Judge.objects.get(id=pk)
+    return_data = {}
+    judge_serialize = JudgeSerializer(judge)
+    prelims = RoundSerializer(judge.rounds.all())
+    elims = ElimRoundSerializer(judge.elim_rounds.all())
+    return_data["judge_data"] = JudgeView.process_judge(judge_serialize.data)
+    return_data["prelim_rounds"] = TournamentRounds.process_rounds(prelims.data)
+    return_data["elim_rounds"] = TournamentRounds.process_elim_rounds(elims.data)
+    return Response(return_data)
+
+
 
 class RoundData(APIView):
 
@@ -541,7 +610,15 @@ class SeedView(APIView):
         team_code_list.add(team.team_code)
       for team in neg_teams:
         team_code_list.add(team.team_code)
-      return list(team_code_list)
+      final_list = []
+      for team in team_code_list:
+        team = Team.objects.get(team_code = team)
+        if team.team.all():
+          seed = team.team.all()[0].number
+        else:
+          seed = "unknown"
+        final_list.append({"code": team.team_code, "id": team.id, "seed": seed})
+      return final_list
     else:
       return {"data": "no_breaks_yet"}
 

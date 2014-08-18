@@ -34,16 +34,19 @@ def check_team_existence_or_create(name, tourny, team_name="enter_names", dryrun
     teams = Team.objects.filter(team_code = name)
     # check to make sure that the team is actually entered
     # this is to solve when a team is in rounds but wasnt on the entries page
-    team = None
-    for the_team in teams:
-      if the_team.team_name == team_name:
-        team = the_team
-        break
-    if not team:
-      team = Team(team_code = name, team_name= team_name)
-      if not dryrun:
-        team.save()
-        team.tournaments.add(tourny)
+    if len(teams) > 1:
+      team = None
+      for the_team in teams:
+        if team_name != "enter_names" and the_team.team_name == team_name:
+          team = the_team
+          break
+      if not team:
+        team = Team(team_code = name, team_name= team_name)
+        if not dryrun:
+          team.save()
+          team.tournaments.add(tourny)
+    else:
+      team = teams[0]
     if tourny not in Tournament.objects.filter(entries__id=team.id):
       team.tournaments.add(tourny)
     return team

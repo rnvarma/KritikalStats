@@ -197,8 +197,8 @@ function isRecent(tournament) {
 	var today = new Date();
 	var one_week_ahead = new Date();
 	var three_weeks_back = new Date(); 
-	one_week_ahead.setDate(today.getDate() + 7); 
-	three_weeks_back.setDate(today.getDate() - 21); 
+	one_week_ahead.setDate(today.getDate() + 8); 
+	three_weeks_back.setDate(today.getDate() - 22); 
 	one_week_ahead = constructDateString(one_week_ahead); 
 	three_weeks_back = constructDateString(three_weeks_back); 
 	today = constructDateString(today); 

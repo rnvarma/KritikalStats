@@ -15,14 +15,18 @@
 	cursor: pointer;
 }
 
+.team-code:hover {
+	color: #AB070F;
+}
+
 .table {
 	font-size: small;
 }
 
 .team-row{
-	cursor: pointer;
 	color: black;
 	font-weight: 700;
+	cursor: pointer;
 }
 
 .blue-bg {
@@ -31,6 +35,18 @@
 
 .mainpage-round {
 	cursor: pointer;
+}
+
+.round-won:hover {
+	color: white;
+}
+
+.round-loss:hover {
+	color: white;
+}
+
+.round-undecided:hover {
+	color: #AB070F;
 }
 
 .team_tourn_round {
@@ -401,6 +417,22 @@
 }
 
 .entry_search_bar:focus {
+	border-radius: 30px;
+	border-color: #AB070F;
+}
+
+.prelims-search-box {
+	width: 100%;
+	margin-top: 14px;
+	font-size: 17px;
+	padding: 8px;
+	padding-left: 35px;
+	border-radius: 10px;
+	border: 1px solid #A4AEBC;
+	color: #555361;
+}
+
+.prelims-search-box:focus {
 	border-radius: 30px;
 	border-color: #AB070F;
 }

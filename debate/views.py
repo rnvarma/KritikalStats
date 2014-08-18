@@ -50,6 +50,10 @@ def elims_page(request, tournament):
 	return render(request, 'elims_main.html', {'tournament': tournament,
 		'user': request.user})
 
+def judge_page(request, id):
+    return render(request, 'judge.html', {'judge_id': id, 'user': request.user})
+
+
 ##### ADMIN VIEWS #####
 
 def admin_login_page(request):
@@ -90,4 +94,8 @@ def admin_elim_round(request, tournament, round_num):
 @login_required(login_url = '/adminlogin')
 def updatewinloss(request):
 	return render(request, 'updatewinloss.html', {'user': request.user})
+
+@login_required(login_url = '/adminlogin')
+def load_assignseeds(request, tournament):
+	return render(request, 'assignseeds.html', {'tournament': tournament, 'user': request.user})
 
