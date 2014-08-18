@@ -66,6 +66,10 @@
 	font-size: 200%;
 }
 
+.judge_row_year:hover{
+	cursor:pointer;
+}
+
 .archive_row:hover{
 	cursor:pointer;
 }

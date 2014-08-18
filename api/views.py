@@ -339,8 +339,13 @@ class JudgeList(APIView):
 
   def get(self, request, format=None):
     judges = Judge.objects.all()
-    serializer = JudgeSerializer(judges, many=True)
-    return Response(serializer.data)
+    result_data = []
+    for judge in judges:
+      judge_data = {}
+      judge_data["name"] = judge.name
+      judge_data["j_id"] = judge.id
+      result_data.append(judge_data)
+    return Response(result_data)
 
 class JudgeView(APIView):
 

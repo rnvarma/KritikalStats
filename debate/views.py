@@ -27,8 +27,8 @@ def udl_main(request):
 def feedback_page(request):
 	return render(request, 'feedback.html', {'user': request.user})
 
-def judge_page(request):
-	return render(request, 'judge.html', {'user': request.user})
+def main_judge_page(request):
+	return render(request, 'judge_list.html', {'user': request.user})
 
 def about_page(request):
 	print request.user
