@@ -4,7 +4,6 @@ from api.models import Tournament, Team, Round, Judge, ElimRound, Seed
 from api.text_processor import TextProcessor
 from api.bracket import BracketList
 from api.scraper import TabroomScraper, EntryScraper, PairingScraper, PrelimResultScraper
-import csv
 
 """
 TODO: create tool to remove duplicate rounds (requires a little thinking)

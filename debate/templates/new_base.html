@@ -48,12 +48,13 @@
         <!-- <ul class = "nav pull-right top-menu"> -->
             <!-- <li> -->
             <div class = "row">
-                <div class = "pull-right top-menu btn-group col-xs-8 col-sm-4 col-md-4 col-lg-2">
+                <div class = "pull-right top-menu btn-group col-xs-8 col-sm-8 col-md-8 col-lg-8">
                     <a class ="btn about-btn pull-right" href="/about">About</a>
                     {% if user.is_authenticated %}
                     <a class ="btn about-btn pull-right" href="/admin">{{user}}</a>
                     {% else %}
                     <a class="btn about-btn pull-right" href="/admin">Login</a>
+                    <a class="btn about-btn pull-right" href="/feedback">Feedback</a>
                     {% endif %}
                 </div>
             </div><!-- 
@@ -81,9 +82,15 @@
                 </a>
             </li>
             <li>
-                <a class="active" href="/archived">
+                <a class="active" href="/tournaments">
                     <i class="fa fa-archive"></i>
-                    <span class = "sb-tab">Archive</span>
+                    <span class = "sb-tab">Tournaments</span>
+                </a>
+            </li>
+            <li>
+                <a class="active" href="/judges">
+                    <i class="fa fa-lightbulb-o"></i>
+                    <span class = "sb-tab">Judges</span>
                 </a>
             </li>
             </ul>

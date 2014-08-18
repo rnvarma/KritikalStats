@@ -11,6 +11,7 @@ from api.merge_teams import merge_teams
 from api.update_win_percents import update_win_percents
 from django.shortcuts import render, redirect
 from django.db.models import Q
+from api.twitter import make_tweet
 
 import Levenshtein
 
@@ -239,6 +240,9 @@ class TournamentCreate(APIView):
                        curr_rounds=curr_rounds)
     tourn.save()
 
+    # makes tweet
+    make_tweet(name)
+
   def post(self, request, format = None):
     if not request.DATA.get('name', False):
       return Response("No tournament data inputed",
@@ -257,6 +261,9 @@ class RoundCreate(APIView):
     round_num = data['round_num[]'][0]
     indexes = data['indexes[]']
     enter_tournament_round(round_url, tname, round_num, indexes)
+
+    # makes tweet
+    make_tweet(tname + ' Round ' + round_num)
 
   @classmethod
   def entre_complete_tourn_rounds(cls, data):
