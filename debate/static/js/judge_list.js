@@ -1,8 +1,10 @@
+var judge_list_data;
+
 function create_judge(judges) {
   name = judges.name
   id = judges.j_id
   var name_row = document.createElement("tr");
-  name_row.className = "judge_row_year";
+  name_row.className = "judge_row_year judge-" + id;
   name_row.setAttribute("judge-id", id);
   
   var name_td = document.createElement("td");
@@ -28,12 +30,27 @@ function judge_table_populate(data) {
   
 }
 
+function contains(original, filter) { 
+  var check = original.toLowerCase(); 
+  return check.indexOf(filter.toLowerCase()) != -1; 
+}
+
+function filter_results(query) {
+  $(".judge_row_year").hide();
+  for (var i = 0; i < judge_list_data.length; i ++) {
+    if (contains(judge_list_data[i].name, query)) {
+      $(".judge-" + judge_list_data[i].j_id).show();
+    }
+  }
+}
+
 $(document).ready(function () {
   $.ajax({
     type: 'GET',
     url: kritstats.urls.base + "1/judges/list",
     contentType: 'application/json',
     success: function (data) {
+      judge_list_data = data;
       judge_table_populate(data);
     },
     error: function(a , b, c){
@@ -41,4 +58,6 @@ $(document).ready(function () {
     },
     async: true
   });
+  var searchInput = document.getElementsByClassName("judges-search-box")[0]; 
+  searchInput.oninput = function (event) { filter_results(event.target.value);};
 })
