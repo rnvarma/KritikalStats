@@ -66,6 +66,10 @@
 	font-size: 200%;
 }
 
+.judge_row_year:hover{
+	cursor:pointer;
+}
+
 .archive_row:hover{
 	cursor:pointer;
 }
@@ -433,6 +437,22 @@
 }
 
 .prelims-search-box:focus {
+	border-radius: 30px;
+	border-color: #AB070F;
+}
+
+.judges-search-box {
+	width: 100%;
+	margin-top: 14px;
+	font-size: 17px;
+	padding: 8px;
+	padding-left: 35px;
+	border-radius: 10px;
+	border: 1px solid #A4AEBC;
+	color: #555361;
+}
+
+.judges-search-box:focus {
 	border-radius: 30px;
 	border-color: #AB070F;
 }

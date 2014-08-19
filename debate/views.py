@@ -24,6 +24,12 @@ def archived(request):
 def udl_main(request):
 	return render(request, 'UDL_main.html', {'user': request.user})
 
+def feedback_page(request):
+	return render(request, 'feedback.html', {'user': request.user})
+
+def main_judge_page(request):
+	return render(request, 'judge_list.html', {'user': request.user})
+
 def about_page(request):
 	print request.user
 	return render(request, 'about.html', {'user': request.user})

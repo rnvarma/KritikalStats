@@ -1,0 +1,60 @@
+{% extends 'new_base.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<div class = "row">
+  <div class = "col-xs-12 col-md-12 col-sm-12 col-lg-12">
+    <section class = "panel">
+      <div class = "panel-body">
+        <h1 style = "text-align: center;">Feedback</h1>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col-xs-12 col-md-12 col-sm-12 col-lg-12">
+    <section class = "panel">
+      <div class = "panel-body">
+        <div class = "col-xs-12 col-md-8 col-sm-12 col-lg-8 col-md-offset-2 col-lg-offset-2 col-md-offset-2">
+          <div class = "chat-conversation">
+            <ul class="conversation-list">
+              <li class = "clearfix">
+                <div class = "chat-avatar">
+                  <img src="http://bucketadmin.themebucket.net/images/chat-user-thumb.png">
+                  <i>10:00</i>
+                </div>
+                <div class = "conversation-text">
+                  <div class="ctext-wrap">
+                    <i> Gary Lin</i>
+                    <p>
+                    Hello!
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li class = "clearfix">
+                <div class = "chat-avatar">
+                  <img src="http://bucketadmin.themebucket.net/images/chat-user-thumb.png">
+                  <i>10:00</i>
+                </div>
+                <div class = "conversation-text">
+                  <div class="ctext-wrap">
+                    <i> Gary Lin</i>
+                    <p>
+                    You guys are so fucking sick its ridiculous, cash money honey.
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+{% endblock %}
