@@ -114,6 +114,11 @@ function create_round(round_data, elim, tbody) {
   tr.appendChild(two_nr_div);
 
   tbody.appendChild(tr);
+  $(".team_tourn_round").click(function () {
+    var id = $(this).attr("data-round_id");
+    var url = kritstats.urls.base + "round/" + id;
+    window.location.href = url;
+  })
 }
 
 function create_tournament_rounds(prelims, elims, tournament, judge_id) {
