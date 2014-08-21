@@ -426,6 +426,8 @@ function createOneRound(tournament, rd_type, divNum, divHeight, div_to_fill) {
 
 function generateElims(first, filter_val) { 
   var tournament = $(".elims_hidden").attr("data-tournament");
+  $(".tourn-page-header").text(tournament + " Elims");
+  $(".btn-bracket").addClass("tourn-button-active");
   var filter = filter_val.toLowerCase(); 
   $.ajax({
       type: 'GET',

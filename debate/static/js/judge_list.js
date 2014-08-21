@@ -1,8 +1,8 @@
 var judge_list_data;
 
-function create_judge(judges) {
-  name = judges.name
-  id = judges.j_id
+function create_judge(data) {
+  name = data.name
+  id = data.j_id
   var name_row = document.createElement("tr");
   name_row.className = "judge_row_year judge-" + id;
   name_row.setAttribute("judge-id", id);
@@ -11,7 +11,22 @@ function create_judge(judges) {
   var judge_name = document.createTextNode(name);
   name_td.appendChild(judge_name);
 
+  var rounds_td = document.createElement("td");
+  var rounds_text = document.createTextNode(data.num_rounds.toString())
+  rounds_td.appendChild(rounds_text);
+
+  var aff_td = document.createElement("td");
+  var aff_text = document.createTextNode(data.aff_b + "%");
+  aff_td.appendChild(aff_text)
+
+  var neg_td = document.createElement("td");
+  var neg_text = document.createTextNode(data.neg_b + "%");
+  neg_td.appendChild(neg_text);
+
   name_row.appendChild(name_td);
+  name_row.appendChild(rounds_td);
+  name_row.appendChild(aff_td);
+  name_row.appendChild(neg_td);
   return name_row;
 }
 

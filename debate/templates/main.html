@@ -1,23 +1,16 @@
 {% extends 'tournament_base.html' %}
 
-{% block tourney_content %}
+{% block search_box %}
 
-<div class = "row">
-  <div class = "col-sm-12 col-xs-12">
-  	<section class = "panel">
-  	  <div class = "panel-body">
-        <div class = "col-xs-12 col-sm-6 col-md-4 col-lg-3 pull-left">
-          <h1>{{ tournament }} Prelims</h1>
-        </div>
-        <div id = "prelims-search" class = "col-xs-12 col-md-5 col-lg-4 col-sm-6 pull-right"> 
-          <input type = "text" class = "prelims-search-box" id = "prelims-search-box" placeholder="Search for a Prelim Round">
-            <i class = "fa fa-search search-icon"></i>
-          </input > 
-        </div>
-      </div>
-  	</section>
-  </div>
+<div id = "prelims-search" class = "col-xs-12 col-md-4 col-lg-4 col-sm-12 pull-right"> 
+  <input type = "text" class = "prelims-search-box tourn-search-bar" id = "prelims-search-box" placeholder="Search for a Prelim Round">
+    <i class = "fa fa-search tourn-search-icon"></i>
+  </input > 
 </div>
+
+{% endblock %}
+
+{% block tourney_content %}
 
 <div class = "row">
   <div class = "col-sm-12 col-xs-12">

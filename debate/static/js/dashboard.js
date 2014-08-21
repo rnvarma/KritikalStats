@@ -149,7 +149,8 @@ $(document).ready(function () {
   tournament = document.URL;
   tournament = tournament.split('/');
   tournament = tournament[tournament.length-2];
-
+  $(".tourn-page-header").text(tournament + " Dashboard");
+  $(".btn-dashboard").addClass("tourn-button-active");
   $.ajax({
       type: 'GET',
       url: kritstats.urls.tournament_query,

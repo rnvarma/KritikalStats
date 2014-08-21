@@ -181,6 +181,8 @@ function filter_results(query) {
 
 function generateMain() { 
   var t_name = $("#tournament_hidden").attr("data-tournament");
+  $(".tourn-page-header").text(t_name + " Prelims");
+  $(".btn-main").addClass("tourn-button-active");
   $.ajax({
     type: 'GET',
     url: kritstats.urls.base + "1/tournament/" + t_name + "/prelims/",

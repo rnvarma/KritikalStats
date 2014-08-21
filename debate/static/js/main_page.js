@@ -257,6 +257,7 @@ function generateMain(first, filter_val) {
   displayed_entries = []; 
 
   var t_name = $("#tournament_hidden").attr("data-tournament");
+  $(".tourn-page-header").text(t_name + " Prelims");
   var filter = filter_val.toLowerCase(); 
   $.ajax({
     type: 'GET',

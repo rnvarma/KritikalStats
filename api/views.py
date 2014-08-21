@@ -344,6 +344,9 @@ class JudgeList(APIView):
       judge_data = {}
       judge_data["name"] = judge.name
       judge_data["j_id"] = judge.id
+      judge_data["aff_b"] = judge.aff_percent
+      judge_data["neg_b"] = judge.neg_percent
+      judge_data["num_rounds"] = len(judge.rounds.all()) + len(judge.elim_rounds.all())
       result_data.append(judge_data)
     return Response(result_data)
 
