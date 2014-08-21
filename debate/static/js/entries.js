@@ -65,7 +65,6 @@ function load_click_handlers(entries_data, filter) {
     }
     for (var j = 0; j < rows.length; j++) {
       var obj = rows[j];
-      console.log(obj);
       $(obj["row-class"]).appendTo($(".entries_table"));
     }
   })
