@@ -353,6 +353,8 @@ class JudgeView(APIView):
   def process_judge(cls, judge_data):
     result = {}
     result["name"] = judge_data["name"]
+    result["aff_b"] = judge_data["aff_percent"]
+    result["neg_b"] = judge_data["neg_percent"]
     return result
 
   def get(self, request, pk, format=None):

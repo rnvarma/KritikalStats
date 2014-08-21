@@ -84,9 +84,9 @@ class TextProcessor:
 
 
 
-tp = TextProcessor()
+# tp = TextProcessor()
 
-print tp.judge(" Ayannna T.    Crocket")
+# print tp.judge(" Ayannna T.    Crocket")
 
 
 
