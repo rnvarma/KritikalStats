@@ -1,3 +1,12 @@
+.udl_table_header:hover {
+	cursor: pointer;
+	color: #AB070F;
+}
+
+.archived_table_header_column:hover {
+	cursor: pointer;
+	color: #AB070F;
+}
 
 .entry_row:hover {
 	cursor: pointer;
@@ -25,6 +34,7 @@
 
 .judge_table_header:hover {
 	cursor: pointer;
+	color: #AB070F;
 }
 
 .team-row{
