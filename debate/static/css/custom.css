@@ -1,3 +1,6 @@
+.archived_table_header_column:hover {
+	cursor: pointer;
+}
 
 .entry_row:hover {
 	cursor: pointer;
