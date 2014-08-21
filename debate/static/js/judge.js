@@ -328,8 +328,13 @@ function add_tab_click_handler(t_name) {
   })
 }
 
-function generateJudgePage(data, id) { 
+function generateJudgePage(data, id) {
+  var rounds_judged = data.prelim_rounds.length + data.elim_rounds.length;
   $(".judge_name").text(data.judge_data.name); 
+  $(".rounds_judged").text(rounds_judged);
+  $(".elim_rounds_judged").text(data.elim_rounds.length)
+  $(".aff_bias").text(data.judge_data.aff_b + "%");
+  $(".neg_bias").text(data.judge_data.neg_b + "%");
   generate_tournaments(data, id); 
 
 

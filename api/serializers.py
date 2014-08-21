@@ -18,7 +18,7 @@ class TeamSerializer(serializers.ModelSerializer):
 class JudgeSerializer(serializers.ModelSerializer):
   class Meta:
   	model = Judge
-  	fields = ('name', 'paradigm', 'school')
+  	fields = ('name', 'paradigm', 'school', 'aff_percent', 'neg_percent')
 
 class RoundSerializer(serializers.ModelSerializer):
   class Meta:
