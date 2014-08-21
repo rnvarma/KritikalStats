@@ -2,6 +2,7 @@ function create_archive(tournament_data) {
   var tournament_name = tournament_data.tournament_name
   var tourney_row = document.createElement("tr");
   tourney_row.className = "archive_row";
+  tourney_row.className += " row-" + tournament_name;
   tourney_row.setAttribute("tourney-id", tournament_name);
   
   var tourney_td = document.createElement("td");
@@ -35,6 +36,44 @@ function archive_table_populate(data) {
 
 }
 
+function load_click_handlers(data){
+  $(".udl_table_header").click(function(){
+    $(".udl_table_header").not(this).removeClass("forward").removeClass("backward").addClass("unsorted");
+    if ($(this).hasClass("backward")) {
+      var order = "forward";
+      $(this).removeClass("backward").addClass("forward");
+    }
+    else {
+      var order = "backward";
+      $(this).removeClass("forward").addClass("backward");
+    }
+    var sort_by = $(this).attr("data-type");
+    var rows = [];
+    for (var i = 0; i < data.length; i ++){
+      var row = {};
+      var tournament = data[i];
+      row["data"] = tournament[sort_by]
+      row["row-class"] = ".row-" + tournament['tournament_name'];
+      rows.push(row);
+    }
+    if (order == "forward") {
+      rows.sort(function(a,b){
+        return a.data < b.data ? 1 : -1 ;
+      })
+    }
+    else {
+      rows.sort(function(a,b){
+        return a.data > b.data ? 1 : -1;
+      })
+    }
+    for (var j = 0; j< rows.length; j++){
+      var obj = rows[j];
+      $(obj['row-class']).appendTo($(".udl_table_body"));
+    }
+
+  })
+}
+
 $(document).ready(function () {
   $.ajax({
     type: 'GET',
@@ -48,6 +87,7 @@ $(document).ready(function () {
         }
       }
       archive_table_populate(real_data);
+      load_click_handlers(data);
     },
     error: function(a , b, c){
       console.log('There is an error in quering for ' + tournament + ' in archive_tournament.js');
