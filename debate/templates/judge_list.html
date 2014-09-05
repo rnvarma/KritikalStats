@@ -6,12 +6,14 @@
   <div class = "col-sm-12 col-xs-12">
   	<section class = "panel">
   	  <div class = "panel-body">
-  	  	<div class = "hidden-xs col-sm-8 col-md-5 col-lg-5 pull-left">
-          <h1>UDL</h1>
+  	  	<div class = "col-xs-12 col-sm-6 col-md-4 col-lg-3 pull-left">
+          <h1>Judges</h1>
         </div>
-        <div class = "col-xs-11 hidden-sm hidden-md hidden-lg pull-left">
-          <h2>UDL</h2>
-        </div>
+        <div id = "judges-search" class = "col-xs-12 col-md-5 col-lg-4 col-sm-6 pull-right"> 
+          <input type = "text" class = "judges-search-box" placeholder="Search for a Judge">
+            <i class = "fa fa-search search-icon"></i>
+          </input > 
+        </div> 
   	  </div>
   	</section>
   </div>
@@ -24,12 +26,14 @@
   	  	<section id = "flip-scroll">
   	  	<table class = "table  table-hover general-table">
   	  	  <thead class = "cf">
-  	  	  	<tr class = "archived_table_header">
-  	  	  	  <th class="unsorted udl_table_header backward" data-type = "tournament_name">Urban Debate League Tournaments</th>
-              <th class="unsorted udl_table_header" data-type = "start_date">Dates</th>
+  	  	  	<tr class = "judge_table_header unsorted" data-type = "name">
+  	  	  	  <th>Name</th>
+              <th>Rounds Judged</th>
+              <th>Aff Bias</th>
+              <th>Neg Bias</th>
   	  	  	</tr>
   	  	  </thead>
-  	  	  <tbody class = "udl_table_body">
+  	  	  <tbody class = "judge_name">
   	  	  </tbody>
   	  	</table>
   	  </section>
@@ -40,6 +44,6 @@
 
 
 {% load staticfiles %}
-<script src="{% static 'js/udl.js' %}"></script>
+<script src="{% static 'js/judge_list.js' %}"></script>
 
 {% endblock %}

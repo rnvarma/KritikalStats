@@ -1,7 +1,10 @@
+var tournaments_shown = []
+
 function create_archive(tournament_data) {
   var tournament_name = tournament_data.tournament_name
   var tourney_row = document.createElement("tr");
   tourney_row.className = "archive_row";
+  tourney_row.className += " row-" + tournament_name;
   tourney_row.setAttribute("tourney-id", tournament_name);
   
   var tourney_td = document.createElement("td");
@@ -32,6 +35,7 @@ function archive_table_populate(data, year) {
     if (start_year == first_year){
       var month = parseInt(start_date.substring(4,6));
       if (month>=7){
+        tournaments_shown.push(data[i])
         var archived_tourney = create_archive(data[i]);
         table.appendChild(archived_tourney);
       }
@@ -39,6 +43,7 @@ function archive_table_populate(data, year) {
     else if (start_year == second_year){
       var month = parseInt(start_date.substring(4,6));
       if (month<=6){
+        tournaments_shown.push(data[i])
         var archived_tourney = create_archive(data[i]);
         table.appendChild(archived_tourney);
       }
@@ -51,6 +56,45 @@ function archive_table_populate(data, year) {
     window.location.href = url;
   })
 
+}
+
+function load_click_handlers(){
+  $(".archived_table_header_column").click(function(){
+    $(".archived_table_header_column").not(this).removeClass("forward").removeClass("backward").addClass("unsorted");
+    if ($(this).hasClass("backward")) {
+      var order = "forward";
+      $(this).removeClass("backward").addClass("forward");
+    }
+    else {
+      var order = "backward";
+      $(this).removeClass("forward").addClass("backward");
+    }
+    var sort_by = $(this).attr("data-type");
+    var rows = [];
+    console.log(tournaments_shown)
+    for (var i = 0; i < tournaments_shown.length; i++){
+      var row = {};
+      var tournament = tournaments_shown[i];
+      row["data"] = tournament[sort_by];
+      row["row-class"] = ".row-" + tournament['tournament_name'];
+      rows.push(row);
+    }
+    if (order == "forward") {
+      rows.sort(function(a,b){
+        return a.data < b.data ? 1 : -1 ;
+      })
+    }
+    else {
+      rows.sort(function(a,b){
+        return a.data > b.data ? 1 : -1;
+      })
+    }
+    for (var j = 0; j< rows.length; j++){
+      var obj = rows[j];
+      $(obj['row-class']).appendTo($(".archives_table"));
+    }
+
+  })
 }
 
 $(document).ready(function () {
@@ -67,6 +111,7 @@ $(document).ready(function () {
         }
       }
       archive_table_populate(real_data, year);
+      load_click_handlers();
     },
     error: function(a , b, c){
       console.log('There is an error in quering for ' + tournament + ' in archive_tournament.js');

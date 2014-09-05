@@ -24,6 +24,12 @@ def archived(request):
 def udl_main(request):
 	return render(request, 'UDL_main.html', {'user': request.user})
 
+def feedback_page(request):
+	return render(request, 'feedback.html', {'user': request.user})
+
+def main_judge_page(request):
+	return render(request, 'judge_list.html', {'user': request.user})
+
 def about_page(request):
 	print request.user
 	return render(request, 'about.html', {'user': request.user})
@@ -43,6 +49,10 @@ def entries_page(request, tournament):
 def elims_page(request, tournament):
 	return render(request, 'elims_main.html', {'tournament': tournament,
 		'user': request.user})
+
+def judge_page(request, id):
+    return render(request, 'judge.html', {'judge_id': id, 'user': request.user})
+
 
 ##### ADMIN VIEWS #####
 
@@ -84,4 +94,8 @@ def admin_elim_round(request, tournament, round_num):
 @login_required(login_url = '/adminlogin')
 def updatewinloss(request):
 	return render(request, 'updatewinloss.html', {'user': request.user})
+
+@login_required(login_url = '/adminlogin')
+def load_assignseeds(request, tournament):
+	return render(request, 'assignseeds.html', {'tournament': tournament, 'user': request.user})
 

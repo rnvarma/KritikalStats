@@ -65,7 +65,6 @@ function load_click_handlers(entries_data, filter) {
     }
     for (var j = 0; j < rows.length; j++) {
       var obj = rows[j];
-      console.log(obj);
       $(obj["row-class"]).appendTo($(".entries_table"));
     }
   })
@@ -113,7 +112,8 @@ function generateEntries(first, filter_val) {
   displayed_entries = []; 
   var filter = filter_val.toLowerCase(); 
   var tourn_name = $(".entries_hidden").attr("data-tournament")
-
+  $(".tourn-page-header").text(tourn_name + " Entries");
+  $(".btn-entries").addClass("tourn-button-active");
   $.ajax({
     type: 'GET',
     url: kritstats.urls.base + "1/tournament/" + tourn_name + '/entries/',
@@ -127,10 +127,6 @@ function generateEntries(first, filter_val) {
     },
     async: true
   });
-
-
-
-
 }
 
 

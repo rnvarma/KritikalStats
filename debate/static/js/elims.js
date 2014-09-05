@@ -219,9 +219,9 @@ function fill_elim_page(elim_data, filter){
     if (!include) { 
       if (contains(elim_data[i].aff_code, filter) ||
           contains(elim_data[i].neg_code, filter) ||
-          contains(elim_data[i].judge[0], filter) ||
-          contains(elim_data[i].judge[1], filter) ||
-          contains(elim_data[i].judge[2], filter)) { 
+          contains(elim_data[i].judge[0].judge_name, filter) ||
+          contains(elim_data[i].judge[1].judge_name, filter) ||
+          contains(elim_data[i].judge[2].judge_name, filter)) { 
 
         include = true; 
       }
@@ -258,15 +258,15 @@ function fill_elim_page(elim_data, filter){
           var td_text = document.createTextNode(elim_data[i].neg_code);
         }
         else if (row_headers[j] == 'Judge1'){
-          var td_text = document.createTextNode(elim_data[i].judge[0]);
+          var td_text = document.createTextNode(elim_data[i].judge[0].judge_name);
           add_judge_background(elim_data[i], td, 0);
         }
         else if (row_headers[j] == 'Judge2'){
-          var td_text = document.createTextNode(elim_data[i].judge[1]);
+          var td_text = document.createTextNode(elim_data[i].judge[1].judge_name);
           add_judge_background(elim_data[i], td, 1);
         }
         else if (row_headers[j] == 'Judge3'){
-          var td_text = document.createTextNode(elim_data[i].judge[2]);
+          var td_text = document.createTextNode(elim_data[i].judge[2].judge_name);
           add_judge_background(elim_data[i], td, 2);
         }
         else if (row_headers[j] == '1AC'){
@@ -300,13 +300,13 @@ function is_in(item, list) {
 
 
 function add_judge_background(elim_data, td, j_num) {
-  if (is_in(elim_data.judge[j_num], elim_data.aff_votes)) {
+  if (is_in(elim_data.judge[j_num].judge_name, elim_data.aff_votes)) {
     if (elim_data.aff_id == elim_data.winner){
       td.className += " bg-success";
     } else {
       td.className += " bg-danger";
     }
-  } else if (is_in(elim_data.judge[j_num], elim_data.neg_votes)) {
+  } else if (is_in(elim_data.judge[j_num].judge_name, elim_data.neg_votes)) {
     if (elim_data.aff_id == elim_data.winner){
       td.className += " bg-danger";
     } else {
@@ -426,6 +426,8 @@ function createOneRound(tournament, rd_type, divNum, divHeight, div_to_fill) {
 
 function generateElims(first, filter_val) { 
   var tournament = $(".elims_hidden").attr("data-tournament");
+  $(".tourn-page-header").text(tournament + " Elims");
+  $(".btn-bracket").addClass("tourn-button-active");
   var filter = filter_val.toLowerCase(); 
   $.ajax({
       type: 'GET',

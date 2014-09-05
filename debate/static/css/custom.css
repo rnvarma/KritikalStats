@@ -1,3 +1,12 @@
+.udl_table_header:hover {
+	cursor: pointer;
+	color: #AB070F;
+}
+
+.archived_table_header_column:hover {
+	cursor: pointer;
+	color: #AB070F;
+}
 
 .entry_row:hover {
 	cursor: pointer;
@@ -15,14 +24,23 @@
 	cursor: pointer;
 }
 
+.team-code:hover {
+	color: #AB070F;
+}
+
 .table {
 	font-size: small;
 }
 
-.team-row{
+.judge_table_header:hover {
 	cursor: pointer;
+	color: #AB070F;
+}
+
+.team-row{
 	color: black;
 	font-weight: 700;
+	cursor: pointer;
 }
 
 .blue-bg {
@@ -31,6 +49,18 @@
 
 .mainpage-round {
 	cursor: pointer;
+}
+
+.round-won:hover {
+	color: white;
+}
+
+.round-loss:hover {
+	color: white;
+}
+
+.round-undecided:hover {
+	color: #AB070F;
 }
 
 .team_tourn_round {
@@ -50,6 +80,10 @@
 	font-size: 200%;
 }
 
+.judge_row_year:hover{
+	cursor:pointer;
+}
+
 .archive_row:hover{
 	cursor:pointer;
 }
@@ -58,94 +92,22 @@
 	cursor:pointer;
 }
 
-.btn-entries{
-	background-color: #5cb85c;
-	border-color: #5cb85c;
-	color: #FFFFFF;
+.tourn-btn{
+	color: #32323A;
 	padding: 10px 20px;
 	font-size:150%;
+	border-radius: 0;
 }
 
-.btn-main{
-	background-color: #9466b5;
-	border-color: #9466b5;
-	color: #FFFFFF;
-	padding: 10px 20px;
-	font-size:150%;
+.tourn-button-active {
+	color: white;
+	background-color: #AB070F;
 }
 
-.btn-dashboard{
-	background-color: #57c8f1;
-	border-color: #57c8f1;
-	color: #FFFFFF;
-	padding: 10px 20px;
-	font-size:150%;
+.tourn-btn:hover{
+	background-color: #F3F3F3;
+	border-color: #F3F3F3;
 }
-
-.btn-bracket{
-	background-color:  #FB607F;
-	border-color:  #FB607F;
-	color: #FFFFFF;
-	padding: 10px 20px;
-	font-size:150%;
-}
-
-.btn-entries-xs{
-	background-color: #5cb85c;
-	border-color: #5cb85c;
-	color: #FFFFFF;
-	padding: 10px 20px;
-	font-size:100%;
-}
-
-.btn-main-xs{
-	background-color: #9466b5;
-	border-color: #9466b5;
-	color: #FFFFFF;
-	padding: 10px 20px;
-	font-size:100%;
-}
-
-.btn-dashboard-xs{
-	background-color: #57c8f1;
-	border-color: #57c8f1;
-	color: #FFFFFF;
-	padding: 10px 20px;
-	font-size:100%;
-}
-
-.btn-bracket-xs{
-	background-color:  #FB607F;
-	border-color:  #FB607F;
-	color: #FFFFFF;
-	padding: 10px 20px;
-	font-size:100%;
-}
-
-.btn-entries:hover{
-	background-color: #32B141;
-	border-color: #32B141;
-	color: #FFFFFF;
-}
-
-.btn-main:hover{
-	background-color: #9457EB;
-	border-color: #9457EB;
-	color: #FFFFFF;
-}
-
-.btn-dashboard:hover{
-	background-color:  #00BFFF;
-	border-color:  #00BFFF;
-	color: #FFFFFF;
-}
-
-.btn-bracket:hover{
-	background-color:  #E75480;
-	border-color:  #E75480;
-	color: #FFFFFF;
-}
-
 
 .bracket { 
 	height:85%;
@@ -389,7 +351,24 @@
 	position: relative;
 }
 
-.entry_search_bar {
+.tourn-search-bar {
+	width: 100%;
+	margin-top: 4px;
+	font-size: 17px;
+	padding: 8px;
+	padding-left: 35px;
+	border-radius: 10px;
+	border: 1px solid #A4AEBC;
+	color: #555361;
+}
+
+.tourn-search-bar:focus {
+	border-radius: 30px;
+	border-color: #AB070F;
+}
+
+
+.judges-search-box {
 	width: 100%;
 	margin-top: 14px;
 	font-size: 17px;
@@ -400,7 +379,7 @@
 	color: #555361;
 }
 
-.entry_search_bar:focus {
+.judges-search-box:focus {
 	border-radius: 30px;
 	border-color: #AB070F;
 }
@@ -411,4 +390,33 @@
 	font-size: 20px;
 	color: #AB070F;
 	left: 25;
+}
+
+.tourn-search-icon {
+	position: absolute;
+	top: 15;
+	font-size: 20px;
+	color: #AB070F;
+	left: 25;
+}
+
+.admin-header {
+    display: inline-block;
+    text-align: center;
+    vertical-align:middle;
+    background-image:none;
+    border: 1px solid transparent;
+    font-size:30px;
+    color:#f69200;
+}
+
+.tourn-page-header {
+	display: inline-block;
+	padding-left: 15px;
+    text-align: center;
+    vertical-align:middle;
+    background-image:none;
+    border: 1px solid transparent;
+    font-size:30px;
+    color:#f69200;
 }

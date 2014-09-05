@@ -4,7 +4,6 @@ from api.models import Tournament, Team, Round, Judge, ElimRound, Seed
 from api.text_processor import TextProcessor
 from api.bracket import BracketList
 from api.scraper import TabroomScraper, EntryScraper, PairingScraper, PrelimResultScraper
-import csv
 
 """
 TODO: create tool to remove duplicate rounds (requires a little thinking)
@@ -35,16 +34,19 @@ def check_team_existence_or_create(name, tourny, team_name="enter_names", dryrun
     teams = Team.objects.filter(team_code = name)
     # check to make sure that the team is actually entered
     # this is to solve when a team is in rounds but wasnt on the entries page
-    team = None
-    for the_team in teams:
-      if the_team.team_name == team_name:
-        team = the_team
-        break
-    if not team:
-      team = Team(team_code = name, team_name= team_name)
-      if not dryrun:
-        team.save()
-        team.tournaments.add(tourny)
+    if len(teams) > 1:
+      team = None
+      for the_team in teams:
+        if team_name != "enter_names" and the_team.team_name == team_name:
+          team = the_team
+          break
+      if not team:
+        team = Team(team_code = name, team_name= team_name)
+        if not dryrun:
+          team.save()
+          team.tournaments.add(tourny)
+    else:
+      team = teams[0]
     if tourny not in Tournament.objects.filter(entries__id=team.id):
       team.tournaments.add(tourny)
     return team
@@ -274,3 +276,24 @@ def enter_UDL_tournaments(t_list):
       end_date = str(int(start_date) + 3)
       tourny = Tournament(tournament_name=name, start_date=start_date, end_date=end_date, prelims = int(num_prelims), association = "UDL")
       tourny.save()
+
+def calculate_judge_win_percents(dryrun=True):
+  for judge in Judge.objects.all():
+    total_rounds = 0
+    aff_votes = 0
+    neg_votes = 0
+    for round in judge.rounds.all():
+      if round.winner and round.winner != "undecided":
+        total_rounds += 1
+        if round.winner.id == round.aff_team.id:
+          aff_votes += 1
+        else:
+          neg_votes += 1
+    if total_rounds:
+      aff_b = int(100 * (float(aff_votes)/total_rounds))
+      neg_b = 100 - aff_b
+      judge.aff_percent = aff_b
+      judge.neg_percent = neg_b
+      if not dryrun:
+        judge.save()
+      print aff_b, neg_b

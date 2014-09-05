@@ -1,26 +1,24 @@
 {% extends 'tournament_base.html' %}
 
-{% block content %}
+{% block search_box %}
 
-<div class = "row">
-  <div class = "col-sm-12 col-xs-12">
-  	<section class = "panel">
-  	  <div class = "panel-body">
-        <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <h1>{{ tournament }} Prelims</h1>
-        </div>
-      </div>
-  	</section>
-  </div>
+<div id = "prelims-search" class = "col-xs-12 col-md-4 col-lg-4 col-sm-12 pull-right"> 
+  <input type = "text" class = "prelims-search-box tourn-search-bar" id = "prelims-search-box" placeholder="Search for a Prelim Round">
+    <i class = "fa fa-search tourn-search-icon"></i>
+  </input > 
 </div>
+
+{% endblock %}
+
+{% block tourney_content %}
 
 <div class = "row">
   <div class = "col-sm-12 col-xs-12">
   	<section class = "panel">
   	  <div class = "panel-body" style="height:70%; overflow: scroll;">
   	  	<section id = "flip-scroll">
-  	  	<table class = "table table-bordered table-condensed cf">
-  	  	  <thead class = "cf">
+  	  	<table class = "table table-bordered table-condensed cf" id = "prelims-table">
+          <thead class = "cf">
   	  	  	<tr class = "main_table_header">
   	  	  	  <th data-type = "team_code" class = "sortable-table-header main-header unsorted">Team Code</th>
   	  	  	  <th data-type = "wl" class = "sortable-table-header main-header unsorted" style="white-space: nowrap;">W - L</th>
@@ -39,7 +37,7 @@
 <div id="tournament_hidden" data-tournament = "{{tournament}}"></div>
 
 {% load staticfiles %}
-<script src="{% static 'js/main_page.js' %}"></script>
+<script src="{% static 'js/new_main.js' %}"></script>
 <script src="{% static 'js/tournament_page.js' %}"></script>
 
 {% endblock %}
