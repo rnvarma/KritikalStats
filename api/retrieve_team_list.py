@@ -1,9 +1,12 @@
 import urllib2, json
 from bs4 import BeautifulSoup
 
+from api.text_processor import TextProcessor
 from process_names import process_judges_name, process_team_code, proccess_special_case
 
 URL = "https://www.tabroom.com/index/tourn/fields.mhtml?tourn_id=2891"
+
+tp = TextProcessor()
 
 def is_number(s):
   try:
@@ -43,7 +46,7 @@ def get_info_from_text(text):
     index = 0  
     for i in xrange(len(text)):
         if ((i-3) % 4) == 0:
-            code.append(proccess_special_case(text[i]))
+            code.append(tp.team_code(text[i]))
         elif ((i-2) % 4) == 0:
             name.append(text[i])
     return code, name

@@ -16,7 +16,7 @@ def enter_team_list(url, tournament, dryrun=True):
   team_list = get_team_list(url)
   tourny = Tournament.objects.get(tournament_name = tournament)
   for (code, names) in team_list:
-    code = proccess_special_case(code)
+    code = tp.team_code(code)
     try:
       team = Team.objects.get(team_code = code)
       if team.team_name != names:
