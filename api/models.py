@@ -51,10 +51,10 @@ class Round(models.Model):
   loser = models.ForeignKey(Team, related_name="losses", blank=True, null=True)
   judge = models.ManyToManyField(Judge, related_name="rounds")
   round_num = models.IntegerField()
-  one_ac = models.ManyToManyField('OneAC', related_name = "rounds_read")
-  one_nc = models.ManyToManyField('NegArgument', related_name = "one_nc_rounds")
-  block = models.ManyToManyField('NegArgument', related_name = "block_rounds")
-  two_nr = models.ManyToManyField('NegArgument', related_name = "two_nr_rounds")
+  one_ac = models.ManyToManyField('OneAC', related_name = "rounds_read", blank=True, null=True)
+  one_nc = models.ManyToManyField('NegArgument', related_name = "one_nc_rounds", blank=True, null=True)
+  block = models.ManyToManyField('NegArgument', related_name = "block_rounds", blank=True, null=True)
+  two_nr = models.ManyToManyField('NegArgument', related_name = "two_nr_rounds", blank=True, null=True)
   association = models.CharField(max_length=100, blank=True, default='')
 
 class ElimRound(models.Model):
@@ -67,10 +67,10 @@ class ElimRound(models.Model):
   aff_votes = models.ManyToManyField(Judge, related_name="aff_elim_votes")
   neg_votes = models.ManyToManyField(Judge, related_name="neg_elim_votes")
   round_num = models.IntegerField()
-  one_ac = models.ManyToManyField('OneAC', related_name = "elim_rounds_read")
-  one_nc = models.ManyToManyField('NegArgument', related_name = "one_nc_elim_rounds")
-  block = models.ManyToManyField('NegArgument', related_name = "block_elim_rounds")
-  two_nr = models.ManyToManyField('NegArgument', related_name = "two_nr_elim_rounds")
+  one_ac = models.ManyToManyField('OneAC', related_name = "elim_rounds_read", blank=True, null=True)
+  one_nc = models.ManyToManyField('NegArgument', related_name = "one_nc_elim_rounds", blank=True, null=True)
+  block = models.ManyToManyField('NegArgument', related_name = "block_elim_rounds", blank=True, null=True)
+  two_nr = models.ManyToManyField('NegArgument', related_name = "two_nr_elim_rounds", blank=True, null=True)
   association = models.CharField(max_length=100, blank=True, default='')
 
 class Seed(models.Model):
