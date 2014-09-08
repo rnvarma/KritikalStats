@@ -41,6 +41,8 @@ def check_team_existence_or_create(name, tourny, team_name="enter_names", dryrun
           team = the_team
           break
       if not team:
+        return teams[0]
+      if not team:
         team = Team(team_code = name, team_name= team_name)
         if not dryrun:
           team.save()
@@ -70,7 +72,7 @@ def check_judge_existence_or_create(name, dryrun):
 
 def enter_bye_round(team_code, tournament, round_num, dryrun=True):
   tourny = Tournament.objects.get(tournament_name = tournament)
-  team = check_team_existence_or_create(team_code, tourny, dryrun)
+  team = check_team_existence_or_create(team_code, tourny, "enter_names", dryrun)
   bye_team = Team.objects.get(team_code = "BYE")
   judge = Judge.objects.get(name = "Ghandi")
   round_obj = Round(aff_team = team, neg_team = bye_team, round_num = round_num, winner = team)
@@ -92,8 +94,8 @@ def enter_individual_round(tournament, association, round_num, aff_code, neg_cod
     neg = tp.team_code(neg_code)
     judge_name = tp.judge(judge_name)
     # print aff + " | " + neg + " | " + judge_name
-    aff_team = check_team_existence_or_create(aff, tourny, aff_name, dryrun)
-    neg_team = check_team_existence_or_create(neg, tourny, neg_name, dryrun)
+    aff_team = check_team_existence_or_create(aff, tourny, aff_name,"enter_names", dryrun)
+    neg_team = check_team_existence_or_create(neg, tourny, neg_name, "enter_names", dryrun)
     judge_obj = check_judge_existence_or_create(judge_name, dryrun)
     try:
       # print aff + " v. " + neg
@@ -224,12 +226,19 @@ def enter_tournament_elim_round(url, tournament, round_num, indexes, dryrun=True
   for (aff, neg, judges) in scraper.processed_data:
     aff = tp.team_code(aff)
     neg = tp.team_code(neg)
-    judge1_name, judge2_name, judge3_name = tp.judge(judges)
+    if judges:
+      judge1_name, judge2_name, judge3_name = tp.judge(judges)
     aff_team = check_team_existence_or_create(aff, tourny, dryrun)
     neg_team = check_team_existence_or_create(neg, tourny, dryrun)
-    judge1_obj = check_judge_existence_or_create(judge1_name, dryrun)
-    judge2_obj = check_judge_existence_or_create(judge2_name, dryrun)
-    judge3_obj = check_judge_existence_or_create(judge3_name, dryrun)
+    if judges:
+      judge1_obj = check_judge_existence_or_create(judge1_name, dryrun)
+      judge2_obj = check_judge_existence_or_create(judge2_name, dryrun)
+      judge3_obj = check_judge_existence_or_create(judge3_name, dryrun)
+    else:
+      judge1_name = judge2_name = judge3_name = "Ghandi"
+      judge1_obj = Judge.objects.get(name="Ghandi")
+      judge2_obj = Judge.objects.get(name="unknown1")
+      judge3_obj = Judge.objects.get(name="unknown2")
     try:
       round = ElimRound.objects.get(aff_team=aff_team, neg_team=neg_team,
                                tournament=tourny)
