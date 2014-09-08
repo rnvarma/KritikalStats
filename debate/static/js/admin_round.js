@@ -139,7 +139,7 @@ function make_elim_modal(r_data, table_class) {
 
   var judge = document.createElement("div");
   judge.className = "col-md-2 col-lg-2 col-sm-2 col-xs-4 col-xs-offset-4 col-sm-offset-0 col-md-offset-0 col-lg-offset-0";
-  var judge_name = document.createTextNode(r_data.judge[0]);
+  var judge_name = document.createTextNode(r_data.judge[0].judge_name);
   judge.appendChild(judge_name);
   judge.setAttribute("style", "margin-bottom: 20px; color:#AB070F;");
   row.appendChild(judge);
@@ -195,7 +195,7 @@ function make_elim_modal(r_data, table_class) {
 
   var judge = document.createElement("div");
   judge.className = "col-md-2 col-lg-2 col-sm-2 col-xs-4 col-xs-offset-4 col-sm-offset-0 col-md-offset-0 col-lg-offset-0";
-  var judge_name = document.createTextNode(r_data.judge[1]);
+  var judge_name = document.createTextNode(r_data.judge[1].judge_name);
   judge.appendChild(judge_name);
   judge.setAttribute("style", "margin-bottom: 20px; color:#AB070F;");
   row.appendChild(judge);
@@ -251,7 +251,7 @@ function make_elim_modal(r_data, table_class) {
 
   var judge = document.createElement("div");
   judge.className = "col-md-2 col-lg-2 col-sm-2 col-xs-4 col-xs-offset-4 col-sm-offset-0 col-md-offset-0 col-lg-offset-0";
-  var judge_name = document.createTextNode(r_data.judge[2]);
+  var judge_name = document.createTextNode(r_data.judge[2].judge_name);
   judge.appendChild(judge_name);
   judge.setAttribute("style", "margin-bottom: 20px; color:#AB070F;");
   row.appendChild(judge);
@@ -333,9 +333,9 @@ function make_elim_modal(r_data, table_class) {
 
   var results_div = document.createElement("div");
   results_div.className = "results-round-" + r_data.round_id.toString();
-  results_div.setAttribute("data-judge1", r_data.judge[0]);
-  results_div.setAttribute("data-judge2", r_data.judge[1]);
-  results_div.setAttribute("data-judge3", r_data.judge[2]);
+  results_div.setAttribute("data-judge1", r_data.judge[0].judge_name);
+  results_div.setAttribute("data-judge2", r_data.judge[1].judge_name);
+  results_div.setAttribute("data-judge3", r_data.judge[2].judge_name);
   results_div.setAttribute("data-1", "");
   results_div.setAttribute("data-2", "");
   results_div.setAttribute("data-3", "");

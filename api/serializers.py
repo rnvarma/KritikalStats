@@ -24,15 +24,15 @@ class RoundSerializer(serializers.ModelSerializer):
   class Meta:
   	model = Round
   	fields = ('tournament', 'aff_team', 'neg_team', 'winner', 'loser',
-              'round_num', 'id', 'judge', 'association', 'one_ac',
-              'one_nc', 'block', 'two_nr')
+              'round_num', 'id', 'judge', 'association')
+              # 'one_ac','one_nc', 'block', 'two_nr')
 
 class ElimRoundSerializer(serializers.ModelSerializer):
   class Meta:
     model = ElimRound
     fields = ('tournament', 'aff_team', 'neg_team', 'winner', 'loser',
-              'round_num', 'id', 'judge', 'association', 'one_ac',
-              'one_nc', 'block', 'two_nr')
+              'round_num', 'id', 'judge', 'association')
+              # 'one_ac','one_nc', 'block', 'two_nr')
 
 class NegArgument(serializers.ModelSerializer):
   class Meta:
