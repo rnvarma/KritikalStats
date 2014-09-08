@@ -122,6 +122,10 @@ class TournamentRounds(APIView):
       new_round["round_id"] = round["id"]
       new_round["judge"] = judge
       new_round["judge_id"] = round["judge"][0]
+      new_round["one_ac"] = round["one_ac"]
+      new_round["one_nc"] = round["one_nc"]
+      new_round["block"] = round["block"]
+      new_round["two_nr"] = round["two_nr"]
       new_list.append(new_round)
     return new_list
 
@@ -180,6 +184,10 @@ class TournamentRounds(APIView):
       new_round["judge"] = judges
       new_round["aff_votes"] = aff_votes
       new_round["neg_votes"] = neg_votes
+      new_round["one_ac"] = round["one_ac"]
+      new_round["one_nc"] = round["one_nc"]
+      new_round["block"] = round["block"]
+      new_round["two_nr"] = round["two_nr"]
       new_list.append(new_round)
     return new_list
 

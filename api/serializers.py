@@ -1,6 +1,6 @@
 from django.forms import widgets
 from rest_framework import serializers
-from api.models import Tournament, Team, Round, Judge
+from api.models import Tournament, Team, Round, Judge, ElimRound, NegArgument, OneAC
 
 
 class TournamentSerializer(serializers.ModelSerializer):
@@ -24,10 +24,24 @@ class RoundSerializer(serializers.ModelSerializer):
   class Meta:
   	model = Round
   	fields = ('tournament', 'aff_team', 'neg_team', 'winner', 'loser',
-              'round_num', 'id', 'judge', 'association')
+              'round_num', 'id', 'judge', 'association', 'one_ac',
+              'one_nc', 'block', 'two_nr')
 
 class ElimRoundSerializer(serializers.ModelSerializer):
   class Meta:
-    model = Round
+    model = ElimRound
     fields = ('tournament', 'aff_team', 'neg_team', 'winner', 'loser',
-              'round_num', 'id', 'judge', 'association')
+              'round_num', 'id', 'judge', 'association', 'one_ac',
+              'one_nc', 'block', 'two_nr')
+
+class NegArgument(serializers.ModelSerializer):
+  class Meta:
+    model = NegArgument
+    fields = ('tournaments', 'teams', 'rounds', 'elim_rounds', 'name',
+              'win_percent')
+
+class OneAC(serializers.ModelSerializer):
+  class Meta:
+    model = OneAC
+    fields = ('tournaments', 'teams', 'rounds', 'elim_rounds', 'name',
+              'two_nrs', 'win_percent')

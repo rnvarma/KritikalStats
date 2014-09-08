@@ -420,3 +420,20 @@
     font-size:30px;
     color:#f69200;
 }
+
+.summary-panel {
+	height: 50%;
+}
+
+.arg-names {
+	text-align: center;
+}
+
+.arg-title {
+	font-weight: 700;
+	color: #AB070F;
+}
+
+.arg-name-data {
+	padding: 8px 0;
+}
