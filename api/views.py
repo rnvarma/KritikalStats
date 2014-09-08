@@ -297,7 +297,7 @@ class RoundCreate(APIView):
     round_url = data['round_url[]'][0]
     round_num = data['round_num[]'][0]
     indexes = data['indexes[]']
-    enter_tournament_round(round_url, tname, round_num, indexes)
+    enter_tournament_round(round_url, tname, round_num, indexes, False)
 
     # makes tweet
     make_tweet(tname + ' Round ' + round_num)
