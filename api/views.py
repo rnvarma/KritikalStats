@@ -372,8 +372,9 @@ class JudgeView(APIView):
     judge = Judge.objects.get(id=pk)
     return_data = {}
     judge_serialize = JudgeSerializer(judge)
-    prelims = RoundSerializer(judge.rounds.all())
-    elims = ElimRoundSerializer(judge.elim_rounds.all())
+    prelims = RoundSerializer(judge.rounds.all(), many = True)
+    elims = ElimRoundSerializer(judge.elim_rounds.all(), many = True)
+    print prelims
     return_data["judge_data"] = JudgeView.process_judge(judge_serialize.data)
     return_data["prelim_rounds"] = TournamentRounds.process_rounds(prelims.data)
     return_data["elim_rounds"] = TournamentRounds.process_elim_rounds(elims.data)
