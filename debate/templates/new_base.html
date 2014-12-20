@@ -52,6 +52,7 @@
                     <a class ="btn about-btn pull-right" href="/about">About</a>
                     {% if user.is_authenticated %}
                     <a class ="btn about-btn pull-right" href="/admin">{{user}}</a>
+                    <a class="btn about-btn pull-right" href="/feedback">Feedback</a>
                     {% else %}
                     <a class="btn about-btn pull-right" href="/admin">Login</a>
                     <a class="btn about-btn pull-right" href="/feedback">Feedback</a>
