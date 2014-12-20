@@ -121,6 +121,25 @@
   height:1000px;	
 }
 
+.stars-avatar {
+	max-width:60px;
+	height:auto;
+}
+
+.reviews {
+	margin-bottom: 20px;
+}
+
+.review-name-text {
+	font-size: 105%;
+	font-weight:600;
+}
+
+.review-message{
+	padding-left: 10px;
+	padding-top: 5px;
+}
+
 .col { 
 	height:1050px;
 	width:13%;
@@ -128,6 +147,15 @@
 	border-width:0px;
 	border-color:#FF00FF;
 	float:left;
+}
+
+.review-title-text {
+	font-size: 115%;
+	font-weight: bold;
+}
+
+.review-title-date {
+	font-style: italic;
 }
 
 .bracket_text { 
@@ -398,6 +426,11 @@
 	font-size: 20px;
 	color: #AB070F;
 	left: 25;
+}
+
+.form-title-format{
+	text-align: center;
+	font-size: 20px;
 }
 
 .admin-header {
