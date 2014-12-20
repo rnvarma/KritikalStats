@@ -45,17 +45,16 @@ class Judge(models.Model):
 
 class Round(models.Model):
   tournament = models.ManyToManyField(Tournament, related_name="rounds")
-  # round_num = models.IntegerField()
   aff_team = models.ForeignKey(Team, related_name="aff_rounds")
   neg_team = models.ForeignKey(Team, related_name="neg_rounds")
   winner = models.ForeignKey(Team, related_name="wins", blank=True, null=True)
   loser = models.ForeignKey(Team, related_name="losses", blank=True, null=True)
   judge = models.ManyToManyField(Judge, related_name="rounds")
   round_num = models.IntegerField()
-  one_ac = models.CharField(max_length=200, blank=True, default='')
-  one_nc = models.CharField(max_length=200, blank=True, default='')
-  block = models.CharField(max_length=200, blank=True, default='')
-  two_nr = models.CharField(max_length=200, blank=True, default='')
+  one_ac = models.ManyToManyField('OneAC', related_name = "rounds_read", blank=True, null=True)
+  one_nc = models.ManyToManyField('NegArgument', related_name = "one_nc_rounds", blank=True, null=True)
+  block = models.ManyToManyField('NegArgument', related_name = "block_rounds", blank=True, null=True)
+  two_nr = models.ManyToManyField('NegArgument', related_name = "two_nr_rounds", blank=True, null=True)
   association = models.CharField(max_length=100, blank=True, default='')
 
 class ElimRound(models.Model):
@@ -68,13 +67,30 @@ class ElimRound(models.Model):
   aff_votes = models.ManyToManyField(Judge, related_name="aff_elim_votes")
   neg_votes = models.ManyToManyField(Judge, related_name="neg_elim_votes")
   round_num = models.IntegerField()
-  one_ac = models.CharField(max_length=200, blank=True, default='')
-  one_nc = models.CharField(max_length=200, blank=True, default='')
-  block = models.CharField(max_length=200, blank=True, default='')
-  two_nr = models.CharField(max_length=200, blank=True, default='')
+  one_ac = models.ManyToManyField('OneAC', related_name = "elim_rounds_read", blank=True, null=True)
+  one_nc = models.ManyToManyField('NegArgument', related_name = "one_nc_elim_rounds", blank=True, null=True)
+  block = models.ManyToManyField('NegArgument', related_name = "block_elim_rounds", blank=True, null=True)
+  two_nr = models.ManyToManyField('NegArgument', related_name = "two_nr_elim_rounds", blank=True, null=True)
   association = models.CharField(max_length=100, blank=True, default='')
 
 class Seed(models.Model):
   team = models.ForeignKey(Team, related_name="team")
   tournament = models.ManyToManyField(Tournament, related_name="seeds")
   number = models.IntegerField(default = 0)
+
+class NegArgument(models.Model):
+  tournaments = models.ManyToManyField(Tournament, related_name = "neg_args")
+  teams = models.ManyToManyField(Team, related_name = "neg_args")
+  rounds = models.ManyToManyField(Round, related_name = "neg_args")
+  elim_rounds = models.ManyToManyField(ElimRound, related_name = "neg_args")
+  name = models.CharField(max_length=100, blank=True, default='')
+  win_percent = models.IntegerField(default = 0)
+
+class OneAC(models.Model):
+  tournaments = models.ManyToManyField(Tournament, related_name = "one_acs")
+  teams = models.ManyToManyField(Team, related_name = "one_acs")
+  rounds = models.ManyToManyField(Round, related_name = "one_acs")
+  elim_rounds = models.ManyToManyField(ElimRound, related_name = "one_acs")
+  name = models.CharField(max_length = 100, blank = True, default = '')
+  two_nrs = models.ManyToManyField(NegArgument, related_name = "one_acs")
+  win_percent = models.IntegerField(default = 0)

@@ -270,21 +270,21 @@ function create_elim_round(round_data, round_type, team_code, last, team_id, tbo
   tr.appendChild(decision_div);
 
   var judge1_div = document.createElement("td");
-  var judge1_name = document.createTextNode(round_data.judge[0]);
+  var judge1_name = document.createTextNode(round_data.judge[0].judge_name);
   judge1_div.appendChild(judge1_name);
   judge1_div.className = "hidden-xs hidden-sm";
   tr.appendChild(judge1_div);
   add_judge_background(round_data, judge1_div, 0);
 
   var judge2_div = document.createElement("td");
-  var judge2_name = document.createTextNode(round_data.judge[1]);
+  var judge2_name = document.createTextNode(round_data.judge[1].judge_name);
   judge2_div.appendChild(judge2_name);
   judge2_div.className = "hidden-xs hidden-sm";
   tr.appendChild(judge2_div);
   add_judge_background(round_data, judge2_div, 1);
 
   var judge3_div = document.createElement("td");
-  var judge3_name = document.createTextNode(round_data.judge[2]);
+  var judge3_name = document.createTextNode(round_data.judge[2].judge_name);
   judge3_div.appendChild(judge3_name);
   judge3_div.className = "hidden-xs hidden-sm";
   tr.appendChild(judge3_div);

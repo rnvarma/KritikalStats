@@ -122,6 +122,10 @@ class TournamentRounds(APIView):
       new_round["round_id"] = round["id"]
       new_round["judge"] = judge
       new_round["judge_id"] = round["judge"][0]
+      # new_round["one_ac"] = round["one_ac"]
+      # new_round["one_nc"] = round["one_nc"]
+      # new_round["block"] = round["block"]
+      # new_round["two_nr"] = round["two_nr"]
       new_list.append(new_round)
     return new_list
 
@@ -180,6 +184,10 @@ class TournamentRounds(APIView):
       new_round["judge"] = judges
       new_round["aff_votes"] = aff_votes
       new_round["neg_votes"] = neg_votes
+      # new_round["one_ac"] = round["one_ac"]
+      # new_round["one_nc"] = round["one_nc"]
+      # new_round["block"] = round["block"]
+      # new_round["two_nr"] = round["two_nr"]
       new_list.append(new_round)
     return new_list
 
@@ -297,7 +305,7 @@ class RoundCreate(APIView):
     round_url = data['round_url[]'][0]
     round_num = data['round_num[]'][0]
     indexes = data['indexes[]']
-    enter_tournament_round(round_url, tname, round_num, indexes)
+    enter_tournament_round(round_url, tname, round_num, indexes, False)
 
     # makes tweet
     make_tweet(tname + ' Round ' + round_num)
@@ -364,8 +372,9 @@ class JudgeView(APIView):
     judge = Judge.objects.get(id=pk)
     return_data = {}
     judge_serialize = JudgeSerializer(judge)
-    prelims = RoundSerializer(judge.rounds.all())
-    elims = ElimRoundSerializer(judge.elim_rounds.all())
+    prelims = RoundSerializer(judge.rounds.all(), many = True)
+    elims = ElimRoundSerializer(judge.elim_rounds.all(), many = True)
+    print prelims
     return_data["judge_data"] = JudgeView.process_judge(judge_serialize.data)
     return_data["prelim_rounds"] = TournamentRounds.process_rounds(prelims.data)
     return_data["elim_rounds"] = TournamentRounds.process_elim_rounds(elims.data)

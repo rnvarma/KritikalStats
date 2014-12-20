@@ -16,6 +16,48 @@ function calculate_elim_round(round_num) {
   } 
 }
 
+function load_one_ac(one_ac_data) {
+  var row = document.getElementsByClassName("one_ac_name")[0];
+  var one_ac_node = document.createElement("div");
+  one_ac_node.className = "arg-name-data"
+  if (!one_ac_data.length) {
+    var filler_text = document.createTextNode("Click edit to enter a 1AC!");
+    one_ac_node.appendChild(filler_text);
+  } else {
+    var one_ac_text = document.createTextNode(one_ac_data[0].name);
+    one_ac_node.appendChild(one_ac_text);
+  }
+  row.appendChild(one_ac_node);
+}
+
+function load_one_nc(one_nc_data) {
+  var row = document.getElementsByClassName("one_nc_name")[0];
+  if (!one_nc_data.length) {
+    var one_nc_node = document.createElement("div");
+    one_nc_node.className = "arg-name-data"
+    var filler_text = document.createTextNode("Click edit to enter the 1NC arguments!");
+    one_nc_node.appendChild(filler_text);
+    row.appendChild(one_nc_node);
+  } else {
+    for (var i = 0; i < one_nc_data.length; i ++) {
+      var argument = one_nc_data[i];
+      var arg_node = document.createElement("div");
+      arg_node.className = "arg-name-data"
+      var arg_text = document.createTextNode(argument.name);
+      arg_node.appendChild(filler_text);
+      row.appendChild(arg_node);
+    }
+  }
+}
+
+function load_round_summary(data) {
+  console.log(data);
+  load_one_ac(data.one_ac);
+  load_one_nc(data.one_nc);
+  load_block(data.block);
+  load_two_nr(data.two_nr)
+}
+
 function load_round_page(data, round_id, round_type) {
   if (round_type == "elim_round") {
     var r_num = " " + calculate_elim_round(data.round_num);
@@ -41,6 +83,8 @@ function load_round_page(data, round_id, round_type) {
   	$(".neg-panel").addClass("bg-success");
   	$(".aff-panel").addClass("bg-danger");
   }
+
+  load_round_summary(data);
 
   round_click_handler();
 }

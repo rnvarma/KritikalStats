@@ -54,19 +54,65 @@
 </div>
 
 <div class = "row">
-  <div class = "col-xs-12 col-sm-6 col-md-6 col-lg-6">
+  <div class = "col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <section class = "panel">
       <div class = "panel-body aff-panel">
       </div>
     </section>
   </div>
-  <div class = "col-xs-12 col-sm-6 col-md-6 col-lg-6">
+  <div class = "col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <section class = "panel">
       <div class = "panel-body neg-panel">
       </div>
     </section>
   </div>
 </div>
+
+<div class = "row">
+  <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <section class = "panel">
+      <div class = "panel-body summary_pannel">
+        <table class = "table  table-hover general-table">
+          <thead>
+            <tr>
+              <th>Round Progression</th>
+              <th>Argument Stats</th>
+            </tr>
+          </thead>
+          <tbody class = "round_summary_table">
+            <tr class = "one_ac_row">
+              <td class = "arg-names one_ac_name">
+                <div class = "arg-title">1AC</div>
+              </td>
+              <td class = "one_ac_stats">
+              </td>
+            </tr>
+            <tr class = "one_nc_row">
+              <td class = "arg-names one_nc_name">
+                <div class = "arg-title">1NC</div>
+              </td>
+              <td class = "one_nc_stats">
+              </td>
+            </tr>
+            <tr class = "block_row">
+              <td class = "arg-names block_name">
+                <div class = "arg-title">The Block</div>
+              </td>
+              <td class = "block_stats">
+              </td>
+            </tr>
+            <tr class = "two_nr_row">
+              <td class = "arg-names two_nr_name">
+                <div class = "arg-title">2NR</div>
+              </td>
+              <td class = "two_nr_stats">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
 
 
 <div class="round_hidden" data-round-id="{{ round_id }}" data-round-type = "{{ round_type }}"></div>

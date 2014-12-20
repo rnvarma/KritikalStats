@@ -139,7 +139,7 @@ function make_elim_modal(r_data, table_class) {
 
   var judge = document.createElement("div");
   judge.className = "col-md-2 col-lg-2 col-sm-2 col-xs-4 col-xs-offset-4 col-sm-offset-0 col-md-offset-0 col-lg-offset-0";
-  var judge_name = document.createTextNode(r_data.judge[0]);
+  var judge_name = document.createTextNode(r_data.judge[0].judge_name);
   judge.appendChild(judge_name);
   judge.setAttribute("style", "margin-bottom: 20px; color:#AB070F;");
   row.appendChild(judge);
@@ -195,7 +195,7 @@ function make_elim_modal(r_data, table_class) {
 
   var judge = document.createElement("div");
   judge.className = "col-md-2 col-lg-2 col-sm-2 col-xs-4 col-xs-offset-4 col-sm-offset-0 col-md-offset-0 col-lg-offset-0";
-  var judge_name = document.createTextNode(r_data.judge[1]);
+  var judge_name = document.createTextNode(r_data.judge[1].judge_name);
   judge.appendChild(judge_name);
   judge.setAttribute("style", "margin-bottom: 20px; color:#AB070F;");
   row.appendChild(judge);
@@ -251,7 +251,7 @@ function make_elim_modal(r_data, table_class) {
 
   var judge = document.createElement("div");
   judge.className = "col-md-2 col-lg-2 col-sm-2 col-xs-4 col-xs-offset-4 col-sm-offset-0 col-md-offset-0 col-lg-offset-0";
-  var judge_name = document.createTextNode(r_data.judge[2]);
+  var judge_name = document.createTextNode(r_data.judge[2].judge_name);
   judge.appendChild(judge_name);
   judge.setAttribute("style", "margin-bottom: 20px; color:#AB070F;");
   row.appendChild(judge);
@@ -333,9 +333,9 @@ function make_elim_modal(r_data, table_class) {
 
   var results_div = document.createElement("div");
   results_div.className = "results-round-" + r_data.round_id.toString();
-  results_div.setAttribute("data-judge1", r_data.judge[0]);
-  results_div.setAttribute("data-judge2", r_data.judge[1]);
-  results_div.setAttribute("data-judge3", r_data.judge[2]);
+  results_div.setAttribute("data-judge1", r_data.judge[0].judge_name);
+  results_div.setAttribute("data-judge2", r_data.judge[1].judge_name);
+  results_div.setAttribute("data-judge3", r_data.judge[2].judge_name);
   results_div.setAttribute("data-1", "");
   results_div.setAttribute("data-2", "");
   results_div.setAttribute("data-3", "");
@@ -385,17 +385,17 @@ function enter_round(r_data, table_class, r_type) {
     judge_rd.appendChild(judge_name)
   } else if (r_type == "elim_round") {
     var judge1_rd = document.createElement("td");
-    var judge1_name = document.createTextNode(r_data.judge[0]);
+    var judge1_name = document.createTextNode(r_data.judge[0].judge_name);
     judge1_rd.appendChild(judge1_name);
     judge1_rd.className = "visible-lg visible-md";
 
     var judge2_rd = document.createElement("td");
-    var judge2_name = document.createTextNode(r_data.judge[1]);
+    var judge2_name = document.createTextNode(r_data.judge[1].judge_name);
     judge2_rd.appendChild(judge2_name);
     judge2_rd.className = "visible-lg visible-md";
 
     var judge3_rd = document.createElement("td");
-    var judge3_name = document.createTextNode(r_data.judge[2]);
+    var judge3_name = document.createTextNode(r_data.judge[2].judge_name);
     judge3_rd.appendChild(judge3_name);
     judge3_rd.className = "visible-lg visible-md";
   }
